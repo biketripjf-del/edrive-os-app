@@ -497,6 +497,83 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* NAVBAR */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white; padding: 0 20px; display: flex;
+            align-items: center; justify-content: space-between; height: 60px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000;
+        }
+        .navbar-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; }
+        .navbar-brand .nav-logo { width: 36px; height: 36px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--primary); font-size: 14px; }
+        .navbar-brand span { font-size: 18px; font-weight: 700; }
+        .navbar-links { display: flex; align-items: center; gap: 5px; }
+        .navbar-links a { color: rgba(255,255,255,0.85); text-decoration: none; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; transition: all 0.3s; }
+        .navbar-links a:hover, .navbar-links a.active { background: rgba(255,255,255,0.15); color: white; }
+        .navbar-links .btn-sair { background: rgba(255,255,255,0.15); }
+        .navbar-user { color: rgba(255,255,255,0.7); font-size: 12px; margin-right: 10px; }
+
+        /* UPLOADS */
+        .upload-zone {
+            border: 2px dashed var(--primary-light);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 153, 204, 0.03);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+        .upload-zone:hover {
+            background: rgba(0, 153, 204, 0.08);
+            border-color: var(--primary);
+        }
+        .upload-zone p { color: #666; font-size: 14px; margin-top: 5px; }
+        .upload-preview {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .upload-thumb {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .upload-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .upload-thumb .file-icon {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary);
+            font-size: 12px;
+            color: #666;
+        }
+        .upload-thumb .remove-upload {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .upload-info { font-size: 12px; color: #999; margin-top: 5px; }
+
         /* RESPONSIVO */
         @media (max-width: 768px) {
             .content {
@@ -530,10 +607,27 @@
             .btn-solicitar {
                 width: 100%;
             }
+
+            .navbar-links { display: none; }
         }
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">
+            <div class="nav-logo">eD</div>
+            <span>eDrive</span>
+        </a>
+        <div class="navbar-links">
+            <span class="navbar-user" id="navUser"></span>
+            <a href="/" class="active">Nova OS</a>
+            <a href="/historico.html">Minhas OS</a>
+            <a href="/admin.html" id="navAdmin" style="display:none;">Admin</a>
+            <a href="/manual.html" target="_blank">Manual</a>
+            <a href="#" class="btn-sair" onclick="logout()">Sair</a>
+        </div>
+    </nav>
+
     <div class="container">
         <header>
             <div class="header-content">
@@ -661,7 +755,7 @@
                     <h2 class="section-title">Itens/Serviços</h2>
                     <button type="button" class="btn-add-item" onclick="adicionarItem()">+ Adicionar Item</button>
 
-                    <table class="items-table">
+                    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><table class="items-table">
                         <thead>
                             <tr>
                                 <th style="min-width: 250px;">Produto/Serviço</th>
@@ -675,7 +769,7 @@
                         <tbody id="itemsBody">
                             <!-- Itens adicionados via JS -->
                         </tbody>
-                    </table>
+                    </table></div>
 
                     <div class="resume">
                         <div class="resume-row">
@@ -691,6 +785,42 @@
                             <strong id="total" style="font-size: 18px; color: #0099CC;">R$ 0,00</strong>
                         </div>
                     </div>
+                </div>
+
+                <!-- ANEXOS -->
+                <div class="section">
+                    <h2 class="section-title">Anexos</h2>
+                    <p style="color:#666; font-size:14px; margin-bottom:15px;">Anexe fotos do veiculo e servico para agilizar a aprovacao!</p>
+                    <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                        <div class="form-group">
+                            <label>Fotos do Veiculo</label>
+                            <div class="upload-zone" onclick="document.getElementById('uploadVeiculo').click()">
+                                <div>Clique para selecionar</div>
+                                <p>Imagens (JPG, PNG)</p>
+                            </div>
+                            <input type="file" id="uploadVeiculo" multiple accept="image/*" style="display:none;" onchange="handleUpload(this, 'veiculo')">
+                            <div class="upload-preview" id="previewVeiculo"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Fotos do Servico</label>
+                            <div class="upload-zone" onclick="document.getElementById('uploadServico').click()">
+                                <div>Clique para selecionar</div>
+                                <p>Imagens (JPG, PNG)</p>
+                            </div>
+                            <input type="file" id="uploadServico" multiple accept="image/*" style="display:none;" onchange="handleUpload(this, 'servico')">
+                            <div class="upload-preview" id="previewServico"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Nota Fiscal</label>
+                            <div class="upload-zone" onclick="document.getElementById('uploadNota').click()">
+                                <div>Clique para selecionar</div>
+                                <p>PDF ou imagem</p>
+                            </div>
+                            <input type="file" id="uploadNota" accept="image/*,.pdf" style="display:none;" onchange="handleUpload(this, 'nota')">
+                            <div class="upload-preview" id="previewNota"></div>
+                        </div>
+                    </div>
+                    <div class="upload-info" id="uploadCount"></div>
                 </div>
 
                 <!-- OBSERVAÇÕES -->

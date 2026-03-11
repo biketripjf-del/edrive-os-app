@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eDrive - Minhas OS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #0099CC;
+            --primary-dark: #003A70;
+            --primary-light: #00B4D8;
+            --secondary: #F5F5F5;
+            --text: #333;
+            --border: #DDD;
+            --success: #4CAF50;
+            --danger: #f44336;
+            --warning: #FF9800;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--secondary);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white; padding: 0 20px; display: flex;
+            align-items: center; justify-content: space-between; height: 60px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000;
+        }
+        .navbar-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; }
+        .navbar-brand .logo { width: 36px; height: 36px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--primary); font-size: 14px; }
+        .navbar-brand span { font-size: 18px; font-weight: 700; }
+        .navbar-links { display: flex; align-items: center; gap: 5px; }
+        .navbar-links a { color: rgba(255,255,255,0.85); text-decoration: none; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; transition: all 0.3s; }
+        .navbar-links a:hover, .navbar-links a.active { background: rgba(255,255,255,0.15); color: white; }
+        .navbar-links .btn-sair { background: rgba(255,255,255,0.15); }
+        .navbar-user { color: rgba(255,255,255,0.7); font-size: 12px; margin-right: 10px; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 25px; }
+        h2 { color: var(--primary-dark); margin-bottom: 20px; font-size: 24px; }
+
+        .filters {
+            background: white; border-radius: 12px; padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 20px;
+            display: flex; gap: 15px; flex-wrap: wrap; align-items: center;
+        }
+        .filters select, .filters input {
+            padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px;
+        }
+
+        .table-container {
+            background: white; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; }
+        th { padding: 15px; text-align: left; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        td { padding: 12px 15px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+        tbody tr:hover { background: rgba(0,153,204,0.04); }
+        tbody tr { cursor: pointer; }
+        .badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; }
+        .badge-enviada { background: #e3f2fd; color: #1565c0; }
+        .badge-aprovada { background: #e8f5e9; color: #2e7d32; }
+        .badge-rejeitada { background: #ffebee; color: #c62828; }
+        .no-data { text-align: center; padding: 40px; color: #999; font-size: 16px; }
+
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6); z-index: 10000;
+            align-items: center; justify-content: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: white; border-radius: 12px; padding: 30px;
+            width: 95%; max-width: 700px; max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .modal h3 { color: var(--primary-dark); margin-bottom: 20px; font-size: 20px; }
+        .modal-close { float: right; background: none; border: none; font-size: 24px; cursor: pointer; color: #999; padding: 0; }
+        .modal-close:hover { color: var(--danger); }
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .detail-item { font-size: 14px; }
+        .detail-item strong { color: var(--primary-dark); display: block; font-size: 12px; text-transform: uppercase; margin-bottom: 3px; }
+        .modal-items-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 13px; }
+        .modal-items-table th { background: var(--secondary); padding: 10px; text-align: left; font-size: 12px; }
+        .modal-items-table td { padding: 8px 10px; border-bottom: 1px solid #eee; }
+
+        @media (max-width: 768px) {
+            .navbar-links { display: none; }
+            .detail-grid { grid-template-columns: 1fr; }
+            .filters { flex-direction: column; }
+            td, th { padding: 8px 6px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">
+            <div class="logo">eD</div>
+            <span>eDrive</span>
+        </a>
+        <div class="navbar-links">
+            <span class="navbar-user" id="navUser"></span>
+            <a href="/">Nova OS</a>
+            <a href="/historico.html" class="active">Minhas OS</a>
+            <a href="/manual.html" target="_blank">Manual</a>
+            <a href="#" class="btn-sair" onclick="logout()">Sair</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Minhas Ordens de Servico</h2>
+
+        <div class="filters">
+            <select id="filtroStatus" onchange="carregarMinhasOS()">
+                <option value="">Todos os status</option>
+                <option value="Enviada">Enviada</option>
+                <option value="Aprovada">Aprovada</option>
+                <option value="Rejeitada">Rejeitada</option>
+            </select>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>N. OS</th>
+                        <th>Data</th>
+                        <th>Placa</th>
+                        <th>Fornecedor</th>
+                        <th>Status</th>
+                        <th>Valor Total</th>
+                    </tr>
+                </thead>
+                <tbody id="osBody">
+                    <tr><td colspan="6" class="no-data">Carregando...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- MODAL DETALHES -->
+    <div class="modal-overlay" id="modalDetalhes">
+        <div class="modal">
+            <button class="modal-close" onclick="document.getElementById('modalDetalhes').classList.remove('active')">&times;</button>
+            <h3 id="modalTitle">Detalhes da OS</h3>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Check auth
+        (async () => {
+            try {
+                const resp = await fetch('/api/auth/me');
+                if (!resp.ok) { window.location.href = '/login.html'; return; }
+                const user = await resp.json();
+                document.getElementById('navUser').textContent = user.cpf_cnpj || '';
+                carregarMinhasOS();
+            } catch(e) {
+                window.location.href = '/login.html';
+            }
+        })();
+
+        async function carregarMinhasOS() {
+            const status = document.getElementById('filtroStatus').value;
+            const params = new URLSearchParams();
+            if (status) params.set('status', status);
+
+            try {
+                const resp = await fetch('/api/minhas-os?' + params.toString());
+                if (!resp.ok) {
+                    if (resp.status === 401) { window.location.href = '/login.html'; return; }
+                    return;
+                }
+                const ordens = await resp.json();
+                const tbody = document.getElementById('osBody');
+
+                if (ordens.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="no-data">Nenhuma OS encontrada</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = ordens.map(os => {
+                    const badgeClass = os.status === 'Aprovada' ? 'badge-aprovada' :
+                                       os.status === 'Rejeitada' ? 'badge-rejeitada' : 'badge-enviada';
+                    const osLabel = 'OS-' + String(os.numero_os).padStart(4, '0');
+                    return `<tr onclick="verDetalhes(${os.id})">
+                        <td><strong>${osLabel}</strong></td>
+                        <td>${formatarData(os.data_abertura)}</td>
+                        <td>${os.placa || '-'}</td>
+                        <td>${os.fornecedor || '-'}</td>
+                        <td><span class="badge ${badgeClass}">${os.status}</span></td>
+                        <td>R$ ${parseFloat(os.valor_total||0).toFixed(2)}</td>
+                    </tr>`;
+                }).join('');
+            } catch(e) { console.error(e); }
+        }
+
+        async function verDetalhes(id) {
+            try {
+                const resp = await fetch('/api/minhas-os/' + id);
+                if (!resp.ok) return;
+                const os = await resp.json();
+                const osLabel = 'OS-' + String(os.numero_os).padStart(4, '0');
+                document.getElementById('modalTitle').textContent = 'Detalhes - ' + osLabel;
+
+                const badgeClass = os.status === 'Aprovada' ? 'badge-aprovada' :
+                                   os.status === 'Rejeitada' ? 'badge-rejeitada' : 'badge-enviada';
+                let itens = [];
+                try { itens = JSON.parse(os.itens_json || '[]'); } catch(e) {}
+
+                let itensHtml = '';
+                if (itens.length > 0) {
+                    itensHtml = `<table class="modal-items-table">
+                        <thead><tr><th>Produto/Servico</th><th>Garantia</th><th>QTD</th><th>Valor Unit.</th><th>Valor Total</th></tr></thead>
+                        <tbody>${itens.map(i => `<tr>
+                            <td>${i.produto||''}</td><td>${i.garantia||'Nao'}</td>
+                            <td>${parseFloat(i.qtd||0).toFixed(2)}</td>
+                            <td>R$ ${parseFloat(i.valorUnit||0).toFixed(2)}</td>
+                            <td>R$ ${parseFloat(i.valorTotal||0).toFixed(2)}</td>
+                        </tr>`).join('')}</tbody></table>`;
+                }
+
+                let rejeicaoHtml = '';
+                if (os.status === 'Rejeitada' && os.motivo_rejeicao) {
+                    rejeicaoHtml = `<div style="margin-top:15px; background:#ffebee; padding:12px; border-radius:8px;">
+                        <strong style="color:#c62828;">Motivo da Rejeicao:</strong>
+                        <p style="margin-top:5px;">${os.motivo_rejeicao}</p></div>`;
+                }
+
+                document.getElementById('modalContent').innerHTML = `
+                    <div style="margin-bottom:15px;"><span class="badge ${badgeClass}">${os.status}</span></div>
+                    <div class="detail-grid">
+                        <div class="detail-item"><strong>Fornecedor</strong>${os.fornecedor||'-'}</div>
+                        <div class="detail-item"><strong>CPF/CNPJ</strong>${os.cpf_cnpj||'-'}</div>
+                        <div class="detail-item"><strong>Placa</strong>${os.placa||'-'}</div>
+                        <div class="detail-item"><strong>Marca/Modelo/Ano</strong>${os.marca_modelo_ano||'-'}</div>
+                        <div class="detail-item"><strong>Data Abertura</strong>${formatarData(os.data_abertura)}</div>
+                        <div class="detail-item"><strong>Data Prevista</strong>${formatarData(os.data_prevista)}</div>
+                        <div class="detail-item"><strong>Data Finalizacao</strong>${formatarData(os.data_finalizacao)}</div>
+                        <div class="detail-item"><strong>Autorizado por</strong>${os.autorizado_por||'-'}</div>
+                        <div class="detail-item"><strong>Responsavel</strong>${os.responsavel||'-'}</div>
+                        <div class="detail-item"><strong>Telefone</strong>${os.telefone||'-'}</div>
+                        <div class="detail-item"><strong>Chave PIX</strong>${os.chave_pix||'-'}</div>
+                        <div class="detail-item"><strong>Valor Total</strong><span style="color:var(--primary);font-weight:700;">R$ ${parseFloat(os.valor_total||0).toFixed(2)}</span></div>
+                    </div>
+                    ${itensHtml}
+                    ${os.observacoes ? '<div style="margin-top:15px;"><strong style="color:var(--primary-dark);">Observacoes:</strong><p style="margin-top:5px;">' + os.observacoes + '</p></div>' : ''}
+                    ${rejeicaoHtml}
+                `;
+                document.getElementById('modalDetalhes').classList.add('active');
+            } catch(e) { console.error(e); }
+        }
+
+        function formatarData(d) {
+            if (!d) return '-';
+            const parts = d.split('-');
+            if (parts.length === 3) return parts[2] + '/' + parts[1] + '/' + parts[0];
+            return d;
+        }
+
+        async function logout() {
+            await fetch('/api/auth/logout', { method: 'POST' });
+            window.location.href = '/login.html';
+        }
+    </script>
+</body>
+</html>

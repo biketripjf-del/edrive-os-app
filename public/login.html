@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eDrive - Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #0099CC;
+            --primary-dark: #003A70;
+            --primary-light: #00B4D8;
+            --secondary: #F5F5F5;
+            --text: #333;
+            --border: #DDD;
+            --success: #4CAF50;
+            --danger: #f44336;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003A70 0%, #0099CC 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .login-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 420px;
+            overflow: hidden;
+        }
+        .login-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .login-header .logo {
+            width: 70px; height: 70px;
+            background: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: var(--primary);
+            font-size: 28px; margin: 0 auto 15px;
+        }
+        .login-header h1 { font-size: 26px; margin-bottom: 5px; }
+        .login-header p { opacity: 0.9; font-size: 14px; }
+        .login-body { padding: 35px 30px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block; font-weight: 600;
+            color: var(--primary-dark); margin-bottom: 8px; font-size: 14px;
+        }
+        .form-group input {
+            width: 100%; padding: 14px;
+            border: 2px solid var(--border); border-radius: 8px;
+            font-size: 16px; font-family: inherit;
+            transition: all 0.3s;
+        }
+        .form-group input:focus {
+            outline: none; border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 153, 204, 0.15);
+        }
+        .btn-login {
+            width: 100%; padding: 14px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 600;
+            cursor: pointer; transition: all 0.3s;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 153, 204, 0.4);
+        }
+        .btn-login:disabled {
+            opacity: 0.6; cursor: not-allowed; transform: none;
+        }
+        #codigoSection { display: none; }
+        .codigo-info {
+            background: rgba(0, 153, 204, 0.1);
+            border: 1px solid rgba(0, 153, 204, 0.3);
+            border-radius: 8px; padding: 12px;
+            margin-bottom: 20px; font-size: 13px;
+            color: var(--primary-dark); text-align: center;
+        }
+        .codigo-teste {
+            background: #fff3cd; border: 1px solid #ffc107;
+            border-radius: 8px; padding: 12px;
+            margin-bottom: 20px; font-size: 14px;
+            color: #856404; text-align: center; font-weight: 600;
+        }
+        .msg { padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; display: none; }
+        .msg.erro { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; display: block; }
+        .msg.sucesso { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; display: block; }
+        .voltar-link { text-align: center; margin-top: 15px; }
+        .voltar-link a { color: var(--primary); text-decoration: none; font-size: 13px; }
+        .voltar-link a:hover { text-decoration: underline; }
+        .input-codigo { text-align: center; font-size: 24px !important; letter-spacing: 8px; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">eD</div>
+            <h1>eDrive</h1>
+            <p>Sistema de Ordem de Servico</p>
+        </div>
+        <div class="login-body">
+            <div id="msgBox" class="msg"></div>
+
+            <!-- Etapa 1: CPF/CNPJ -->
+            <div id="cpfSection">
+                <div class="form-group">
+                    <label for="cpfCnpj">CPF ou CNPJ</label>
+                    <input type="text" id="cpfCnpj" placeholder="000.000.000-00 ou 00.000.000/0000-00" maxlength="18">
+                </div>
+                <button class="btn-login" id="btnSolicitarCodigo" onclick="solicitarCodigo()">Enviar Codigo</button>
+            </div>
+
+            <!-- Etapa 2: Codigo -->
+            <div id="codigoSection">
+                <div class="codigo-info">
+                    Enviamos um codigo de verificacao para o seu cadastro.
+                </div>
+                <div class="codigo-teste" id="codigoTesteBox" style="display:none;"></div>
+                <div class="form-group">
+                    <label for="codigo">Codigo de Verificacao</label>
+                    <input type="text" id="codigo" class="input-codigo" placeholder="000000" maxlength="6">
+                </div>
+                <button class="btn-login" id="btnEntrar" onclick="verificarCodigo()">Entrar</button>
+                <div class="voltar-link">
+                    <a href="#" onclick="voltarCpf()">Alterar CPF/CNPJ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cpfCnpjSalvo = '';
+
+        // Mascara CPF/CNPJ
+        document.getElementById('cpfCnpj').addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length <= 11) {
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            } else {
+                v = v.substring(0, 14);
+                v = v.replace(/^(\d{2})(\d)/, '$1.$2');
+                v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+                v = v.replace(/\.(\d{3})(\d)/, '.$1/$2');
+                v = v.replace(/(\d{4})(\d)/, '$1-$2');
+            }
+            e.target.value = v;
+        });
+
+        // Enter key support
+        document.getElementById('cpfCnpj').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') solicitarCodigo();
+        });
+        document.getElementById('codigo').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') verificarCodigo();
+        });
+
+        function showMsg(msg, tipo) {
+            const box = document.getElementById('msgBox');
+            box.textContent = msg;
+            box.className = 'msg ' + tipo;
+            setTimeout(() => { box.className = 'msg'; }, 5000);
+        }
+
+        async function solicitarCodigo() {
+            const cpfCnpj = document.getElementById('cpfCnpj').value.trim();
+            if (!cpfCnpj || cpfCnpj.replace(/\D/g, '').length < 11) {
+                showMsg('Informe um CPF ou CNPJ valido', 'erro');
+                return;
+            }
+
+            const btn = document.getElementById('btnSolicitarCodigo');
+            btn.disabled = true;
+            btn.textContent = 'Enviando...';
+
+            try {
+                const resp = await fetch('/api/auth/solicitar-codigo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cpf_cnpj: cpfCnpj })
+                });
+                const data = await resp.json();
+
+                if (!resp.ok) {
+                    showMsg(data.erro || 'Erro ao solicitar codigo', 'erro');
+                    return;
+                }
+
+                cpfCnpjSalvo = cpfCnpj;
+                document.getElementById('cpfSection').style.display = 'none';
+                document.getElementById('codigoSection').style.display = 'block';
+
+                // Mostrar codigo de teste
+                if (data.codigo_teste) {
+                    const box = document.getElementById('codigoTesteBox');
+                    box.textContent = 'Codigo de teste: ' + data.codigo_teste;
+                    box.style.display = 'block';
+                }
+
+                document.getElementById('codigo').focus();
+            } catch (e) {
+                showMsg('Erro de conexao', 'erro');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Enviar Codigo';
+            }
+        }
+
+        async function verificarCodigo() {
+            const codigo = document.getElementById('codigo').value.trim();
+            if (!codigo || codigo.length !== 6) {
+                showMsg('Informe o codigo de 6 digitos', 'erro');
+                return;
+            }
+
+            const btn = document.getElementById('btnEntrar');
+            btn.disabled = true;
+            btn.textContent = 'Verificando...';
+
+            try {
+                const resp = await fetch('/api/auth/verificar-codigo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cpf_cnpj: cpfCnpjSalvo, codigo: codigo })
+                });
+                const data = await resp.json();
+
+                if (!resp.ok) {
+                    showMsg(data.erro || 'Codigo invalido', 'erro');
+                    return;
+                }
+
+                showMsg('Login realizado com sucesso!', 'sucesso');
+                setTimeout(() => { window.location.href = '/'; }, 500);
+            } catch (e) {
+                showMsg('Erro de conexao', 'erro');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Entrar';
+            }
+        }
+
+        function voltarCpf() {
+            document.getElementById('cpfSection').style.display = 'block';
+            document.getElementById('codigoSection').style.display = 'none';
+            document.getElementById('codigoTesteBox').style.display = 'none';
+            document.getElementById('codigo').value = '';
+            document.getElementById('msgBox').className = 'msg';
+        }
+
+        // Check if already logged in
+        (async () => {
+            try {
+                const resp = await fetch('/api/auth/me');
+                if (resp.ok) { window.location.href = '/'; }
+            } catch(e) {}
+        })();
+    </script>
+</body>
+</html>

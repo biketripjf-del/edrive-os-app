@@ -1,17 +1,28 @@
-// eDrive OS App - Frontend Logic
+// eDrive OS App - Frontend Logic (Fase 2)
 
 let itemCount = 0;
 let produtos = [];
 let osNumeroAtual = null;
+let uploadedFiles = []; // Track uploaded files
 
 // Carregar ao iniciar
 document.addEventListener('DOMContentLoaded', async () => {
+    // Check auth
+    try {
+        const resp = await fetch('/api/auth/me');
+        if (resp.ok) {
+            const user = await resp.json();
+            const navUser = document.getElementById('navUser');
+            if (navUser) navUser.textContent = user.cpf_cnpj || '';
+        }
+    } catch(e) {}
+
     // Definir data de hoje
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('dataAbertura').value = today;
     document.getElementById('dataPrevista').value = today;
 
-    // Carregar catálogo de produtos
+    // Carregar catalogo de produtos
     try {
         const resp = await fetch('/api/produtos');
         if (resp.ok) {
@@ -30,8 +41,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     adicionarItem();
 });
 
+// Logout
+function logout() {
+    fetch('/api/auth/logout', { method: 'POST' }).then(() => {
+        window.location.href = '/login.html';
+    });
+}
+
 // ═══════════════════════════════════════════════════════════════
-// MÁSCARAS
+// MASCARAS
 // ═══════════════════════════════════════════════════════════════
 
 function aplicarMascaraCpfCnpj(e) {
@@ -174,7 +192,7 @@ function adicionarItem() {
         </td>
         <td>
             <select class="garantia" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
-                <option value="Não" selected>Não</option>
+                <option value="Nao" selected>Nao</option>
                 <option value="Sim">Sim</option>
             </select>
         </td>
@@ -207,12 +225,12 @@ function removerItem(id) {
         item.remove();
         calcularTotais();
     } else {
-        mostrarErro('Você precisa de pelo menos 1 item');
+        mostrarErro('Voce precisa de pelo menos 1 item');
     }
 }
 
 // ═══════════════════════════════════════════════════════════════
-// CÁLCULOS
+// CALCULOS
 // ═══════════════════════════════════════════════════════════════
 
 function calcularTotais() {
@@ -257,7 +275,7 @@ function fecharModal() {
 async function enviarSolicitacaoItem() {
     const descricao = document.getElementById('modalDescricao').value.trim();
     if (!descricao) {
-        mostrarErro('Informe a descrição do produto/serviço');
+        mostrarErro('Informe a descricao do produto/servico');
         return;
     }
 
@@ -274,15 +292,106 @@ async function enviarSolicitacaoItem() {
         });
 
         if (!resp.ok) throw new Error('Erro ao enviar');
-        mostrarSucesso('Solicitação de cadastro enviada com sucesso!');
+        mostrarSucesso('Solicitacao de cadastro enviada com sucesso!');
         fecharModal();
     } catch (e) {
-        mostrarErro('Erro ao enviar solicitação');
+        mostrarErro('Erro ao enviar solicitacao');
     }
 }
 
 // ═══════════════════════════════════════════════════════════════
-// COLETA / VALIDAÇÃO / GERAÇÃO
+// UPLOADS
+// ═══════════════════════════════════════════════════════════════
+
+async function handleUpload(input, tipo) {
+    const files = input.files;
+    if (!files || files.length === 0) return;
+
+    // Check total limit
+    if (uploadedFiles.length + files.length > 8) {
+        mostrarErro('Maximo de 8 arquivos por OS');
+        input.value = '';
+        return;
+    }
+
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+        if (files[i].size > 5 * 1024 * 1024) {
+            mostrarErro(`Arquivo "${files[i].name}" excede o limite de 5MB`);
+            input.value = '';
+            return;
+        }
+        formData.append('files', files[i]);
+    }
+    formData.append('tipo', tipo);
+
+    try {
+        const resp = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!resp.ok) {
+            const data = await resp.json();
+            mostrarErro(data.erro || 'Erro ao enviar arquivo');
+            return;
+        }
+
+        const data = await resp.json();
+
+        // Add to uploaded files list
+        data.files.forEach(f => {
+            uploadedFiles.push(f);
+        });
+
+        // Show previews
+        renderPreviews(tipo);
+        updateUploadCount();
+        mostrarSucesso(`${data.files.length} arquivo(s) enviado(s)`);
+    } catch (e) {
+        mostrarErro('Erro ao enviar arquivo');
+    }
+
+    input.value = '';
+}
+
+function renderPreviews(tipo) {
+    const container = document.getElementById('preview' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
+    if (!container) return;
+
+    const filesOfType = uploadedFiles.filter(f => f.tipo === tipo);
+    container.innerHTML = filesOfType.map((f, idx) => {
+        const globalIdx = uploadedFiles.indexOf(f);
+        const isImage = f.mimetype && f.mimetype.startsWith('image/');
+        if (isImage) {
+            return `<div class="upload-thumb">
+                <img src="/data/uploads/${f.filename}" alt="${f.original_name}">
+                <button class="remove-upload" onclick="removeUpload(${globalIdx}, '${tipo}')">&times;</button>
+            </div>`;
+        } else {
+            return `<div class="upload-thumb">
+                <div class="file-icon">PDF</div>
+                <button class="remove-upload" onclick="removeUpload(${globalIdx}, '${tipo}')">&times;</button>
+            </div>`;
+        }
+    }).join('');
+}
+
+function removeUpload(idx, tipo) {
+    uploadedFiles.splice(idx, 1);
+    renderPreviews(tipo);
+    updateUploadCount();
+}
+
+function updateUploadCount() {
+    const el = document.getElementById('uploadCount');
+    if (el) {
+        el.textContent = uploadedFiles.length > 0 ? `${uploadedFiles.length} arquivo(s) anexado(s)` : '';
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// COLETA / VALIDACAO / GERACAO
 // ═══════════════════════════════════════════════════════════════
 
 function coletarDados() {
@@ -319,23 +428,24 @@ function coletarDados() {
         itens: itens,
         observacoes: document.getElementById('observacoes').value,
         totalQtd: parseFloat(document.getElementById('totalQtd').textContent) || 0,
-        totalValor: parseFloat(document.getElementById('total').textContent.replace('R$ ', '').replace(/\./g, '').replace(',', '.')) || 0
+        totalValor: parseFloat(document.getElementById('total').textContent.replace('R$ ', '').replace(/\./g, '').replace(',', '.')) || 0,
+        uploadedFiles: uploadedFiles
     };
 }
 
 function validarFormulario() {
     const campos = [
-        { id: 'fornecedor', msg: 'Informe o fornecedor / razão social' },
-        { id: 'cpfCnpj', msg: 'Informe o CPF/CNPJ' },
-        { id: 'placa', msg: 'Informe a placa do veículo' },
+        { id: 'fornecedor', msg: 'Informe o fornecedor / razao social' },
+        { id: 'cnpj', msg: 'Informe o CPF/CNPJ' },
+        { id: 'placa', msg: 'Informe a placa do veiculo' },
         { id: 'marcaModeloAno', msg: 'Informe marca / modelo / ano' },
         { id: 'dataAbertura', msg: 'Informe a data de abertura' },
         { id: 'dataPrevista', msg: 'Informe a data prevista' },
-        { id: 'dataFinalizacao', msg: 'Informe a data de finalização' },
+        { id: 'dataFinalizacao', msg: 'Informe a data de finalizacao' },
         { id: 'chavePix', msg: 'Informe a chave PIX' },
         { id: 'tipoPix', msg: 'Selecione o tipo de PIX' },
         { id: 'autorizadoPor', msg: 'Selecione quem autorizou a OS' },
-        { id: 'responsavel', msg: 'Informe o responsável' },
+        { id: 'responsavel', msg: 'Informe o responsavel' },
         { id: 'telefone', msg: 'Informe o telefone' },
     ];
     for (const campo of campos) {
@@ -388,7 +498,10 @@ async function gerarPDF() {
             body: JSON.stringify(dados)
         });
 
-        if (!response.ok) throw new Error('Erro ao gerar PDF');
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.erro || 'Erro ao gerar PDF');
+        }
 
         const resultado = await response.json();
 
@@ -413,10 +526,10 @@ async function gerarPDF() {
         a.click();
         window.URL.revokeObjectURL(url);
 
-        mostrarSucesso(`PDF gerado com sucesso! ${resultado.osLabel}`);
+        mostrarSucesso(`${resultado.osLabel} gerada com sucesso!`);
     } catch (error) {
         console.error('Erro:', error);
-        mostrarErro('Erro ao gerar PDF');
+        mostrarErro(error.message || 'Erro ao gerar PDF');
     } finally {
         mostrarLoading(false);
     }
@@ -427,11 +540,12 @@ async function gerarPDF() {
 // ═══════════════════════════════════════════════════════════════
 
 function limparForm() {
-    if (confirm('Deseja realmente limpar o formulário?')) {
+    if (confirm('Deseja realmente limpar o formulario?')) {
         document.getElementById('osForm').reset();
         document.getElementById('itemsBody').innerHTML = '';
         itemCount = 0;
         osNumeroAtual = null;
+        uploadedFiles = [];
 
         const badge = document.getElementById('osBadge');
         badge.textContent = '';
@@ -440,6 +554,13 @@ function limparForm() {
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('dataAbertura').value = today;
         document.getElementById('dataPrevista').value = today;
+
+        // Clear upload previews
+        ['previewVeiculo', 'previewServico', 'previewNota'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = '';
+        });
+        updateUploadCount();
 
         adicionarItem();
     }
