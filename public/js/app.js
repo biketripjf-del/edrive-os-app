@@ -324,19 +324,27 @@ function coletarDados() {
 }
 
 function validarFormulario() {
-    if (!document.getElementById('fornecedor').value.trim()) {
-        mostrarErro('Informe o fornecedor / razão social');
-        return false;
-    }
-
-    if (!document.getElementById('autorizadoPor').value) {
-        mostrarErro('Selecione quem autorizou a OS');
-        return false;
-    }
-
-    if (!document.getElementById('dataAbertura').value) {
-        mostrarErro('Informe a data de abertura');
-        return false;
+    const campos = [
+        { id: 'fornecedor', msg: 'Informe o fornecedor / razão social' },
+        { id: 'cpfCnpj', msg: 'Informe o CPF/CNPJ' },
+        { id: 'placa', msg: 'Informe a placa do veículo' },
+        { id: 'marcaModeloAno', msg: 'Informe marca / modelo / ano' },
+        { id: 'dataAbertura', msg: 'Informe a data de abertura' },
+        { id: 'dataPrevista', msg: 'Informe a data prevista' },
+        { id: 'dataFinalizacao', msg: 'Informe a data de finalização' },
+        { id: 'chavePix', msg: 'Informe a chave PIX' },
+        { id: 'tipoPix', msg: 'Selecione o tipo de PIX' },
+        { id: 'autorizadoPor', msg: 'Selecione quem autorizou a OS' },
+        { id: 'responsavel', msg: 'Informe o responsável' },
+        { id: 'telefone', msg: 'Informe o telefone' },
+    ];
+    for (const campo of campos) {
+        const el = document.getElementById(campo.id);
+        if (!el || !el.value.trim()) {
+            mostrarErro(campo.msg);
+            if (el) { el.focus(); el.style.borderColor = '#dc3545'; setTimeout(() => el.style.borderColor = '', 3000); }
+            return false;
+        }
     }
 
     const itens = document.querySelectorAll('#itemsBody tr');
@@ -446,9 +454,21 @@ function mostrarLoading(show) {
 }
 
 function mostrarSucesso(msg) {
-    alert(msg);
+    mostrarToast(msg, 'success');
 }
 
 function mostrarErro(msg) {
-    alert(msg);
+    mostrarToast(msg, 'error');
+}
+
+function mostrarToast(msg, tipo) {
+    const old = document.getElementById('toast-msg');
+    if (old) old.remove();
+    const toast = document.createElement('div');
+    toast.id = 'toast-msg';
+    toast.style.cssText = `position:fixed;top:20px;right:20px;z-index:10000;padding:16px 24px;border-radius:10px;max-width:400px;font-size:15px;font-weight:600;color:white;box-shadow:0 4px 20px rgba(0,0,0,0.3);cursor:pointer;${tipo === 'success' ? 'background:linear-gradient(135deg,#28a745,#1e7e34);' : 'background:linear-gradient(135deg,#dc3545,#b02a37);'}`;
+    toast.textContent = msg;
+    toast.onclick = () => toast.remove();
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast.parentNode) toast.remove(); }, 5000);
 }

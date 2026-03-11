@@ -547,13 +547,13 @@
         </header>
 
         <div class="content">
-            <form id="osForm">
+            <form id="osForm" novalidate>
                 <!-- INFORMAÇÕES GERAIS -->
                 <div class="section">
                     <h2 class="section-title">Informações Gerais</h2>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="fornecedor">Fornecedor / Razão Social *</label>
+                            <label for="fornecedor">Fornecedor / Razão Social <span style="color:red">*</span></label>
                             <input type="text" id="fornecedor" placeholder="Nome do fornecedor ou razão social" required>
                         </div>
                         <div class="form-group">
@@ -576,16 +576,16 @@
                     <h2 class="section-title">Cronograma</h2>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="dataAbertura">Data de Abertura *</label>
+                            <label for="dataAbertura">Data de Abertura <span style="color:red">*</span></label>
                             <input type="date" id="dataAbertura" required>
                         </div>
                         <div class="form-group">
-                            <label for="dataPrevista">Data Prevista *</label>
+                            <label for="dataPrevista">Data Prevista <span style="color:red">*</span></label>
                             <input type="date" id="dataPrevista" required>
                         </div>
                         <div class="form-group">
                             <label for="dataFinalizacao">Data de Finalização <span style="color:red">*</span></label>
-                            <input type="date" id="dataFinalizacao" required>
+                            <input type="date" id="dataFinalizacao" required required>
                         </div>
                     </div>
                 </div>
@@ -617,7 +617,7 @@
                     <h2 class="section-title">Autorização</h2>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="autorizadoPor">Autorizado por *</label>
+                            <label for="autorizadoPor">Autorizado por <span style="color:red">*</span></label>
                             <select id="autorizadoPor" required>
                                 <option value="">Selecione...</option>
                                 <option value="Allan Carlos Brilhante Carvalho">Allan Carlos Brilhante Carvalho</option>
@@ -717,7 +717,7 @@
         <div class="modal">
             <h3>Solicitar cadastro de novo item</h3>
             <div class="form-group">
-                <label for="modalDescricao">Descrição do produto/serviço *</label>
+                <label for="modalDescricao">Descrição do produto/serviço <span style="color:red">*</span></label>
                 <input type="text" id="modalDescricao" placeholder="Nome do produto ou serviço">
             </div>
             <div class="form-group">
