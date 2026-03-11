@@ -4,10 +4,8 @@
  */
 
 const express = require('express');
-const fs = require('fs');
 const path = require('path');
 const PDFDocument = require('pdfkit');
-const csv = require('csv-parse/sync');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,35 +13,6 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// ═══════════════════════════════════════════════════════════════════════════
-// DADOS - Carregar fornecedores
-// ═══════════════════════════════════════════════════════════════════════════
-
-let fornecedores = [];
-
-function carregarFornecedores() {
-    try {
-        const csvPath = path.join(__dirname, 'data', 'suppliers.csv');
-        console.log(`📂 Carregando CSV de: ${csvPath}`);
-        const csvData = fs.readFileSync(csvPath, 'utf8');
-        const records = csv.parse(csvData, {
-            columns: false,
-            skip_empty_lines: true,
-            delimiter: ';'
-        });
-
-        fornecedores = records.map(row => ({
-            nome: row[0] ? row[0].trim() : '',
-            cnpj: row[1] ? row[1].trim() : ''
-        })).filter(f => f.nome && f.cnpj);
-
-        console.log(`✅ ${fornecedores.length} fornecedores carregados`);
-    } catch (error) {
-        console.error('❌ Erro ao carregar fornecedores:', error.message);
-        fornecedores = [];
-    }
-}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // ROTAS
@@ -54,10 +23,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// API: Listar fornecedores
-app.get('/api/fornecedores', (req, res) => {
-    res.json(fornecedores.slice(0, 1000)); // Limitar para performance
-});
+// (Fornecedores removidos - campo livre no frontend)
 
 // API: Gerar PDF
 app.post('/api/gerar-pdf', (req, res) => {
@@ -232,8 +198,6 @@ app.listen(PORT, () => {
     console.log(`\n🌐 Servidor rodando em: http://localhost:${PORT}`);
     console.log(`📍 Acesse: http://localhost:${PORT}`);
     
-    // Carregar fornecedores
-    carregarFornecedores();
     
     console.log('\n' + '='.repeat(70) + '\n');
 });

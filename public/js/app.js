@@ -13,50 +13,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('dataAbertura').value = today;
     document.getElementById('dataPrevista').value = today;
 
-    // Carregar lista de fornecedores
-    try {
-        const response = await fetch('/api/fornecedores');
-        const data = await response.json();
-        carregarFornecedores(data);
-    } catch (error) {
-        console.error('❌ Erro ao carregar fornecedores:', error);
-        mostrarErro('Erro ao carregar lista de fornecedores');
-    }
+    // Fornecedor: campo livre (sem lista pré-carregada)
 
     // Adicionar primeiro item vazio
     adicionarItem();
 
-    // Event listeners
-    document.getElementById('fornecedor').addEventListener('change', atualizarCNPJ);
 });
 
-// Carregar fornecedores no dropdown
-function carregarFornecedores(lista) {
-    const select = document.getElementById('fornecedor');
-    suppliers.length = 0;
-    
-    lista.forEach(f => {
-        suppliers.push(f);
-        const option = document.createElement('option');
-        option.value = f.nome;
-        option.textContent = `${f.nome} (${f.cnpj})`;
-        select.appendChild(option);
-    });
-    
-    console.log(`✅ ${lista.length} fornecedores carregados`);
-}
-
-// Atualizar CNPJ quando selecionar fornecedor
-function atualizarCNPJ() {
-    const nomeFornecedor = document.getElementById('fornecedor').value;
-    const supplier = suppliers.find(s => s.nome === nomeFornecedor);
-    
-    if (supplier) {
-        document.getElementById('cnpj').value = supplier.cnpj;
-    } else {
-        document.getElementById('cnpj').value = '';
-    }
-}
+// Fornecedor: campo livre (sem lista pré-carregada por segurança LGPD)
 
 // Adicionar nova linha de item
 function adicionarItem() {
