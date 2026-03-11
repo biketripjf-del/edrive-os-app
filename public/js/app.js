@@ -179,7 +179,7 @@ function adicionarItem() {
             </select>
         </td>
         <td>
-            <input type="number" class="qtd" min="1" value="1" step="0.01" required onchange="calcularTotais()">
+            <input type="number" class="qtd" min="1" value="1" step="0.01" required onchange="calcularTotais()" style="text-align:center; font-size:16px; font-weight:bold; padding:8px;">
         </td>
         <td>
             <input type="number" class="valor-unit" min="0" value="0.00" step="0.01" required onchange="calcularTotais()" placeholder="0.00">
