@@ -97,10 +97,15 @@ function aplicarMascaraPlaca(e) {
 
 function criarSearchableSelect(container, onSelect) {
     const input = document.createElement('input');
-    input.type = 'text';
+    input.type = 'search';
     input.className = 'searchable-select-input';
     input.placeholder = 'Digite para buscar produto...';
-    input.setAttribute('autocomplete', 'off');
+    input.setAttribute('autocomplete', 'nope');
+    input.setAttribute('autocorrect', 'off');
+    input.setAttribute('autocapitalize', 'off');
+    input.setAttribute('spellcheck', 'false');
+    input.setAttribute('data-lpignore', 'true');
+    input.setAttribute('data-form-type', 'other');
 
     const dropdown = document.createElement('div');
     dropdown.className = 'searchable-select-dropdown';

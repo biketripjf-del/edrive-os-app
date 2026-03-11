@@ -472,6 +472,27 @@
             margin-top: 10px;
         }
 
+        /* MANUAL BUTTON */
+        .btn-manual {
+            display: inline-block;
+            padding: 14px 30px;
+            background: #006B8F;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-manual:hover {
+            background: #005570;
+            transform: translateY(-2px);
+        }
+
         /* LOADING */
         .loading {
             display: none;
@@ -657,6 +678,13 @@
                 width: 100%;
             }
 
+            .btn-manual {
+                width: 100%;
+                display: block;
+                text-align: center;
+                padding: 12px 20px;
+            }
+
             .navbar-links { display: none; }
 
             .container {
@@ -726,7 +754,7 @@
         </header>
 
         <div class="content">
-            <form id="osForm" novalidate>
+            <form id="osForm" novalidate autocomplete="off">
                 <!-- INFORMAÇÕES GERAIS -->
                 <div class="section">
                     <h2 class="section-title">Informações Gerais</h2>
@@ -920,7 +948,7 @@
                 <!-- BOTÕES -->
                 <div class="buttons">
                     <button type="button" class="btn-secondary" onclick="limparForm()">Limpar Formulário</button>
-                    <a href="/manual.html" target="_blank" style="display:inline-block; padding:12px 30px; background:#006B8F; color:white; border-radius:8px; text-decoration:none; font-weight:bold; margin-left:10px;">📖 Manual de Uso</a>
+                    <a href="/manual.html" target="_blank" class="btn-manual">📖 Manual de Uso</a>
                     <button type="button" class="btn-primary" onclick="gerarPDF()">Gerar PDF</button>
                 </div>
             </form>
