@@ -600,149 +600,180 @@ app.post('/api/gerar-pdf', authOrAdminMiddleware, pdfLimiter, (req, res) => {
             });
         }
 
-        // Criar PDF
-        const doc = new PDFDocument({
-            size: 'A4',
-            margin: 40
-        });
-
+        // ═══════════════════════════════════════════════════════════
+        // PDF DESIGN — MODERNO, SÓBRIO, ELEGANTE
+        // ═══════════════════════════════════════════════════════════
+        
+        const doc = new PDFDocument({ size: 'A4', margin: 0 });
         const chunks = [];
         doc.on('data', chunk => chunks.push(chunk));
         doc.on('end', () => {
             const pdfBuffer = Buffer.concat(chunks);
             res.setHeader('Content-Type', 'application/json');
-            res.json({
-                osNumero: osNumero,
-                osLabel: osLabel,
-                pdf: pdfBuffer.toString('base64')
-            });
+            res.json({ osNumero, osLabel, pdf: pdfBuffer.toString('base64') });
         });
 
-        // ── Header ──
-        doc.fontSize(26)
-            .font('Helvetica-Bold')
-            .text('eDrive', { align: 'center' });
-        doc.fontSize(14)
-            .font('Helvetica')
-            .text('ORDEM DE SERVICO', { align: 'center' });
-        doc.fontSize(16)
-            .font('Helvetica-Bold')
-            .fillColor('#0099CC')
-            .text(`N. ${osLabel}`, { align: 'center' });
-        doc.fillColor('#333')
-            .moveDown(0.5);
+        const W = 595.28; // A4 width
+        const H = 841.89; // A4 height
+        const ML = 50;    // margin left
+        const MR = 545;   // margin right
+        const DARK = '#1A2332';
+        const PRIMARY = '#0099CC';
+        const LIGHT_BG = '#F8FAFB';
+        const GRAY = '#6B7280';
+        const BORDER = '#E5E7EB';
 
-        // Linha separadora
-        doc.moveTo(40, doc.y)
-            .lineTo(555, doc.y)
-            .stroke('#0099CC')
-            .moveDown(1);
+        function fmtMoeda(v) {
+            const num = parseFloat(v) || 0;
+            return `R$ ${num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+        function fmtQtd(v) {
+            const num = parseFloat(v) || 0;
+            return num % 1 === 0 ? num.toString() : num.toFixed(2).replace('.', ',');
+        }
 
-        // ── Dados do Fornecedor ──
-        doc.fontSize(11).font('Helvetica-Bold').text('DADOS DO FORNECEDOR:', { underline: true });
-        doc.fontSize(10).font('Helvetica');
-        doc.text(`Fornecedor / Razao Social: ${dados.fornecedor}`);
-        doc.text(`CPF/CNPJ: ${dados.cnpj || 'N/A'}`);
-        doc.text(`Placa do Veiculo: ${dados.placa || 'N/A'}`);
-        doc.text(`Marca/Modelo/Ano: ${dados.marcaModeloAno || 'N/A'}`);
-        doc.moveDown(0.5);
+        // ── HEADER BAR ──
+        doc.rect(0, 0, W, 100).fill(DARK);
+        doc.rect(0, 100, W, 4).fill(PRIMARY);
+        
+        // Logo circle
+        doc.circle(80, 50, 22).fill('white');
+        doc.fontSize(14).font('Helvetica-Bold').fillColor(PRIMARY).text('eD', 68, 42);
+        
+        // Company name
+        doc.fontSize(22).font('Helvetica-Bold').fillColor('white').text('eDrive', 115, 32);
+        doc.fontSize(9).font('Helvetica').fillColor('#94A3B8').text('SEMINOVOS', 117, 57);
+        
+        // OS Number (right side)
+        doc.fontSize(9).font('Helvetica').fillColor('#94A3B8').text('ORDEM DE SERVIÇO', MR - 150, 28, { width: 150, align: 'right' });
+        doc.fontSize(20).font('Helvetica-Bold').fillColor('white').text(osLabel, MR - 150, 44, { width: 150, align: 'right' });
+        doc.fontSize(8).font('Helvetica').fillColor('#94A3B8')
+            .text(new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }), MR - 150, 70, { width: 150, align: 'right' });
 
-        // ── Contato ──
-        doc.fontSize(11).font('Helvetica-Bold').text('CONTATO:', { underline: true });
-        doc.fontSize(10).font('Helvetica');
-        doc.text(`Responsavel: ${dados.responsavel || 'N/A'}`);
-        doc.text(`Telefone: ${dados.telefone || 'N/A'}`);
-        doc.text(`Email: ${dados.email || 'N/A'}`);
-        doc.moveDown(0.5);
+        // ── BODY ──
+        let y = 124;
 
-        // ── Cronograma ──
-        doc.fontSize(11).font('Helvetica-Bold').text('CRONOGRAMA:', { underline: true });
-        doc.fontSize(10).font('Helvetica');
-        doc.text(`Data de Abertura: ${formatarData(dados.dataAbertura)}`);
-        doc.text(`Data Prevista: ${formatarData(dados.dataPrevista)}`);
-        doc.text(`Data de Finalizacao: ${dados.dataFinalizacao ? formatarData(dados.dataFinalizacao) : 'A definir'}`);
-        doc.moveDown(0.5);
+        // Helper: Section title
+        function sectionTitle(title, yPos) {
+            doc.fontSize(8).font('Helvetica-Bold').fillColor(PRIMARY).text(title.toUpperCase(), ML, yPos);
+            doc.moveTo(ML, yPos + 13).lineTo(MR, yPos + 13).lineWidth(0.5).stroke(BORDER);
+            return yPos + 20;
+        }
 
-        // ── Pagamento ──
-        doc.fontSize(11).font('Helvetica-Bold').text('PAGAMENTO:', { underline: true });
-        doc.fontSize(10).font('Helvetica');
-        doc.text(`Chave PIX: ${dados.chavePix || 'N/A'}`);
-        doc.text(`Tipo PIX: ${dados.tipoPix || 'N/A'}`);
-        doc.moveDown(0.5);
+        // Helper: Info row (label + value)
+        function infoRow(label, value, x, yPos, width) {
+            doc.fontSize(7).font('Helvetica').fillColor(GRAY).text(label, x, yPos);
+            doc.fontSize(9).font('Helvetica-Bold').fillColor(DARK).text(value || '—', x, yPos + 10, { width: width || 200 });
+            return yPos;
+        }
 
-        // ── Autorizacao ──
-        doc.fontSize(11).font('Helvetica-Bold').text('AUTORIZACAO:', { underline: true });
-        doc.fontSize(10).font('Helvetica');
-        doc.text(`Autorizado por: ${dados.autorizadoPor || 'N/A'}`);
-        doc.moveDown(1);
+        // ── FORNECEDOR ──
+        y = sectionTitle('Fornecedor', y);
+        infoRow('Razão Social', dados.fornecedor, ML, y, 240);
+        infoRow('CPF/CNPJ', dados.cnpj, 300, y, 120);
+        infoRow('Placa', dados.placa, 430, y, 120);
+        y += 30;
+        infoRow('Veículo', dados.marcaModeloAno, ML, y, 240);
+        infoRow('Responsável', dados.responsavel, 300, y, 120);
+        infoRow('Telefone', dados.telefone, 430, y, 120);
+        y += 40;
 
-        // ── Tabela de itens ──
-        doc.fontSize(11).font('Helvetica-Bold').text('ITENS/SERVICOS:', { underline: true });
-        doc.moveDown(0.3);
+        // ── CRONOGRAMA + PAGAMENTO (side by side) ──
+        y = sectionTitle('Cronograma & Pagamento', y);
+        infoRow('Abertura', formatarData(dados.dataAbertura), ML, y, 100);
+        infoRow('Prevista', formatarData(dados.dataPrevista), 160, y, 100);
+        infoRow('Finalização', dados.dataFinalizacao ? formatarData(dados.dataFinalizacao) : 'A definir', 270, y, 100);
+        infoRow('Chave PIX', dados.chavePix || '—', 380, y, 100);
+        infoRow('Tipo', dados.tipoPix || '—', 490, y, 60);
+        y += 38;
 
-        // Cabecalho da tabela
-        const tableTop = doc.y;
-        const col1 = 45, col2 = 280, col3 = 325, col4 = 390, col5 = 460, col6 = 520;
+        // ── AUTORIZAÇÃO ──
+        if (dados.autorizadoPor) {
+            infoRow('Autorizado por', dados.autorizadoPor, ML, y, 200);
+            y += 30;
+        }
 
-        doc.fontSize(8).font('Helvetica-Bold');
-        doc.text('Produto/Servico', col1, tableTop, { width: 230 });
-        doc.text('Garantia', col2, tableTop);
-        doc.text('QTD', col3, tableTop);
-        doc.text('Valor Unit.', col4, tableTop);
-        doc.text('Valor Total', col5, tableTop);
+        // ── TABELA DE ITENS ──
+        y = sectionTitle('Itens / Serviços', y);
+        
+        // Table header
+        const TH = y;
+        doc.rect(ML, TH, MR - ML, 22).fill(DARK);
+        doc.fontSize(7).font('Helvetica-Bold').fillColor('white');
+        doc.text('#', ML + 8, TH + 7, { width: 20 });
+        doc.text('PRODUTO / SERVIÇO', ML + 30, TH + 7, { width: 220 });
+        doc.text('GARANTIA', 280, TH + 7, { width: 60 });
+        doc.text('QTD', 340, TH + 7, { width: 50, align: 'center' });
+        doc.text('VALOR UNIT.', 395, TH + 7, { width: 70, align: 'right' });
+        doc.text('VALOR TOTAL', 470, TH + 7, { width: 75, align: 'right' });
+        
+        y = TH + 22;
 
-        // Linha separadora
-        doc.moveTo(col1 - 5, tableTop + 15)
-            .lineTo(555, tableTop + 15)
-            .stroke('#DDD')
-            .fontSize(8)
-            .font('Helvetica');
-
-        let y = tableTop + 25;
-
-        // Itens
+        // Table rows
         if (dados.itens && dados.itens.length > 0) {
-            dados.itens.forEach(item => {
-                if (y > 700) {
-                    doc.addPage();
-                    y = 50;
+            dados.itens.forEach((item, i) => {
+                if (y > 720) { doc.addPage(); y = 50; }
+                
+                // Alternating row bg
+                if (i % 2 === 0) {
+                    doc.rect(ML, y, MR - ML, 24).fill(LIGHT_BG);
                 }
-                doc.text(item.produto || '', col1, y, { width: 230 });
-                doc.text(item.garantia || 'Nao', col2, y);
-                doc.text(String(parseFloat(item.qtd || 0).toFixed(2)), col3, y);
-                doc.text(`R$ ${parseFloat(item.valorUnit || 0).toFixed(2)}`, col4, y);
-                doc.text(`R$ ${parseFloat(item.valorTotal || 0).toFixed(2)}`, col5, y);
-                y += 25;
+                
+                const valorUnit = parseFloat(item.valorUnit || item.valorUnitario || 0);
+                const qtd = parseFloat(item.qtd || item.quantidade || 0);
+                const valorTotal = parseFloat(item.valorTotal || (qtd * valorUnit) || 0);
+                
+                doc.fontSize(8).font('Helvetica').fillColor(GRAY).text(String(i + 1), ML + 8, y + 7, { width: 20 });
+                doc.fontSize(8).font('Helvetica-Bold').fillColor(DARK).text(item.produto || '', ML + 30, y + 7, { width: 220 });
+                doc.fontSize(8).font('Helvetica').fillColor(GRAY).text(item.garantia || 'Não', 280, y + 7, { width: 60 });
+                doc.fontSize(8).font('Helvetica-Bold').fillColor(DARK).text(fmtQtd(qtd), 340, y + 7, { width: 50, align: 'center' });
+                doc.fontSize(8).font('Helvetica').fillColor(GRAY).text(fmtMoeda(valorUnit), 395, y + 7, { width: 70, align: 'right' });
+                doc.fontSize(8).font('Helvetica-Bold').fillColor(DARK).text(fmtMoeda(valorTotal), 470, y + 7, { width: 75, align: 'right' });
+                
+                y += 24;
             });
         }
 
-        // Linha final
-        doc.moveTo(col1 - 5, y)
-            .lineTo(555, y)
-            .stroke('#0099CC');
-        y += 15;
+        // Bottom border
+        doc.moveTo(ML, y).lineTo(MR, y).lineWidth(1).stroke(DARK);
+        y += 8;
 
-        // ── Totais ──
-        doc.fontSize(10).font('Helvetica');
-        doc.text(`Quantidade Total: ${parseFloat(dados.totalQtd || 0).toFixed(2)} unid.`, col1, y);
-        y += 20;
-        doc.fontSize(12).font('Helvetica-Bold').fillColor('#0099CC');
-        doc.text(`VALOR TOTAL: R$ ${parseFloat(dados.totalValor || 0).toFixed(2)}`, col1, y);
-        doc.fillColor('#333');
+        // ── TOTAIS ──
+        // Quantidade
+        doc.fontSize(8).font('Helvetica').fillColor(GRAY)
+            .text(`${dados.itens ? dados.itens.length : 0} ite${dados.itens && dados.itens.length !== 1 ? 'ns' : 'm'}`, ML, y + 2);
+        
+        // Total box
+        const totalBoxW = 200;
+        const totalBoxX = MR - totalBoxW;
+        doc.rect(totalBoxX, y, totalBoxW, 36).fill(DARK);
+        doc.fontSize(8).font('Helvetica').fillColor('#94A3B8').text('VALOR TOTAL', totalBoxX + 15, y + 6);
+        doc.fontSize(16).font('Helvetica-Bold').fillColor('white').text(fmtMoeda(dados.totalValor), totalBoxX + 15, y + 17, { width: totalBoxW - 30, align: 'right' });
+        y += 50;
 
-        // ── Observacoes ──
+        // ── OBSERVAÇÕES ──
         if (dados.observacoes) {
-            doc.moveDown(1);
-            doc.fontSize(11).font('Helvetica-Bold').text('OBSERVACOES:', { underline: true });
-            doc.fontSize(10).font('Helvetica').text(dados.observacoes, { align: 'left' });
+            y = sectionTitle('Observações', y);
+            doc.fontSize(9).font('Helvetica').fillColor(DARK).text(dados.observacoes, ML, y, { width: MR - ML });
+            y = doc.y + 20;
         }
 
-        // ── Rodape ──
-        doc.moveDown(2);
-        doc.fontSize(8).font('Helvetica').fillColor('#999');
-        doc.text(`Gerado por eDrive OS Generator | ${osLabel}`, { align: 'center' });
-        doc.text(`Data/Hora: ${new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}`, { align: 'center' });
-        doc.fillColor('#333');
+        // ── ASSINATURAS ──
+        if (y < 680) {
+            y = Math.max(y + 40, 680);
+            const sigW = 200;
+            // Fornecedor
+            doc.moveTo(ML, y).lineTo(ML + sigW, y).lineWidth(0.5).stroke(BORDER);
+            doc.fontSize(7).font('Helvetica').fillColor(GRAY).text('Fornecedor', ML, y + 4, { width: sigW, align: 'center' });
+            // eDrive
+            doc.moveTo(MR - sigW, y).lineTo(MR, y).lineWidth(0.5).stroke(BORDER);
+            doc.fontSize(7).font('Helvetica').fillColor(GRAY).text('eDrive Seminovos', MR - sigW, y + 4, { width: sigW, align: 'center' });
+        }
+
+        // ── FOOTER ──
+        doc.rect(0, H - 30, W, 30).fill(LIGHT_BG);
+        doc.fontSize(7).font('Helvetica').fillColor(GRAY)
+            .text(`${osLabel} • Gerado em ${new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })} • eDrive Seminovos`, ML, H - 20, { width: MR - ML, align: 'center' });
 
         doc.end();
 
