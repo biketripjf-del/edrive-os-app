@@ -37,7 +37,7 @@ app.use('/api/', globalLimiter);
 // Rate limiting login
 const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 5,
+    max: 20,
     message: { erro: 'Muitas tentativas de login. Tente novamente em 15 minutos.' }
 });
 
