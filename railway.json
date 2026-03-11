@@ -1,0 +1,8 @@
+{
+  "variables": {
+    "PORT": {
+      "description": "Port to run the server on",
+      "value": "3000"
+    }
+  }
+}
