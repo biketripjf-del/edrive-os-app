@@ -105,7 +105,7 @@ function criarSearchableSelect(container, onSelect) {
             const desc = (p.descricao || '').toLowerCase();
             const cod = (p.codigo || '').toLowerCase();
             return desc.includes(filtro) || cod.includes(filtro);
-        }).slice(0, 50); // limit for performance
+        });
 
         if (filtered.length === 0) {
             const empty = document.createElement('div');
