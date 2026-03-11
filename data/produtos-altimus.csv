@@ -1,0 +1,254 @@
+Classificação;Descrição;Código;Preço
+Serviço;Retoque;0000;R$ 0,00
+Produto;Bieleta do estabilizador dianteiro;0001;R$ 0,00
+Produto;Limpa pneu gel c/ 3 Kg;0002;R$ 0,00
+Serviço;Martelinho de Ouro - Funilaria;0003;R$ 0,00
+Produto;Cera pós-lavagem;0004;R$ 0,00
+Produto;Silicone gel c/ 3 Kg;0005;R$ 0,00
+Produto;Calotas;0006;R$ 0,00
+Produto;Pneus;0007;R$ 0,00
+Produto;Tapetes;0008;R$ 0,00
+Serviço;Funilaria e pintura;0009;R$ 0,00
+Serviço;Curso de pilotagem;0010;R$ 0,00
+Serviço;Lavagem de veículos;0011;R$ 0,00
+Serviço;Suporte técnico em informática;0012;R$ 0,00
+Produto;Bucha da Barra Estabilizadora Dianteira;0014;R$ 0,00
+Produto;Balança da suspensão  dianteira;0015;R$ 0,00
+Serviço;Alinhamento;0016;R$ 0,00
+Produto;Kit couro 30% 5 lugares;0017;R$ 0,00
+Serviço;Comissão sobre Financiamentos;0018;R$ 0,00
+Produto;Terminal de direção;0019;R$ 0,00
+Produto;Lixa d'água;0020;R$ 0,00
+Produto;Retentor da saída de transmissão;0031;R$ 0,00
+Produto;Coxim da suspensão;0032;R$ 0,00
+Produto;Óleo da caixa de marcha;0033;R$ 0,00
+Produto;Bucha do suporte traseiro do motor;0034;R$ 0,00
+Produto;Kit Batente e Coifa do amortecedor traseiro;0035;R$ 0,00
+Produto;Amortecedor traseiro;0036;R$ 0,00
+Produto;Pastilha de freio dianteiro;0037;R$ 0,00
+Produto;Fluído de freio;0038;R$ 0,00
+Produto;Querosene;0039;R$ 0,00
+Serviço;Recarga de toner;0040;R$ 0,00
+Produto;Boia do Tanque de Combustível;0051;R$ 0,00
+Produto;Interruptor de Óleo;0052;R$ 0,00
+Produto;Coxim do Amortecedor Dianteiro;0053;R$ 0,00
+Produto;Coxim do Amortecedor Traseiro;0054;R$ 0,00
+Produto;Silicone para Juntas - Ultra black;0055;R$ 0,00
+Produto;Alavanca de Câmbio;0056;R$ 0,00
+Produto;Rolamento do Coxim do Amortecedor dianteiro;0057;R$ 0,00
+Produto;Rolamento;0058;R$ 0,00
+Produto;Filtro de Oleo;0059;R$ 0,00
+Produto;Jogo de Cabos de Vela;0060;R$ 0,00
+Produto;Jogo de Velas da Ignição;0061;R$ 0,00
+Produto;Junta da Tampa de Valvúla;0062;R$ 0,00
+Produto;Junta do Cárter;0063;R$ 0,00
+Produto;Junta do Suporte do Filtro de Óleo;0064;R$ 0,00
+Produto;Kit Correia do Alternador;0065;R$ 0,00
+Serviço;Limpeza dos Bicos injetores;0066;R$ 0,00
+Produto;Aditivo Orgânico do Radiador;0067;R$ 0,00
+Produto;Descarbonizante;0068;R$ 0,00
+Produto;Mangueira Reservatório D' Água;0069;R$ 0,00
+Produto;Kit Embreagem;0070;R$ 0,00
+Produto;Fluído de freio DOT4;0071;R$ 0,00
+Produto;Sensor Map;0072;R$ 0,00
+Produto;Cilindro da Roda Traseira;0073;R$ 0,00
+Produto;Bucha da Barra Estabilizadora Traseira;0074;R$ 0,00
+Serviço;Remoção e instalação da Embreagem;0075;R$ 0,00
+Serviço;Remoção e instalação do Cárter do motor;0076;R$ 0,00
+Serviço;Sonda Lambda;0077;R$ 0,00
+Produto;Cilindro Mestre da Embreagem;0078;R$ 0,00
+Produto;Atuador da Embreagem;0079;R$ 0,00
+Produto;Pivô da Suspensão ( Direito);0080;R$ 0,00
+Produto;Calço Superior  do Motor;0081;R$ 0,00
+Produto;Bucha do reservatório de partida a frio;0082;R$ 0,00
+Produto;Carcaça da Válvula Termostática;0083;R$ 0,00
+Produto;Tubo de Fluxo de Água  do Motor;0084;R$ 0,00
+Serviço;Revisão da suspenção ( dianteira e traseira);0086;R$ 0,00
+Produto;Bucha Traseira da Balança Dianteira;0087;R$ 0,00
+Produto;Retentor Dianteiro do Virabrequim;0088;R$ 0,00
+Serviço;Motoentregador - Motoboy;0089;R$ 0,00
+Serviço;Remoção e instalação do Catalizador;0090;R$ 0,00
+Produto;Junta Coletor do Escapamento - Junta do Coletor da Descarga;0091;R$ 0,00
+Produto;Articulação do Setor de Direção -  Articulação Setor Axial;0092;R$ 0,00
+Produto;Amortecedor Dianteiro Recondicionado;0093;R$ 0,00
+Produto;Pivô da Suspensão ( Esquerdo);0094;R$ 0,00
+Produto;Bieleta do Estabilizador Traseiro;0095;R$ 0,00
+Produto;Calço inferior da Caixa de Marcha;0096;R$ 0,00
+Produto;Calço Inferior  do Motor;0097;R$ 0,00
+Produto;Sensor do ABS;0098;R$ 0,00
+Produto;Balança  Bandeja Suspensão do lado direito;0099;R$ 0,00
+Produto;Correia do Alternador;0100;R$ 0,00
+Produto;Kit Correia Dentada;0101;R$ 0,00
+Produto;Polia da Correia do Alternador;0102;R$ 0,00
+Produto;Kit Retificação do Motor;0103;R$ 0,00
+Produto;Retentor Comando Válvula;0104;R$ 0,00
+Produto;Fechadura Elétrica;0105;R$ 0,00
+Produto;Jogo de Juntas do Motor;0106;R$ 0,00
+Produto;Retentor do comando;0107;R$ 0,00
+Produto;Jogo de Casquilho Fixo;0108;R$ 0,00
+Produto;Jogo de Casquilho Móvel;0109;R$ 0,00
+Produto;Coletor de admissão;0110;R$ 0,00
+Produto;Jogo de Pistões com Anéis;0111;R$ 0,00
+Produto;Retentor do Volante;0112;R$ 0,00
+Produto;Sensor de Detonação;0113;R$ 0,00
+Serviço;Serviço de Eletricista;0114;R$ 0,00
+Produto;Tensor da Correia do Alternador;0115;R$ 0,00
+Produto;Bomba de Água;0116;R$ 0,00
+Produto;Cubo de Roda traseira;117;R$ 0,00
+Produto;Chicote Conector Elétrico;0118;R$ 0,00
+Produto;Reservatório de Água do Radiador;0119;R$ 0,00
+Produto;Sensor de Temperatura;0120;R$ 0,00
+Produto;Junta Homocinética;0121;R$ 0,00
+Produto;Pastilha de freio traseiro;0122;R$ 0,00
+Produto;Conexão da Bomba de Combustível;0123;R$ 0,00
+Produto;Mangueira do Tanque de Combustível;0124;R$ 0,00
+Produto;Militec 1 - Condicionador de Metais;0125;R$ 0,00
+Produto;Filtro de Ar;0126;R$ 0,00
+Produto;Filtro de Combustível;0127;R$ 0,00
+Produto;Jogo de Pastilha de Freio;0128;R$ 0,00
+Produto;Conexão da água do Coletor de Admissão;0129;R$ 0,00
+Produto;Kit Batente do Amortecedor traseiro;0130;R$ 0,00
+Produto;Disco de Freio dianteiro;0131;R$ 0,00
+Produto;Tampa do reservatório;0133;R$ 0,00
+Produto;Válvula de Admissão;0134;R$ 0,00
+Produto;Válvula de Descarga;0135;R$ 0,00
+Produto;Filtro de Cabine;0136;R$ 0,00
+Produto;Semi-eixo;0137;R$ 0,00
+Produto;Bieleta do Estabilizador;0138;R$ 0,00
+Produto;Sensor de fase;0139;R$ 0,00
+Produto;Prolongador de Sonda Lambda;0140;R$ 0,00
+Produto;Calço da Caixa de Marcha;0141;R$ 0,00
+Produto;Limpa Radiador - Rad Clean;0142;R$ 0,00
+Produto;Sensor do Pedal de Freio;0143;R$ 0,00
+Produto;Pivô inferior esquerdo;0144;R$ 0,00
+Produto;Bucha da Balança;0145;R$ 0,00
+Produto;Anel de Vedação do Bujão do Cárter;0146;R$ 0,00
+Produto;Volante;0147;R$ 0,00
+Serviço;Serviços de manutenção eletromecânica;0150;R$ 0,00
+Produto;Kit Amortecedor;0170;R$ 0,00
+Produto;Coxim;0171;R$ 0,00
+Produto;Bico de Sensor;0174;R$ 0,00
+Produto;Caixa de Direção;0175;R$ 0,00
+Produto;Bucha da Barra Estabilizadora;0179;R$ 0,00
+Serviço;Serviço de Torneiro Mecânico;0180;R$ 0,00
+Produto;Polia da correia dentada;0185;R$ 0,00
+Produto;Kit Batente do Amortecedor dianteiro;0187;R$ 0,00
+Produto;Mangueira do Respiro do Motor;0190;R$ 0,00
+Produto;Cabo do Aterramento;0191;R$ 0,00
+Produto;Cabo de Embreagem;0193;R$ 0,00
+Produto;Lâmpada de Freio;0194;R$ 0,00
+Produto;Lâmpada da Placa;0195;R$ 0,00
+Serviço;Balanceamento;0196;R$ 0,00
+Produto;Terminal da Bobina;0197;R$ 0,00
+Serviço;Serviço de pintura e diamantação de rodas;0200;R$ 0,00
+Serviço;Serviço de Lanternagem;200;R$ 0,00
+Produto;Jogo de Sapata de Freio;201;R$ 0,00
+Serviço;Limpeza, Lubrificação e Regulagem/Troca de Freio Traseiro;202;R$ 0,00
+Produto;Carter;203;R$ 0,00
+Serviço;Troca do Cárter e Pescador da Bomba de Óleo;205;R$ 0,00
+Produto;Combustível;206;R$ 0,00
+Serviço;Aplicação scanner e ajuste eletrônico;207;R$ 0,00
+Produto;Alavanca Freio de Mão Completa;208;R$ 0,00
+Serviço;Troca alavanca de freio de mão / Regulagem do Freio Traseiro;209;R$ 0,00
+Produto;Guarda Pó Amortecedor;210;R$ 0,00
+Produto;Rotor;211;R$ 0,00
+Produto;LAMPADA H7;212;R$ 0,00
+Produto;Jogo de cabos e velas;213;R$ 0,00
+Produto;Bucha dianteira da balança dianteira;214;R$ 0,00
+Produto;Reparo do setor de direção;215;R$ 0,00
+Produto;Cubo de roda;216;R$ 0,00
+Produto;Coxim com rolamento;217;R$ 0,00
+Serviço;Mão de obra, desmontagem do painel, troca do evaporador;218;R$ 0,00
+Serviço;REVISAO MECANICA;219;R$ 0,00
+Serviço;SERVIÇO DE MOTOBOY;221;R$ 0,00
+Serviço;SERVIÇO MECÂNICO;222;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇÃO DA  BIELETA;224;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇÃO DA TRIZETA;225;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇÃO AMORTECEDOR TRASEIRO;226;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇÃO DOS BATENTES DO AMORTECEDOR DIANTEIRO;227;R$ 0,00
+Serviço;REVISÃO DOS FREIOS;228;R$ 0,00
+Produto;REPARO PINÇA DE FREIO;229;R$ 0,00
+Produto;REPARO DOS BICOS INJETORES;230;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇÃO DAS CORREIAS;231;R$ 0,00
+Serviço;REGULAGEM DA SAPATA DE FREIO;232;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇÃO DO ROLAMENTO DE RODA DIANTEIRO;233;R$ 0,00
+Produto;FILTRO DE OLEO DA CAIXA DE MARCHA;234;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇÃO DO SENSOR DO ABS;235;R$ 0,00
+Produto;MÓDULO DO ABS;236;R$ 0,00
+Produto;GARFO DA EMBREAGEM;237;R$ 0,00
+Produto;CORREIA DO HIDRAULICO;238;R$ 0,00
+Produto;JUNTA COLETOR DE ADMISSÃO;239;R$ 0,00
+Produto;RETENTOR DO VOLANTE;240;R$ 0,00
+Produto;CILINDRO AUXILIAR DA EMBREAGEM;241;R$ 0,00
+Produto;Braços Axiais;242;R$ 0,00
+Produto;BOMBA DE COMBUSTÍVEL;325;R$ 0,00
+Produto;DEFLETOR DE PASTILHA;456;R$ 0,00
+Serviço;Buchas dos braços da suspensão traseira;1560;R$ 0,00
+Serviço;SERVIÇO DE RETIFICA DE CABEÇOTE;1972;R$ 0,00
+Serviço;ANTI-CHAMA;1973;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇAO DA CX DE MARCHA;1974;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇAO DA CORREIA DENTADA;1975;R$ 0,00
+Serviço;REPARO NA ALAVANCA DE MARCHA;1976;R$ 0,00
+Serviço;SELO DO CABEÇOTE;1977;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇAO DA PASTILHA DE FREIO DIANTEIRA;1978;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇAO DO ARTICULADOR DE DIREÇÃO;1979;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇAO DO CABEÇOTE;1980;R$ 0,00
+Serviço;BICO INJETOR;1981;R$ 0,00
+Serviço;SONDA POS CATALISADOR;1982;R$ 0,00
+Serviço;LIMPEZA DE TROCA DO FLUIDO DE DIREÇÃO HIDRAULICA;1983;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇAO DO FLUIDO DE FREIO;1985;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇAO DOS BATENTES DO AMORTECEDOR TRASEIRO;1986;R$ 0,00
+Serviço;REVISÃO DE FUNCIONAMENTO;1987;R$ 0,00
+Serviço;OLEO DE HIDRAULICO;1989;R$ 0,00
+Serviço;TENSOR DA CORREIA DENTADA;1990;R$ 0,00
+Serviço;SERVIÇO DE RETIFICA DE MOTOR;2002;R$ 0,00
+Serviço;Trava do pedal de embreagem;2025;R$ 0,00
+Serviço;REMOÇÃO INSTALAÇÃO CARCAÇA DA VALVULA TEFRMOSTATICA;2050;R$ 0,00
+Serviço;REMOÇÃO INSTALAÇÃO HOMOCINETICA;2051;R$ 0,00
+Serviço;REMOÇÃO INSTALAÇÃO TAMPA DE VALVULA;2052;R$ 0,00
+Serviço;HOMOCINETICA;2053;R$ 0,00
+Serviço;TURBINA;2054;R$ 0,00
+Serviço;REFORMA NO RADIADOR;2055;R$ 0,00
+Serviço;PARAFUSO DO CABEÇOTE;2056;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇÃO DO COXIM DO AMORTECEDOR DIANTEIRO;2057;R$ 0,00
+Serviço;Correia Dentada;3001;R$ 0,00
+Serviço;LIMPEZA DO SISTEMA DE ARREFECIMENTO;3002;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇÃO DA JUNTA DA TAMPA DE VALVULAS;3003;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇÃO DAS BUCHAS DA BARRA ESTABILIZADORA;3004;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇÃO DO TROCADOR DE CALOR;3005;R$ 0,00
+Serviço;REMOÇÃO E INSTALAÇÃO DO CALÇO DA CAIXA;3006;R$ 0,00
+Serviço;CALÇO RAQUETE;3007;R$ 0,00
+Serviço;ÓLEO DE CAIXA AUTOMATICA;3010;R$ 0,00
+Serviço;SERVIÇO DE ESCAPA MARCHA;3011;R$ 0,00
+Serviço;ANEL SINCRONIZADOR 1º E 2°;3012;R$ 0,00
+Serviço;ENGRENAGEM DA 2° MARCHA;3013;R$ 0,00
+Serviço;GARFO DA 1º E 2º MARCHA;3014;R$ 0,00
+Serviço;GARFO SELETOR;3015;R$ 0,00
+Serviço;LUVA 1º E 2º  MARCHA;3016;R$ 0,00
+Serviço;ÓLEO DE CAIXA;3017;R$ 0,00
+Serviço;RETENTOR DO SELETOR;3018;R$ 0,00
+Serviço;Válvula Termostática;3100;R$ 0,00
+Serviço;Flange da Bomba de Combustível;3102;R$ 0,00
+Serviço;Mangueira da Bomba de Combustível;3103;R$ 0,00
+Serviço;CORPO DE BORBOLETA;3104;R$ 0,00
+Serviço;Retentor de Semi eixo;3200;R$ 0,00
+Serviço;Rolamento Duplo da Caixa;3300;R$ 0,00
+Serviço;Mangueira de Mola;4000;R$ 0,00
+Serviço;Trocador de Calor;4001;R$ 0,00
+Serviço;ROLAMENTO DE RODA DIANTEIRO;7001;R$ 0,00
+Serviço;SENSOR DE VELOCIDADE;7002;R$ 0,00
+Serviço;Radiador;7005;R$ 0,00
+Serviço;BUCHA DO EIXO TRASEIRO;7119;R$ 0,00
+Produto;VENTOINHA DO RADIADOR;10001;R$ 0,00
+Produto;ITEM NÃO ENCONTRATO;10003;R$ 0,00
+Produto;GASOLINA;10004;R$ 0,00
+Produto;LONA DE FREIO;10005;R$ 0,00
+Produto;OLEO DE MOTOR;10006;R$ 0,00
+Serviço;REPARO DA ALAVANCA DE MARCHA;100006;R$ 0,00
+Produto;Junta cabeçote L200 4 PIC;103891;R$ 0,00
+Produto;Retentor Válvula L200;103894;R$ 0,00
+Produto;Retentor da Caixa de Marcha;103895;R$ 0,00
+Produto;Cabeçote L200 98/4D56 Val/P Dentro;103896;R$ 0,00
+Produto;Junta cabeçote L200 4 PIC;107830;R$ 0,00
+Produto;Retentor de válvula L200;107854;R$ 0,00
+Produto;Cabeçote L200 98/4D56 Valv. p/ dentro;107856;R$ 0,00

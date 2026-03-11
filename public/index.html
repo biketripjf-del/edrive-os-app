@@ -94,6 +94,25 @@
             opacity: 0.9;
         }
 
+        /* OS BADGE */
+        .os-badge {
+            display: none;
+            margin: 20px auto 0;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            width: fit-content;
+        }
+
+        .os-badge.visible {
+            display: block;
+        }
+
         /* MAIN CONTENT */
         .content {
             padding: 40px;
@@ -161,6 +180,155 @@
             cursor: pointer;
         }
 
+        /* SEARCHABLE SELECT */
+        .searchable-select {
+            position: relative;
+        }
+
+        .searchable-select-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            cursor: text;
+            background: white;
+        }
+
+        .searchable-select-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 153, 204, 0.1);
+        }
+
+        .searchable-select-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid var(--primary);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .searchable-select-dropdown.open {
+            display: block;
+        }
+
+        .searchable-select-option {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .searchable-select-option:hover {
+            background: rgba(0, 153, 204, 0.1);
+        }
+
+        .searchable-select-option .code {
+            color: #999;
+            font-size: 11px;
+            margin-left: 4px;
+        }
+
+        .searchable-select-option .classif {
+            font-size: 10px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .searchable-select-empty {
+            padding: 12px;
+            color: #999;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        /* ITEM ROW PRODUCT WRAPPER */
+        .produto-wrapper {
+            display: flex;
+            gap: 6px;
+            align-items: flex-start;
+        }
+
+        .produto-wrapper .searchable-select {
+            flex: 1;
+        }
+
+        .btn-solicitar {
+            background: var(--warning);
+            color: white;
+            border: none;
+            padding: 8px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .btn-solicitar:hover {
+            background: #e68a00;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal h3 {
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .modal .form-group {
+            margin-bottom: 15px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .modal-buttons button {
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
         /* ITENS TABLE */
         .items-section {
             margin-top: 40px;
@@ -170,7 +338,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
-            overflow: hidden;
+            overflow: visible;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
@@ -190,15 +358,16 @@
         }
 
         .items-table td {
-            padding: 15px;
+            padding: 12px;
             border-top: 1px solid var(--border);
+            vertical-align: top;
         }
 
         .items-table tbody tr:hover {
             background: var(--secondary);
         }
 
-        .items-table input {
+        .items-table input[type="number"] {
             width: 100%;
         }
 
@@ -343,7 +512,7 @@
             }
 
             .items-table th, .items-table td {
-                padding: 10px;
+                padding: 10px 6px;
             }
 
             .buttons {
@@ -353,6 +522,14 @@
             button {
                 width: 100%;
             }
+
+            .produto-wrapper {
+                flex-direction: column;
+            }
+
+            .btn-solicitar {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -360,39 +537,48 @@
     <div class="container">
         <header>
             <div class="header-content">
-                <div class="logo">▲</div>
+                <div class="logo">eD</div>
                 <div class="header-text">
                     <h1>eDrive</h1>
                     <p>Gerador de Ordem de Serviço</p>
                 </div>
             </div>
+            <div class="os-badge" id="osBadge"></div>
         </header>
 
         <div class="content">
             <form id="osForm">
                 <!-- INFORMAÇÕES GERAIS -->
                 <div class="section">
-                    <h2 class="section-title">📋 Informações Gerais</h2>
+                    <h2 class="section-title">Informações Gerais</h2>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="fornecedor">Fornecedor *</label>
-                            <input type="text" id="fornecedor" placeholder="Nome do fornecedor" required>
+                            <label for="fornecedor">Fornecedor / Razão Social *</label>
+                            <input type="text" id="fornecedor" placeholder="Nome do fornecedor ou razão social" required>
                         </div>
                         <div class="form-group">
-                            <label for="cnpj">CNPJ/CPF</label>
-                            <input type="text" id="cnpj" readonly style="background: #f5f5f5;">
+                            <label for="cnpj">CPF/CNPJ</label>
+                            <input type="text" id="cnpj" placeholder="000.000.000-00 ou 00.000.000/0000-00">
                         </div>
                         <div class="form-group">
-                            <label for="dataAbertura">Data de Abertura *</label>
-                            <input type="date" id="dataAbertura" required>
+                            <label for="placa">Placa do Veículo</label>
+                            <input type="text" id="placa" placeholder="ABC-1234 ou ABC1D23" maxlength="8">
+                        </div>
+                        <div class="form-group">
+                            <label for="marcaModeloAno">Marca / Modelo / Ano</label>
+                            <input type="text" id="marcaModeloAno" placeholder="Ex: Toyota Corolla 2022">
                         </div>
                     </div>
                 </div>
 
-                <!-- DATAS -->
+                <!-- CRONOGRAMA -->
                 <div class="section">
-                    <h2 class="section-title">📅 Cronograma</h2>
+                    <h2 class="section-title">Cronograma</h2>
                     <div class="form-grid">
+                        <div class="form-group">
+                            <label for="dataAbertura">Data de Abertura *</label>
+                            <input type="date" id="dataAbertura" required>
+                        </div>
                         <div class="form-group">
                             <label for="dataPrevista">Data Prevista *</label>
                             <input type="date" id="dataPrevista" required>
@@ -404,9 +590,56 @@
                     </div>
                 </div>
 
+                <!-- PAGAMENTO -->
+                <div class="section">
+                    <h2 class="section-title">Pagamento</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="chavePix">Chave PIX</label>
+                            <input type="text" id="chavePix" placeholder="Chave PIX do fornecedor">
+                        </div>
+                        <div class="form-group">
+                            <label for="tipoPix">Tipo PIX</label>
+                            <select id="tipoPix">
+                                <option value="">Selecione...</option>
+                                <option value="CPF">CPF</option>
+                                <option value="CNPJ">CNPJ</option>
+                                <option value="Email">Email</option>
+                                <option value="Telefone">Telefone</option>
+                                <option value="Chave Aleatória">Chave Aleatória</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AUTORIZAÇÃO -->
+                <div class="section">
+                    <h2 class="section-title">Autorização</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="autorizadoPor">Autorizado por *</label>
+                            <select id="autorizadoPor" required>
+                                <option value="">Selecione...</option>
+                                <option value="Brunner">Brunner</option>
+                                <option value="Lucas">Lucas</option>
+                                <option value="Renato">Renato</option>
+                                <option value="Gabriel">Gabriel</option>
+                                <option value="Thiago">Thiago</option>
+                                <option value="Felipe">Felipe</option>
+                                <option value="Anderson">Anderson</option>
+                                <option value="Marcos">Marcos</option>
+                                <option value="Rafael">Rafael</option>
+                                <option value="Diego">Diego</option>
+                                <option value="Leandro">Leandro</option>
+                                <option value="Juliano">Juliano</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- CONTATO -->
                 <div class="section">
-                    <h2 class="section-title">👤 Contato</h2>
+                    <h2 class="section-title">Contato</h2>
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="responsavel">Responsável</label>
@@ -425,22 +658,22 @@
 
                 <!-- ITENS -->
                 <div class="section items-section">
-                    <h2 class="section-title">📦 Itens/Serviços</h2>
+                    <h2 class="section-title">Itens/Serviços</h2>
                     <button type="button" class="btn-add-item" onclick="adicionarItem()">+ Adicionar Item</button>
-                    
+
                     <table class="items-table">
                         <thead>
                             <tr>
-                                <th>Produto/Serviço</th>
+                                <th style="min-width: 250px;">Produto/Serviço</th>
+                                <th style="width: 80px;">Garantia</th>
                                 <th style="width: 80px;">QTD</th>
                                 <th style="width: 100px;">Valor Unit.</th>
                                 <th style="width: 100px;">Valor Total</th>
-                                <th style="width: 100px;">Garantia</th>
                                 <th style="width: 60px;">Ação</th>
                             </tr>
                         </thead>
                         <tbody id="itemsBody">
-                            <!-- Itens adicionados aqui -->
+                            <!-- Itens adicionados via JS -->
                         </tbody>
                     </table>
 
@@ -462,7 +695,7 @@
 
                 <!-- OBSERVAÇÕES -->
                 <div class="section">
-                    <h2 class="section-title">📝 Observações</h2>
+                    <h2 class="section-title">Observações</h2>
                     <div class="form-group">
                         <label for="observacoes">Notas adicionais</label>
                         <textarea id="observacoes" rows="4" placeholder="Digite aqui qualquer observação..."></textarea>
@@ -472,10 +705,35 @@
                 <!-- BOTÕES -->
                 <div class="buttons">
                     <button type="button" class="btn-secondary" onclick="limparForm()">Limpar Formulário</button>
-                    <button type="button" class="btn-primary" onclick="gerarPDF()">📄 Gerar PDF</button>
-                    <button type="button" class="btn-primary" onclick="enviarParaAutos360()">📤 Enviar para Autos 360</button>
+                    <button type="button" class="btn-primary" onclick="gerarPDF()">Gerar PDF</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Solicitar cadastro de novo item -->
+    <div class="modal-overlay" id="modalSolicitarItem">
+        <div class="modal">
+            <h3>Solicitar cadastro de novo item</h3>
+            <div class="form-group">
+                <label for="modalDescricao">Descrição do produto/serviço *</label>
+                <input type="text" id="modalDescricao" placeholder="Nome do produto ou serviço">
+            </div>
+            <div class="form-group">
+                <label for="modalClassificacao">Classificação</label>
+                <select id="modalClassificacao">
+                    <option value="Produto">Produto</option>
+                    <option value="Serviço">Serviço</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="modalObservacao">Observação</label>
+                <textarea id="modalObservacao" rows="3" placeholder="Informações adicionais..."></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn-secondary" onclick="fecharModal()">Cancelar</button>
+                <button type="button" class="btn-primary" onclick="enviarSolicitacaoItem()">Enviar Solicitação</button>
+            </div>
         </div>
     </div>
 

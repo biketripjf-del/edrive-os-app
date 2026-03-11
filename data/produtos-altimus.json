@@ -1,0 +1,1520 @@
+[
+  {
+    "classificacao": "Serviço",
+    "descricao": "Retoque",
+    "codigo": "0000",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Bieleta do estabilizador dianteiro",
+    "codigo": "0001",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Limpa pneu gel c/ 3 Kg",
+    "codigo": "0002",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Martelinho de Ouro - Funilaria",
+    "codigo": "0003",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Cera pós-lavagem",
+    "codigo": "0004",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Silicone gel c/ 3 Kg",
+    "codigo": "0005",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Calotas",
+    "codigo": "0006",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Pneus",
+    "codigo": "0007",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Tapetes",
+    "codigo": "0008",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Funilaria e pintura",
+    "codigo": "0009",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Curso de pilotagem",
+    "codigo": "0010",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Lavagem de veículos",
+    "codigo": "0011",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Suporte técnico em informática",
+    "codigo": "0012",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Bucha da Barra Estabilizadora Dianteira",
+    "codigo": "0014",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Balança da suspensão  dianteira",
+    "codigo": "0015",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Alinhamento",
+    "codigo": "0016",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Kit couro 30% 5 lugares",
+    "codigo": "0017",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Comissão sobre Financiamentos",
+    "codigo": "0018",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Terminal de direção",
+    "codigo": "0019",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Lixa d'água",
+    "codigo": "0020",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Retentor da saída de transmissão",
+    "codigo": "0031",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Coxim da suspensão",
+    "codigo": "0032",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Óleo da caixa de marcha",
+    "codigo": "0033",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Bucha do suporte traseiro do motor",
+    "codigo": "0034",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Kit Batente e Coifa do amortecedor traseiro",
+    "codigo": "0035",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Amortecedor traseiro",
+    "codigo": "0036",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Pastilha de freio dianteiro",
+    "codigo": "0037",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Fluído de freio",
+    "codigo": "0038",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Querosene",
+    "codigo": "0039",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Recarga de toner",
+    "codigo": "0040",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Boia do Tanque de Combustível",
+    "codigo": "0051",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Interruptor de Óleo",
+    "codigo": "0052",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Coxim do Amortecedor Dianteiro",
+    "codigo": "0053",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Coxim do Amortecedor Traseiro",
+    "codigo": "0054",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Silicone para Juntas - Ultra black",
+    "codigo": "0055",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Alavanca de Câmbio",
+    "codigo": "0056",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Rolamento do Coxim do Amortecedor dianteiro",
+    "codigo": "0057",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Rolamento",
+    "codigo": "0058",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Filtro de Oleo",
+    "codigo": "0059",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Jogo de Cabos de Vela",
+    "codigo": "0060",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Jogo de Velas da Ignição",
+    "codigo": "0061",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Junta da Tampa de Valvúla",
+    "codigo": "0062",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Junta do Cárter",
+    "codigo": "0063",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Junta do Suporte do Filtro de Óleo",
+    "codigo": "0064",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Kit Correia do Alternador",
+    "codigo": "0065",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Limpeza dos Bicos injetores",
+    "codigo": "0066",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Aditivo Orgânico do Radiador",
+    "codigo": "0067",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Descarbonizante",
+    "codigo": "0068",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Mangueira Reservatório D' Água",
+    "codigo": "0069",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Kit Embreagem",
+    "codigo": "0070",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Fluído de freio DOT4",
+    "codigo": "0071",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Sensor Map",
+    "codigo": "0072",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Cilindro da Roda Traseira",
+    "codigo": "0073",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Bucha da Barra Estabilizadora Traseira",
+    "codigo": "0074",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Remoção e instalação da Embreagem",
+    "codigo": "0075",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Remoção e instalação do Cárter do motor",
+    "codigo": "0076",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Sonda Lambda",
+    "codigo": "0077",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Cilindro Mestre da Embreagem",
+    "codigo": "0078",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Atuador da Embreagem",
+    "codigo": "0079",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Pivô da Suspensão ( Direito)",
+    "codigo": "0080",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Calço Superior  do Motor",
+    "codigo": "0081",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Bucha do reservatório de partida a frio",
+    "codigo": "0082",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Carcaça da Válvula Termostática",
+    "codigo": "0083",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Tubo de Fluxo de Água  do Motor",
+    "codigo": "0084",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Revisão da suspenção ( dianteira e traseira)",
+    "codigo": "0086",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Bucha Traseira da Balança Dianteira",
+    "codigo": "0087",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Retentor Dianteiro do Virabrequim",
+    "codigo": "0088",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Motoentregador - Motoboy",
+    "codigo": "0089",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Remoção e instalação do Catalizador",
+    "codigo": "0090",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Junta Coletor do Escapamento - Junta do Coletor da Descarga",
+    "codigo": "0091",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Articulação do Setor de Direção -  Articulação Setor Axial",
+    "codigo": "0092",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Amortecedor Dianteiro Recondicionado",
+    "codigo": "0093",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Pivô da Suspensão ( Esquerdo)",
+    "codigo": "0094",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Bieleta do Estabilizador Traseiro",
+    "codigo": "0095",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Calço inferior da Caixa de Marcha",
+    "codigo": "0096",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Calço Inferior  do Motor",
+    "codigo": "0097",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Sensor do ABS",
+    "codigo": "0098",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Balança  Bandeja Suspensão do lado direito",
+    "codigo": "0099",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Correia do Alternador",
+    "codigo": "0100",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Kit Correia Dentada",
+    "codigo": "0101",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Polia da Correia do Alternador",
+    "codigo": "0102",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Kit Retificação do Motor",
+    "codigo": "0103",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Retentor Comando Válvula",
+    "codigo": "0104",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Fechadura Elétrica",
+    "codigo": "0105",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Jogo de Juntas do Motor",
+    "codigo": "0106",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Retentor do comando",
+    "codigo": "0107",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Jogo de Casquilho Fixo",
+    "codigo": "0108",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Jogo de Casquilho Móvel",
+    "codigo": "0109",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Coletor de admissão",
+    "codigo": "0110",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Jogo de Pistões com Anéis",
+    "codigo": "0111",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Retentor do Volante",
+    "codigo": "0112",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Sensor de Detonação",
+    "codigo": "0113",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Serviço de Eletricista",
+    "codigo": "0114",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Tensor da Correia do Alternador",
+    "codigo": "0115",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Bomba de Água",
+    "codigo": "0116",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Cubo de Roda traseira",
+    "codigo": "117",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Chicote Conector Elétrico",
+    "codigo": "0118",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Reservatório de Água do Radiador",
+    "codigo": "0119",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Sensor de Temperatura",
+    "codigo": "0120",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Junta Homocinética",
+    "codigo": "0121",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Pastilha de freio traseiro",
+    "codigo": "0122",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Conexão da Bomba de Combustível",
+    "codigo": "0123",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Mangueira do Tanque de Combustível",
+    "codigo": "0124",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Militec 1 - Condicionador de Metais",
+    "codigo": "0125",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Filtro de Ar",
+    "codigo": "0126",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Filtro de Combustível",
+    "codigo": "0127",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Jogo de Pastilha de Freio",
+    "codigo": "0128",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Conexão da água do Coletor de Admissão",
+    "codigo": "0129",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Kit Batente do Amortecedor traseiro",
+    "codigo": "0130",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Disco de Freio dianteiro",
+    "codigo": "0131",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Tampa do reservatório",
+    "codigo": "0133",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Válvula de Admissão",
+    "codigo": "0134",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Válvula de Descarga",
+    "codigo": "0135",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Filtro de Cabine",
+    "codigo": "0136",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Semi-eixo",
+    "codigo": "0137",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Bieleta do Estabilizador",
+    "codigo": "0138",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Sensor de fase",
+    "codigo": "0139",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Prolongador de Sonda Lambda",
+    "codigo": "0140",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Calço da Caixa de Marcha",
+    "codigo": "0141",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Limpa Radiador - Rad Clean",
+    "codigo": "0142",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Sensor do Pedal de Freio",
+    "codigo": "0143",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Pivô inferior esquerdo",
+    "codigo": "0144",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Bucha da Balança",
+    "codigo": "0145",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Anel de Vedação do Bujão do Cárter",
+    "codigo": "0146",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Volante",
+    "codigo": "0147",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Serviços de manutenção eletromecânica",
+    "codigo": "0150",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Kit Amortecedor",
+    "codigo": "0170",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Coxim",
+    "codigo": "0171",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Bico de Sensor",
+    "codigo": "0174",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Caixa de Direção",
+    "codigo": "0175",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Bucha da Barra Estabilizadora",
+    "codigo": "0179",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Serviço de Torneiro Mecânico",
+    "codigo": "0180",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Polia da correia dentada",
+    "codigo": "0185",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Kit Batente do Amortecedor dianteiro",
+    "codigo": "0187",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Mangueira do Respiro do Motor",
+    "codigo": "0190",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Cabo do Aterramento",
+    "codigo": "0191",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Cabo de Embreagem",
+    "codigo": "0193",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Lâmpada de Freio",
+    "codigo": "0194",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Lâmpada da Placa",
+    "codigo": "0195",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Balanceamento",
+    "codigo": "0196",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Terminal da Bobina",
+    "codigo": "0197",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Serviço de pintura e diamantação de rodas",
+    "codigo": "0200",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Serviço de Lanternagem",
+    "codigo": "200",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Jogo de Sapata de Freio",
+    "codigo": "201",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Limpeza, Lubrificação e Regulagem/Troca de Freio Traseiro",
+    "codigo": "202",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Carter",
+    "codigo": "203",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Troca do Cárter e Pescador da Bomba de Óleo",
+    "codigo": "205",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Combustível",
+    "codigo": "206",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Aplicação scanner e ajuste eletrônico",
+    "codigo": "207",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Alavanca Freio de Mão Completa",
+    "codigo": "208",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Troca alavanca de freio de mão / Regulagem do Freio Traseiro",
+    "codigo": "209",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Guarda Pó Amortecedor",
+    "codigo": "210",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Rotor",
+    "codigo": "211",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "LAMPADA H7",
+    "codigo": "212",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Jogo de cabos e velas",
+    "codigo": "213",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Bucha dianteira da balança dianteira",
+    "codigo": "214",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Reparo do setor de direção",
+    "codigo": "215",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Cubo de roda",
+    "codigo": "216",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Coxim com rolamento",
+    "codigo": "217",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Mão de obra, desmontagem do painel, troca do evaporador",
+    "codigo": "218",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REVISAO MECANICA",
+    "codigo": "219",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "SERVIÇO DE MOTOBOY",
+    "codigo": "221",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "SERVIÇO MECÂNICO",
+    "codigo": "222",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇÃO DA  BIELETA",
+    "codigo": "224",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇÃO DA TRIZETA",
+    "codigo": "225",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇÃO AMORTECEDOR TRASEIRO",
+    "codigo": "226",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇÃO DOS BATENTES DO AMORTECEDOR DIANTEIRO",
+    "codigo": "227",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REVISÃO DOS FREIOS",
+    "codigo": "228",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "REPARO PINÇA DE FREIO",
+    "codigo": "229",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "REPARO DOS BICOS INJETORES",
+    "codigo": "230",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇÃO DAS CORREIAS",
+    "codigo": "231",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REGULAGEM DA SAPATA DE FREIO",
+    "codigo": "232",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇÃO DO ROLAMENTO DE RODA DIANTEIRO",
+    "codigo": "233",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "FILTRO DE OLEO DA CAIXA DE MARCHA",
+    "codigo": "234",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇÃO DO SENSOR DO ABS",
+    "codigo": "235",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "MÓDULO DO ABS",
+    "codigo": "236",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "GARFO DA EMBREAGEM",
+    "codigo": "237",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "CORREIA DO HIDRAULICO",
+    "codigo": "238",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "JUNTA COLETOR DE ADMISSÃO",
+    "codigo": "239",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "RETENTOR DO VOLANTE",
+    "codigo": "240",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "CILINDRO AUXILIAR DA EMBREAGEM",
+    "codigo": "241",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Braços Axiais",
+    "codigo": "242",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "BOMBA DE COMBUSTÍVEL",
+    "codigo": "325",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "DEFLETOR DE PASTILHA",
+    "codigo": "456",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Buchas dos braços da suspensão traseira",
+    "codigo": "1560",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "SERVIÇO DE RETIFICA DE CABEÇOTE",
+    "codigo": "1972",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "ANTI-CHAMA",
+    "codigo": "1973",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇAO DA CX DE MARCHA",
+    "codigo": "1974",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇAO DA CORREIA DENTADA",
+    "codigo": "1975",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REPARO NA ALAVANCA DE MARCHA",
+    "codigo": "1976",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "SELO DO CABEÇOTE",
+    "codigo": "1977",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇAO DA PASTILHA DE FREIO DIANTEIRA",
+    "codigo": "1978",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇAO DO ARTICULADOR DE DIREÇÃO",
+    "codigo": "1979",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇAO DO CABEÇOTE",
+    "codigo": "1980",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "BICO INJETOR",
+    "codigo": "1981",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "SONDA POS CATALISADOR",
+    "codigo": "1982",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "LIMPEZA DE TROCA DO FLUIDO DE DIREÇÃO HIDRAULICA",
+    "codigo": "1983",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇAO DO FLUIDO DE FREIO",
+    "codigo": "1985",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇAO DOS BATENTES DO AMORTECEDOR TRASEIRO",
+    "codigo": "1986",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REVISÃO DE FUNCIONAMENTO",
+    "codigo": "1987",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "OLEO DE HIDRAULICO",
+    "codigo": "1989",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "TENSOR DA CORREIA DENTADA",
+    "codigo": "1990",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "SERVIÇO DE RETIFICA DE MOTOR",
+    "codigo": "2002",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Trava do pedal de embreagem",
+    "codigo": "2025",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO INSTALAÇÃO CARCAÇA DA VALVULA TEFRMOSTATICA",
+    "codigo": "2050",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO INSTALAÇÃO HOMOCINETICA",
+    "codigo": "2051",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO INSTALAÇÃO TAMPA DE VALVULA",
+    "codigo": "2052",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "HOMOCINETICA",
+    "codigo": "2053",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "TURBINA",
+    "codigo": "2054",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REFORMA NO RADIADOR",
+    "codigo": "2055",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "PARAFUSO DO CABEÇOTE",
+    "codigo": "2056",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇÃO DO COXIM DO AMORTECEDOR DIANTEIRO",
+    "codigo": "2057",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Correia Dentada",
+    "codigo": "3001",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "LIMPEZA DO SISTEMA DE ARREFECIMENTO",
+    "codigo": "3002",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇÃO DA JUNTA DA TAMPA DE VALVULAS",
+    "codigo": "3003",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇÃO DAS BUCHAS DA BARRA ESTABILIZADORA",
+    "codigo": "3004",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇÃO DO TROCADOR DE CALOR",
+    "codigo": "3005",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REMOÇÃO E INSTALAÇÃO DO CALÇO DA CAIXA",
+    "codigo": "3006",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "CALÇO RAQUETE",
+    "codigo": "3007",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "ÓLEO DE CAIXA AUTOMATICA",
+    "codigo": "3010",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "SERVIÇO DE ESCAPA MARCHA",
+    "codigo": "3011",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "ANEL SINCRONIZADOR 1º E 2°",
+    "codigo": "3012",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "ENGRENAGEM DA 2° MARCHA",
+    "codigo": "3013",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "GARFO DA 1º E 2º MARCHA",
+    "codigo": "3014",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "GARFO SELETOR",
+    "codigo": "3015",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "LUVA 1º E 2º  MARCHA",
+    "codigo": "3016",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "ÓLEO DE CAIXA",
+    "codigo": "3017",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "RETENTOR DO SELETOR",
+    "codigo": "3018",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Válvula Termostática",
+    "codigo": "3100",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Flange da Bomba de Combustível",
+    "codigo": "3102",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Mangueira da Bomba de Combustível",
+    "codigo": "3103",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "CORPO DE BORBOLETA",
+    "codigo": "3104",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Retentor de Semi eixo",
+    "codigo": "3200",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Rolamento Duplo da Caixa",
+    "codigo": "3300",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Mangueira de Mola",
+    "codigo": "4000",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Trocador de Calor",
+    "codigo": "4001",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "ROLAMENTO DE RODA DIANTEIRO",
+    "codigo": "7001",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "SENSOR DE VELOCIDADE",
+    "codigo": "7002",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "Radiador",
+    "codigo": "7005",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "BUCHA DO EIXO TRASEIRO",
+    "codigo": "7119",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "VENTOINHA DO RADIADOR",
+    "codigo": "10001",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "ITEM NÃO ENCONTRATO",
+    "codigo": "10003",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "GASOLINA",
+    "codigo": "10004",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "LONA DE FREIO",
+    "codigo": "10005",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "OLEO DE MOTOR",
+    "codigo": "10006",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "REPARO DA ALAVANCA DE MARCHA",
+    "codigo": "100006",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Junta cabeçote L200 4 PIC",
+    "codigo": "103891",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Retentor Válvula L200",
+    "codigo": "103894",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Retentor da Caixa de Marcha",
+    "codigo": "103895",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Cabeçote L200 98/4D56 Val/P Dentro",
+    "codigo": "103896",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Junta cabeçote L200 4 PIC",
+    "codigo": "107830",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Retentor de válvula L200",
+    "codigo": "107854",
+    "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "Cabeçote L200 98/4D56 Valv. p/ dentro",
+    "codigo": "107856",
+    "preco": "R$ 0,00"
+  }
+]
