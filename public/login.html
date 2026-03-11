@@ -112,11 +112,15 @@
         <div class="login-body">
             <div id="msgBox" class="msg"></div>
 
-            <!-- Etapa 1: CPF/CNPJ -->
+            <!-- Etapa 1: CPF/CNPJ + WhatsApp -->
             <div id="cpfSection">
                 <div class="form-group">
                     <label for="cpfCnpj">CPF ou CNPJ</label>
                     <input type="text" id="cpfCnpj" placeholder="000.000.000-00 ou 00.000.000/0000-00" maxlength="18">
+                </div>
+                <div class="form-group">
+                    <label for="whatsapp">WhatsApp (com DDD)</label>
+                    <input type="text" id="whatsapp" placeholder="(31) 99999-9999" maxlength="15">
                 </div>
                 <button class="btn-login" id="btnSolicitarCodigo" onclick="solicitarCodigo()">Enviar Codigo</button>
             </div>
@@ -141,6 +145,22 @@
 
     <script>
         let cpfCnpjSalvo = '';
+        let whatsappSalvo = '';
+
+        // Mascara WhatsApp
+        document.getElementById('whatsapp').addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 0) {
+                if (v.length <= 2) {
+                    v = '(' + v;
+                } else if (v.length <= 7) {
+                    v = '(' + v.substring(0, 2) + ') ' + v.substring(2);
+                } else {
+                    v = '(' + v.substring(0, 2) + ') ' + v.substring(2, 7) + '-' + v.substring(7, 11);
+                }
+            }
+            e.target.value = v;
+        });
 
         // Mascara CPF/CNPJ
         document.getElementById('cpfCnpj').addEventListener('input', function(e) {
@@ -176,8 +196,15 @@
 
         async function solicitarCodigo() {
             const cpfCnpj = document.getElementById('cpfCnpj').value.trim();
+            const whatsapp = document.getElementById('whatsapp').value.trim();
+            
             if (!cpfCnpj || cpfCnpj.replace(/\D/g, '').length < 11) {
                 showMsg('Informe um CPF ou CNPJ valido', 'erro');
+                return;
+            }
+            
+            if (!whatsapp || whatsapp.replace(/\D/g, '').length < 11) {
+                showMsg('Informe um WhatsApp valido com DDD', 'erro');
                 return;
             }
 
@@ -189,7 +216,7 @@
                 const resp = await fetch('/api/auth/solicitar-codigo', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ cpf_cnpj: cpfCnpj })
+                    body: JSON.stringify({ cpf_cnpj: cpfCnpj, whatsapp: whatsapp })
                 });
                 const data = await resp.json();
 
@@ -199,6 +226,7 @@
                 }
 
                 cpfCnpjSalvo = cpfCnpj;
+                whatsappSalvo = whatsapp;
                 document.getElementById('cpfSection').style.display = 'none';
                 document.getElementById('codigoSection').style.display = 'block';
 
@@ -233,7 +261,7 @@
                 const resp = await fetch('/api/auth/verificar-codigo', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ cpf_cnpj: cpfCnpjSalvo, codigo: codigo })
+                    body: JSON.stringify({ cpf_cnpj: cpfCnpjSalvo, whatsapp: whatsappSalvo, codigo: codigo })
                 });
                 const data = await resp.json();
 
