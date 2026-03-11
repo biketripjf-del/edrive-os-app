@@ -24,7 +24,8 @@ let fornecedores = [];
 
 function carregarFornecedores() {
     try {
-        const csvPath = '/home/claude/.openclaw/workspace/suppliers/suppliers-cleaned.csv';
+        const csvPath = path.join(__dirname, 'data', 'suppliers.csv');
+        console.log(`📂 Carregando CSV de: ${csvPath}`);
         const csvData = fs.readFileSync(csvPath, 'utf8');
         const records = csv.parse(csvData, {
             columns: false,
