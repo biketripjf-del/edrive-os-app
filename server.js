@@ -100,6 +100,32 @@ function authMiddleware(req, res, next) {
     }
 }
 
+// Aceita user OU admin token
+function authOrAdminMiddleware(req, res, next) {
+    // Tentar user token primeiro
+    const userToken = req.cookies.auth_token;
+    if (userToken) {
+        try {
+            const decoded = jwt.verify(userToken, JWT_SECRET);
+            req.user = decoded;
+            return next();
+        } catch (e) { /* token inválido, tentar admin */ }
+    }
+    // Tentar admin token
+    const adminToken = req.cookies.admin_token;
+    if (adminToken) {
+        try {
+            const decoded = jwt.verify(adminToken, JWT_SECRET);
+            if (decoded.admin) {
+                req.user = { id: 0, cpf_cnpj: 'ADMIN' };
+                req.admin = decoded;
+                return next();
+            }
+        } catch (e) { /* token inválido */ }
+    }
+    return res.status(401).json({ erro: 'Nao autenticado' });
+}
+
 function adminMiddleware(req, res, next) {
     const token = req.cookies.admin_token;
     if (!token) {
@@ -122,16 +148,25 @@ function adminMiddleware(req, res, next) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 app.get('/', (req, res) => {
-    const token = req.cookies.auth_token;
-    if (!token) {
+    // Aceitar user OU admin token
+    const userToken = req.cookies.auth_token;
+    const adminToken = req.cookies.admin_token;
+    
+    let authenticated = false;
+    if (userToken) {
+        try { jwt.verify(userToken, JWT_SECRET); authenticated = true; } catch(e) {}
+    }
+    if (!authenticated && adminToken) {
+        try { 
+            const d = jwt.verify(adminToken, JWT_SECRET); 
+            if (d.admin) authenticated = true; 
+        } catch(e) {}
+    }
+    
+    if (!authenticated) {
         return res.redirect('/login.html');
     }
-    try {
-        jwt.verify(token, JWT_SECRET);
-        res.sendFile(path.join(__dirname, 'public', 'index.html'));
-    } catch (e) {
-        res.redirect('/login.html');
-    }
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -213,7 +248,10 @@ app.post('/api/auth/verificar-codigo', loginLimiter, (req, res) => {
     res.json({ sucesso: true, cpf_cnpj: user.cpf_cnpj });
 });
 
-app.get('/api/auth/me', authMiddleware, (req, res) => {
+app.get('/api/auth/me', authOrAdminMiddleware, (req, res) => {
+    if (req.admin) {
+        return res.json({ id: 0, cpf_cnpj: 'ADMIN', nome: 'Administrador', telefone: '', email: '' });
+    }
     const user = get('SELECT id, cpf_cnpj, nome, telefone, email FROM usuarios WHERE id = ?', [req.user.id]);
     if (!user) {
         return res.status(404).json({ erro: 'Usuario nao encontrado' });
@@ -413,7 +451,7 @@ app.post('/api/admin/rejeitar/:id', adminMiddleware, (req, res) => {
 // UPLOAD ROUTES
 // ═══════════════════════════════════════════════════════════════════════════
 
-app.post('/api/upload', authMiddleware, upload.array('files', 8), (req, res) => {
+app.post('/api/upload', authOrAdminMiddleware, upload.array('files', 8), (req, res) => {
     if (!req.files || req.files.length === 0) {
         return res.status(400).json({ erro: 'Nenhum arquivo enviado' });
     }
@@ -510,7 +548,7 @@ function proximoNumeroOS() {
 }
 
 // API: Gerar PDF (agora tambem salva no banco)
-app.post('/api/gerar-pdf', authMiddleware, pdfLimiter, (req, res) => {
+app.post('/api/gerar-pdf', authOrAdminMiddleware, pdfLimiter, (req, res) => {
     try {
         const dados = req.body;
 

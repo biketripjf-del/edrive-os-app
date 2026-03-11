@@ -202,13 +202,13 @@ function adicionarItem() {
             </select>
         </td>
         <td>
-            <input type="number" class="qtd" min="1" value="1" step="0.01" required onchange="calcularTotais()" style="text-align:center; font-size:16px; font-weight:bold; padding:8px;">
+            <input type="text" class="qtd" value="1" required oninput="formatarQtd(this)" onchange="calcularTotais()" style="text-align:center; font-size:16px; font-weight:bold; padding:10px; width:100%;">
         </td>
         <td>
-            <input type="number" class="valor-unit" min="0" value="0.00" step="0.01" required onchange="calcularTotais()" placeholder="0.00">
+            <input type="text" class="valor-unit" value="0,00" required oninput="formatarValor(this)" onchange="calcularTotais()" placeholder="0,00" style="text-align:right; font-size:14px; padding:10px; width:100%;">
         </td>
         <td>
-            <input type="number" class="valor-total" readonly style="background: #f5f5f5; font-weight: bold;">
+            <input type="text" class="valor-total" readonly style="background: #f5f5f5; font-weight: bold; text-align:right; font-size:14px; padding:10px; color:#0099CC; width:100%;">
         </td>
         <td>
             <button type="button" class="btn-remove" onclick="removerItem(${id})">Remover</button>
@@ -238,22 +238,51 @@ function removerItem(id) {
 // CALCULOS
 // ═══════════════════════════════════════════════════════════════
 
+// Parse valor brasileiro: "1.500,00" → 1500.00
+function parseBR(str) {
+    if (!str) return 0;
+    return parseFloat(String(str).replace(/\./g, '').replace(',', '.')) || 0;
+}
+
+// Formatar número para brasileiro: 1500 → "1.500,00"
+function toBR(num) {
+    return num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+// Formatar campo de valor (aceita só números e vírgula)
+function formatarValor(input) {
+    let v = input.value.replace(/[^\d,]/g, '');
+    // Permitir apenas uma vírgula
+    const parts = v.split(',');
+    if (parts.length > 2) v = parts[0] + ',' + parts.slice(1).join('');
+    input.value = v;
+}
+
+// Formatar campo de quantidade
+function formatarQtd(input) {
+    let v = input.value.replace(/[^\d,.]/g, '');
+    input.value = v;
+}
+
 function calcularTotais() {
     let totalQtd = 0;
     let totalGeral = 0;
 
     document.querySelectorAll('#itemsBody tr').forEach(tr => {
-        const qtd = parseFloat(tr.querySelector('.qtd').value) || 0;
-        const valorUnit = parseFloat(tr.querySelector('.valor-unit').value) || 0;
+        const qtdStr = tr.querySelector('.qtd').value;
+        const valorUnitStr = tr.querySelector('.valor-unit').value;
+        
+        const qtd = parseBR(qtdStr);
+        const valorUnit = parseBR(valorUnitStr);
         const valorTotal = qtd * valorUnit;
 
-        tr.querySelector('.valor-total').value = valorTotal.toFixed(2);
+        tr.querySelector('.valor-total').value = toBR(valorTotal);
 
         totalQtd += qtd;
         totalGeral += valorTotal;
     });
 
-    document.getElementById('totalQtd').textContent = totalQtd.toFixed(2);
+    document.getElementById('totalQtd').textContent = totalQtd % 1 === 0 ? totalQtd.toString() : totalQtd.toFixed(2).replace('.', ',');
     document.getElementById('subtotal').textContent = formatarMoeda(totalGeral);
     document.getElementById('total').textContent = formatarMoeda(totalGeral);
 }
@@ -410,9 +439,11 @@ function coletarDados() {
         itens.push({
             produto: produtoNome,
             garantia: tr.querySelector('.garantia').value,
-            qtd: parseFloat(tr.querySelector('.qtd').value) || 0,
-            valorUnit: parseFloat(tr.querySelector('.valor-unit').value) || 0,
-            valorTotal: parseFloat(tr.querySelector('.valor-total').value) || 0
+            qtd: parseBR(tr.querySelector('.qtd').value),
+            valorUnit: parseBR(tr.querySelector('.valor-unit').value),
+            valorTotal: parseBR(tr.querySelector('.valor-total').value),
+            quantidade: parseBR(tr.querySelector('.qtd').value),
+            valorUnitario: tr.querySelector('.valor-unit').value
         });
     });
 
@@ -473,8 +504,8 @@ function validarFormulario() {
         const produtoHidden = tr.querySelector('.produto-value');
         const produtoInput = tr.querySelector('.searchable-select-input');
         const produto = (produtoHidden && produtoHidden.value) || (produtoInput && produtoInput.value) || '';
-        const qtd = parseFloat(tr.querySelector('.qtd').value);
-        const valor = parseFloat(tr.querySelector('.valor-unit').value);
+        const qtd = parseBR(tr.querySelector('.qtd').value);
+        const valor = parseBR(tr.querySelector('.valor-unit').value);
 
         if (produto.trim() && qtd > 0 && valor > 0) {
             temItemValido = true;
