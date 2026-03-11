@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual - Gerador de OS eDrive</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f4f8; color: #1a2a3a; line-height: 1.7; }
+        
+        .header {
+            background: linear-gradient(135deg, #0099CC, #006B8F);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header h1 { font-size: 2em; margin-bottom: 10px; }
+        .header p { font-size: 1.1em; opacity: 0.9; }
+        
+        .container { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
+        
+        .back-link { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: #0099CC; 
+            text-decoration: none; 
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .section h2 {
+            color: #0099CC;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #0099CC;
+        }
+        .section h3 {
+            color: #006B8F;
+            font-size: 1.15em;
+            margin: 20px 0 10px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 18px;
+            padding: 15px;
+            background: #f8fafe;
+            border-radius: 8px;
+            border-left: 4px solid #0099CC;
+        }
+        .step-number {
+            background: #0099CC;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .step-content { flex: 1; }
+        .step-content strong { color: #006B8F; }
+        
+        .campo-info {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .campo-info:nth-child(odd) { background: #f8fafe; }
+        .campo-info .nome { font-weight: 600; }
+        .campo-info .obrigatorio { color: red; font-weight: bold; }
+        .campo-info .opcional { color: #999; }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .alert-warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
+        .alert-info {
+            background: #d1ecf1;
+            border-left: 4px solid #0099CC;
+            color: #0c5460;
+        }
+        .alert-success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        
+        .flow-diagram {
+            text-align: center;
+            padding: 20px;
+        }
+        .flow-step {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #0099CC;
+            color: white;
+            border-radius: 8px;
+            margin: 5px;
+            font-weight: bold;
+        }
+        .flow-arrow {
+            display: inline-block;
+            font-size: 1.5em;
+            color: #0099CC;
+            margin: 0 5px;
+            vertical-align: middle;
+        }
+        
+        .faq-item {
+            margin-bottom: 15px;
+        }
+        .faq-item summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #006B8F;
+            padding: 10px;
+            background: #f8fafe;
+            border-radius: 6px;
+        }
+        .faq-item summary:hover { background: #e8f4f8; }
+        .faq-item p {
+            padding: 10px 15px;
+            color: #555;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.5em; }
+            .step { flex-direction: column; }
+            .step-number { margin-bottom: 10px; }
+            .flow-step { display: block; margin: 8px auto; max-width: 250px; }
+            .flow-arrow { display: block; margin: 5px auto; transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📋 Manual do Gerador de OS</h1>
+        <p>eDrive Seminovos — Guia completo para fornecedores</p>
+    </div>
+    
+    <div class="container">
+        <a href="/" class="back-link">← Voltar ao Formulário</a>
+        
+        <!-- FLUXO GERAL -->
+        <div class="section">
+            <h2>🔄 Fluxo Geral</h2>
+            <div class="flow-diagram">
+                <span class="flow-step">📝 Preencher OS</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">📄 Gerar PDF</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">✅ Enviar para Aprovação</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">🏪 eDrive Cadastra no Sistema</span>
+            </div>
+        </div>
+        
+        <!-- PASSO A PASSO -->
+        <div class="section">
+            <h2>📖 Passo a Passo</h2>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <strong>Acesse o formulário</strong><br>
+                    Entre no link fornecido pela eDrive. O formulário abrirá com as datas de abertura e prevista já preenchidas com a data de hoje.
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <strong>Preencha as Informações Gerais</strong><br>
+                    • <strong>Fornecedor/Razão Social:</strong> Seu nome ou razão social completa<br>
+                    • <strong>CPF/CNPJ:</strong> Digite apenas os números — a máscara é automática<br>
+                    • <strong>Placa do Veículo:</strong> Formato ABC-1234 ou ABC1D23 (Mercosul)<br>
+                    • <strong>Marca/Modelo/Ano:</strong> Ex: Toyota Corolla 2022
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <strong>Defina o Cronograma</strong><br>
+                    • <strong>Data de Abertura:</strong> Quando o serviço foi solicitado<br>
+                    • <strong>Data Prevista:</strong> Previsão de conclusão<br>
+                    • <strong>Data de Finalização:</strong> Quando o serviço será/foi concluído
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <strong>Informe os Dados de Pagamento</strong><br>
+                    • <strong>Chave PIX:</strong> Sua chave para recebimento<br>
+                    • <strong>Tipo PIX:</strong> Selecione se é CPF, CNPJ, Email ou Telefone
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <strong>Selecione quem autorizou o serviço</strong><br>
+                    No campo <strong>"Autorizado por"</strong>, selecione o funcionário da eDrive que autorizou a execução do serviço. Sem autorização, a OS não será processada.
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">6</div>
+                <div class="step-content">
+                    <strong>Preencha o Contato</strong><br>
+                    • <strong>Responsável:</strong> Nome de quem está preenchendo<br>
+                    • <strong>Telefone:</strong> Para contato (formato automático)<br>
+                    • <strong>Email:</strong> Opcional, para receber confirmações
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">7</div>
+                <div class="step-content">
+                    <strong>Adicione os Itens/Serviços</strong><br>
+                    • Clique em <strong>"+ ADICIONAR ITEM"</strong><br>
+                    • No campo de busca, <strong>digite o nome do produto/serviço</strong> para filtrar a lista<br>
+                    • Selecione o item desejado<br>
+                    • Preencha <strong>QTD</strong> (quantidade) e <strong>Valor Unit.</strong> (valor unitário)<br>
+                    • O <strong>Valor Total</strong> é calculado automaticamente<br>
+                    • Defina se tem <strong>Garantia</strong> (Sim/Não)<br>
+                    • Repita para cada item/serviço adicional
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">8</div>
+                <div class="step-content">
+                    <strong>Item não encontrado na lista?</strong><br>
+                    Clique no botão <strong>"+ NOVO"</strong> ao lado do campo de busca. Uma janela abrirá para você descrever o item. A eDrive será notificada para cadastrar o novo produto/serviço.
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">9</div>
+                <div class="step-content">
+                    <strong>Observações (opcional)</strong><br>
+                    Use este campo para informações adicionais: detalhes do serviço, condições especiais, instruções, etc.
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">10</div>
+                <div class="step-content">
+                    <strong>Gere o PDF</strong><br>
+                    Clique no botão <strong>"📄 Gerar PDF"</strong>. O sistema irá:<br>
+                    • Validar todos os campos obrigatórios<br>
+                    • Gerar um número de OS automático (OS-0001, OS-0002...)<br>
+                    • Baixar o PDF com todos os dados preenchidos<br>
+                    • <strong>Guarde este PDF!</strong> Ele é o comprovante da sua OS.
+                </div>
+            </div>
+        </div>
+        
+        <!-- CAMPOS -->
+        <div class="section">
+            <h2>📋 Campos do Formulário</h2>
+            <p style="margin-bottom:15px;">Campos marcados com <span style="color:red;font-weight:bold">*</span> são obrigatórios.</p>
+            
+            <h3>Informações Gerais</h3>
+            <div class="campo-info"><span class="nome">Fornecedor / Razão Social</span><span class="obrigatorio">Obrigatório *</span></div>
+            <div class="campo-info"><span class="nome">CPF/CNPJ</span><span class="obrigatorio">Obrigatório *</span></div>
+            <div class="campo-info"><span class="nome">Placa do Veículo</span><span class="obrigatorio">Obrigatório *</span></div>
+            <div class="campo-info"><span class="nome">Marca / Modelo / Ano</span><span class="obrigatorio">Obrigatório *</span></div>
+            
+            <h3>Cronograma</h3>
+            <div class="campo-info"><span class="nome">Data de Abertura</span><span class="obrigatorio">Obrigatório *</span></div>
+            <div class="campo-info"><span class="nome">Data Prevista</span><span class="obrigatorio">Obrigatório *</span></div>
+            <div class="campo-info"><span class="nome">Data de Finalização</span><span class="obrigatorio">Obrigatório *</span></div>
+            
+            <h3>Pagamento</h3>
+            <div class="campo-info"><span class="nome">Chave PIX</span><span class="obrigatorio">Obrigatório *</span></div>
+            <div class="campo-info"><span class="nome">Tipo PIX</span><span class="obrigatorio">Obrigatório *</span></div>
+            
+            <h3>Autorização</h3>
+            <div class="campo-info"><span class="nome">Autorizado por</span><span class="obrigatorio">Obrigatório *</span></div>
+            
+            <h3>Contato</h3>
+            <div class="campo-info"><span class="nome">Responsável</span><span class="obrigatorio">Obrigatório *</span></div>
+            <div class="campo-info"><span class="nome">Telefone</span><span class="obrigatorio">Obrigatório *</span></div>
+            <div class="campo-info"><span class="nome">Email</span><span class="opcional">Opcional</span></div>
+            
+            <h3>Itens/Serviços</h3>
+            <div class="campo-info"><span class="nome">Produto/Serviço</span><span class="obrigatorio">Obrigatório *</span></div>
+            <div class="campo-info"><span class="nome">QTD</span><span class="obrigatorio">Obrigatório *</span></div>
+            <div class="campo-info"><span class="nome">Valor Unitário</span><span class="obrigatorio">Obrigatório *</span></div>
+            <div class="campo-info"><span class="nome">Garantia</span><span class="obrigatorio">Obrigatório * (padrão: Não)</span></div>
+            
+            <h3>Outros</h3>
+            <div class="campo-info"><span class="nome">Observações</span><span class="opcional">Opcional</span></div>
+        </div>
+        
+        <!-- DICAS -->
+        <div class="section">
+            <h2>💡 Dicas Importantes</h2>
+            
+            <div class="alert alert-warning">
+                <strong>⚠️ Autorização obrigatória:</strong> Toda OS precisa ter um funcionário da eDrive como autorizador. Sem isso, o serviço não será processado.
+            </div>
+            
+            <div class="alert alert-info">
+                <strong>💡 Busca de produtos:</strong> No campo de produto/serviço, digite qualquer parte do nome para filtrar. Ex: digite "óleo" para encontrar todos os itens relacionados a óleo.
+            </div>
+            
+            <div class="alert alert-success">
+                <strong>✅ Guarde o PDF:</strong> Após gerar, salve o PDF. Ele é seu comprovante e contém o número da OS para acompanhamento.
+            </div>
+            
+            <div class="alert alert-warning">
+                <strong>⚠️ CPF/CNPJ correto:</strong> Certifique-se de digitar o CPF ou CNPJ corretamente. Ele será usado para identificar você no sistema.
+            </div>
+        </div>
+        
+        <!-- FAQ -->
+        <div class="section">
+            <h2>❓ Perguntas Frequentes</h2>
+            
+            <details class="faq-item">
+                <summary>O produto/serviço que preciso não está na lista. O que faço?</summary>
+                <p>Clique no botão <strong>"+ NOVO"</strong> (laranja) ao lado do campo de busca. Descreva o item e a eDrive será notificada para cadastrá-lo. Após o cadastro, ele aparecerá na lista.</p>
+            </details>
+            
+            <details class="faq-item">
+                <summary>Posso adicionar mais de um item/serviço na mesma OS?</summary>
+                <p>Sim! Clique em <strong>"+ ADICIONAR ITEM"</strong> quantas vezes precisar. Cada linha representa um produto ou serviço diferente.</p>
+            </details>
+            
+            <details class="faq-item">
+                <summary>O que acontece depois que eu gero o PDF?</summary>
+                <p>O PDF é baixado no seu dispositivo. Envie-o para a eDrive conforme orientação. A equipe irá analisar e aprovar a OS. Após aprovação, o serviço será cadastrado no sistema.</p>
+            </details>
+            
+            <details class="faq-item">
+                <summary>Posso editar uma OS já gerada?</summary>
+                <p>O PDF gerado não pode ser editado. Se precisar fazer alterações, preencha o formulário novamente com os dados corretos e gere um novo PDF.</p>
+            </details>
+            
+            <details class="faq-item">
+                <summary>Como sei qual funcionário colocar em "Autorizado por"?</summary>
+                <p>Selecione o funcionário da eDrive que solicitou ou autorizou o serviço. Se não souber, entre em contato com a loja antes de preencher.</p>
+            </details>
+            
+            <details class="faq-item">
+                <summary>Preciso de ajuda. Como entro em contato?</summary>
+                <p>Entre em contato com a eDrive Seminovos pelo WhatsApp ou telefone da loja. Informe o número da OS (se já tiver gerado) para agilizar o atendimento.</p>
+            </details>
+        </div>
+        
+        <!-- CONTATO -->
+        <div class="section" style="text-align:center;">
+            <h2>📞 Suporte</h2>
+            <p style="font-size:1.1em; margin:15px 0;">
+                <strong>eDrive Seminovos</strong><br>
+                Auto Shopping Center Car — Juiz de Fora/MG<br><br>
+                Dúvidas sobre o preenchimento da OS?<br>
+                Entre em contato com a equipe da loja.
+            </p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>eDrive Seminovos © 2026 — Sistema de Ordem de Serviço</p>
+    </div>
+</body>
+</html>
