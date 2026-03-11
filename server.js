@@ -139,30 +139,39 @@ app.get('/', (req, res) => {
 // ═══════════════════════════════════════════════════════════════════════════
 
 app.post('/api/auth/solicitar-codigo', loginLimiter, (req, res) => {
-    const { cpf_cnpj } = req.body;
+    const { cpf_cnpj, whatsapp } = req.body;
     if (!cpf_cnpj) {
         return res.status(400).json({ erro: 'CPF/CNPJ obrigatorio' });
     }
 
     const codigo = String(Math.floor(100000 + Math.random() * 900000));
     const expira = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+    const whatsappClean = whatsapp ? whatsapp.replace(/\D/g, '') : '';
 
     // Upsert usuario
     const existing = get('SELECT id FROM usuarios WHERE cpf_cnpj = ?', [cpf_cnpj]);
     if (existing) {
-        run('UPDATE usuarios SET codigo_verificacao = ?, codigo_expira = ? WHERE cpf_cnpj = ?',
-            [codigo, expira, cpf_cnpj]);
+        run('UPDATE usuarios SET codigo_verificacao = ?, codigo_expira = ?, telefone = ?, codigo_status = ? WHERE cpf_cnpj = ?',
+            [codigo, expira, whatsappClean, 'pending', cpf_cnpj]);
     } else {
-        run('INSERT INTO usuarios (cpf_cnpj, codigo_verificacao, codigo_expira) VALUES (?, ?, ?)',
-            [cpf_cnpj, codigo, expira]);
+        run('INSERT INTO usuarios (cpf_cnpj, codigo_verificacao, codigo_expira, telefone, codigo_status) VALUES (?, ?, ?, ?, ?)',
+            [cpf_cnpj, codigo, expira, whatsappClean, 'pending']);
     }
 
-    // POR ENQUANTO: retorna codigo para testes
-    res.json({
-        sucesso: true,
-        mensagem: 'Codigo enviado',
-        codigo_teste: codigo
-    });
+    // Se não tem WhatsApp, retorna código de teste (fallback)
+    if (!whatsappClean || whatsappClean.length < 11) {
+        res.json({
+            sucesso: true,
+            mensagem: 'Codigo gerado (sem WhatsApp)',
+            codigo_teste: codigo
+        });
+    } else {
+        // WhatsApp informado → bot vai buscar e enviar
+        res.json({
+            sucesso: true,
+            mensagem: 'Codigo enviado para seu WhatsApp'
+        });
+    }
 });
 
 app.post('/api/auth/verificar-codigo', loginLimiter, (req, res) => {
@@ -214,6 +223,43 @@ app.get('/api/auth/me', authMiddleware, (req, res) => {
 
 app.post('/api/auth/logout', (req, res) => {
     res.clearCookie('auth_token');
+    res.json({ sucesso: true });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// BOT POLLING ROUTES (VPS → Railway)
+// ═══════════════════════════════════════════════════════════════════════════
+
+const BOT_TOKEN = process.env.BOT_POLLING_TOKEN || '2471091ceb20b799a1ce6beef07c7dbbdd8120098baebed928014a4510126545';
+
+function botAuthMiddleware(req, res, next) {
+    const auth = req.headers.authorization;
+    if (!auth || auth !== `Bearer ${BOT_TOKEN}`) {
+        return res.status(401).json({ erro: 'Token invalido' });
+    }
+    next();
+}
+
+// Bot busca códigos pendentes
+app.get('/api/bot/pending-codes', botAuthMiddleware, (req, res) => {
+    const pendentes = all(
+        `SELECT cpf_cnpj, telefone, codigo_verificacao, codigo_expira 
+         FROM usuarios 
+         WHERE codigo_status = 'pending' 
+         AND telefone IS NOT NULL 
+         AND telefone != ''
+         AND codigo_expira > datetime('now')`
+    );
+    res.json({ pendentes });
+});
+
+// Bot confirma que enviou o código
+app.post('/api/bot/code-sent', botAuthMiddleware, (req, res) => {
+    const { cpf_cnpj } = req.body;
+    if (!cpf_cnpj) {
+        return res.status(400).json({ erro: 'cpf_cnpj obrigatorio' });
+    }
+    run('UPDATE usuarios SET codigo_status = ? WHERE cpf_cnpj = ?', ['sent', cpf_cnpj]);
     res.json({ sucesso: true });
 });
 

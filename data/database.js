@@ -37,6 +37,11 @@ async function initDatabase() {
         )
     `);
 
+    // Migração: adicionar coluna codigo_status se não existir
+    try {
+        db.run(`ALTER TABLE usuarios ADD COLUMN codigo_status TEXT DEFAULT 'none'`);
+    } catch(e) { /* coluna já existe */ }
+
     db.run(`
         CREATE TABLE IF NOT EXISTS ordens_servico (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
