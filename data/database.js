@@ -7,7 +7,10 @@ const initSqlJs = require('sql.js');
 const fs = require('fs');
 const path = require('path');
 
-const DB_PATH = path.join(__dirname, 'edrive.db');
+// Railway volume mount: /data (persistente entre deploys)
+// Fallback: diretório local (dev)
+const DB_DIR = process.env.RAILWAY_VOLUME_MOUNT_PATH || __dirname;
+const DB_PATH = path.join(DB_DIR, 'edrive.db');
 
 let db = null;
 

@@ -49,7 +49,8 @@ const pdfLimiter = rateLimit({
 });
 
 // Upload config
-const uploadsDir = path.join(__dirname, 'data', 'uploads');
+const volumeDir = process.env.RAILWAY_VOLUME_MOUNT_PATH || path.join(__dirname, 'data');
+const uploadsDir = path.join(volumeDir, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }

@@ -449,6 +449,11 @@
                     ${os.observacoes ? '<div style="margin-top:15px;"><strong style="color:var(--primary-dark);">Observacoes:</strong><p style="margin-top:5px;">' + os.observacoes + '</p></div>' : ''}
                     ${attachHtml}
                     ${rejeicaoHtml}
+                    ${os.status === 'Enviada' ? `
+                    <div style="margin-top:25px; display:flex; gap:12px; justify-content:center; padding-top:20px; border-top:1px solid #e5e7eb;">
+                        <button onclick="fecharModal('modalDetalhes'); aprovarOS(${os.id})" style="padding:12px 40px; background:#4caf50; color:white; border:none; border-radius:8px; font-size:15px; font-weight:600; cursor:pointer;">✅ Aprovar OS</button>
+                        <button onclick="fecharModal('modalDetalhes'); abrirRejeicao(${os.id})" style="padding:12px 40px; background:#f44336; color:white; border:none; border-radius:8px; font-size:15px; font-weight:600; cursor:pointer;">❌ Rejeitar OS</button>
+                    </div>` : ''}
                 `;
 
                 document.getElementById('modalDetalhes').classList.add('active');
