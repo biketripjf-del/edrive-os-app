@@ -29,7 +29,7 @@ app.use(cookieParser());
 // Rate limiting global
 const globalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100,
+    max: 10000,  // Aumentado de 100 para 10000 (suporta health checks)
     message: { erro: 'Muitas requisicoes. Tente novamente em alguns minutos.' }
 });
 app.use('/api/', globalLimiter);
