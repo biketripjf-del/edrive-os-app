@@ -1,0 +1,21 @@
+{
+  "name": "edrive-os-app",
+  "version": "1.0.0",
+  "description": "eDrive - Sistema de Geração de Ordem de Serviço",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "pdfkit": "^0.13.0",
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
+    "body-parser": "^1.20.2",
+    "csv-parse": "^5.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
