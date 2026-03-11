@@ -263,6 +263,47 @@ app.post('/api/bot/code-sent', botAuthMiddleware, (req, res) => {
     res.json({ sucesso: true });
 });
 
+// Bot busca OS aprovadas pendentes de cadastro no Autos 360
+app.get('/api/bot/approved-orders', botAuthMiddleware, (req, res) => {
+    const aprovadas = all(
+        `SELECT id, numero_os, fornecedor, cpf_cnpj, placa, marca_modelo_ano,
+                data_abertura, data_prevista, data_finalizacao, autorizado_por,
+                responsavel, telefone, email, chave_pix, tipo_pix,
+                observacoes, itens_json, valor_total
+         FROM ordens_servico 
+         WHERE status = 'Aprovada'`
+    );
+    res.json({ aprovadas });
+});
+
+// Bot confirma que OS foi cadastrada no Autos 360
+app.post('/api/bot/order-processed', botAuthMiddleware, (req, res) => {
+    const { id, os_altimus } = req.body;
+    if (!id) {
+        return res.status(400).json({ erro: 'id obrigatorio' });
+    }
+    run(`UPDATE ordens_servico SET status = 'Cadastrada', 
+         observacoes = COALESCE(observacoes, '') || ? ,
+         updated_at = datetime('now') 
+         WHERE id = ?`, 
+        [os_altimus ? ` [Altimus OS#${os_altimus}]` : ' [Cadastrada no Altimus]', id]);
+    res.json({ sucesso: true });
+});
+
+// Bot reporta erro no cadastro
+app.post('/api/bot/order-error', botAuthMiddleware, (req, res) => {
+    const { id, erro } = req.body;
+    if (!id) {
+        return res.status(400).json({ erro: 'id obrigatorio' });
+    }
+    run(`UPDATE ordens_servico SET status = 'Erro', 
+         motivo_rejeicao = ?,
+         updated_at = datetime('now') 
+         WHERE id = ?`, 
+        [erro || 'Erro no cadastro Altimus', id]);
+    res.json({ sucesso: true });
+});
+
 // ═══════════════════════════════════════════════════════════════════════════
 // ADMIN ROUTES
 // ═══════════════════════════════════════════════════════════════════════════
