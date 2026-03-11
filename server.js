@@ -10,7 +10,7 @@ const PDFDocument = require('pdfkit');
 const csv = require('csv-parse/sync');
 
 const app = express();
-const PORT = process.env.PORT || process.argv[2] || 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
