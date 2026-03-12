@@ -13,7 +13,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (resp.ok) {
             const user = await resp.json();
             const navUser = document.getElementById('navUser');
-            if (navUser) navUser.textContent = user.cpf_cnpj || '';
+            if (navUser) navUser.textContent = user.cpf_cnpj === 'ADMIN' ? '👑 Admin' : (user.cpf_cnpj || '');
+            // Mostrar link Admin se é admin
+            const navAdmin = document.getElementById('navAdmin');
+            if (navAdmin && user.cpf_cnpj === 'ADMIN') {
+                navAdmin.style.display = 'inline-block';
+                navAdmin.style.background = 'rgba(255,255,255,0.2)';
+                navAdmin.style.fontWeight = '600';
+            }
         }
     } catch(e) {}
 
@@ -43,8 +50,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Logout
 function logout() {
+    // Limpar ambos os tokens (user + admin)
     fetch('/api/auth/logout', { method: 'POST' }).then(() => {
-        window.location.href = '/login.html';
+        fetch('/api/admin/logout', { method: 'POST' }).then(() => {
+            window.location.href = '/login.html';
+        });
     });
 }
 
