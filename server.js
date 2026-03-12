@@ -287,7 +287,7 @@ app.get('/api/bot/pending-codes', botAuthMiddleware, async (req, res) => {
          WHERE codigo_status = 'pending' 
          AND telefone IS NOT NULL 
          AND telefone != ''
-         AND codigo_expira > datetime('now')`
+         AND codigo_expira > NOW()`
     );
     res.json({ pendentes });
 });
@@ -323,7 +323,7 @@ app.post('/api/bot/order-processed', botAuthMiddleware, async (req, res) => {
     }
     await run(`UPDATE ordens_servico SET status = 'Cadastrada', 
          observacoes = COALESCE(observacoes, '') || ? ,
-         updated_at = datetime('now') 
+         updated_at = NOW() 
          WHERE id = ?`, 
         [os_altimus ? ` [Altimus OS#${os_altimus}]` : ' [Cadastrada no Altimus]', id]);
     res.json({ sucesso: true });
@@ -337,7 +337,7 @@ app.post('/api/bot/order-error', botAuthMiddleware, async (req, res) => {
     }
     await run(`UPDATE ordens_servico SET status = 'Erro', 
          motivo_rejeicao = ?,
-         updated_at = datetime('now') 
+         updated_at = NOW() 
          WHERE id = ?`, 
         [erro || 'Erro no cadastro Altimus', id]);
     res.json({ sucesso: true });
@@ -430,7 +430,7 @@ app.post('/api/admin/aprovar/:id', adminMiddleware, async (req, res) => {
         return res.status(400).json({ erro: 'OS ja foi processada' });
     }
 
-    await run("UPDATE ordens_servico SET status = 'Aprovada', aprovado_por = 'Admin', aprovado_em = datetime('now'), updated_at = datetime('now') WHERE id = ?",
+    await run("UPDATE ordens_servico SET status = 'Aprovada', aprovado_por = 'Admin', aprovado_em = NOW(), updated_at = NOW() WHERE id = ?",
         [os.id]);
 
     res.json({ sucesso: true });
@@ -456,7 +456,7 @@ app.post('/api/admin/retentar/:id', adminMiddleware, async (req, res) => {
     if (os.status !== 'Erro') {
         return res.status(400).json({ erro: 'Apenas OS com erro podem ser retentadas' });
     }
-    await run("UPDATE ordens_servico SET status = 'Aprovada', motivo_rejeicao = NULL, updated_at = datetime('now') WHERE id = ?", [os.id]);
+    await run("UPDATE ordens_servico SET status = 'Aprovada', motivo_rejeicao = NULL, updated_at = NOW() WHERE id = ?", [os.id]);
     res.json({ sucesso: true });
 });
 
@@ -474,7 +474,7 @@ app.post('/api/admin/rejeitar/:id', adminMiddleware, async (req, res) => {
         return res.status(400).json({ erro: 'Motivo da rejeicao obrigatorio' });
     }
 
-    await run("UPDATE ordens_servico SET status = 'Rejeitada', motivo_rejeicao = ?, aprovado_por = 'Admin', aprovado_em = datetime('now'), updated_at = datetime('now') WHERE id = ?",
+    await run("UPDATE ordens_servico SET status = 'Rejeitada', motivo_rejeicao = ?, aprovado_por = 'Admin', aprovado_em = NOW(), updated_at = NOW() WHERE id = ?",
         [motivo, os.id]);
 
     res.json({ sucesso: true });
