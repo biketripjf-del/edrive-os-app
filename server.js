@@ -865,6 +865,15 @@ async function startServer() {
     try {
         await initDatabase();
         await fixDuplicateNumbers();
+        
+        // Reset one-time flag
+        const resetDone = await get("SELECT COUNT(*) as c FROM ordens_servico WHERE numero_os = -999");
+        if (!resetDone || resetDone.c === 0) {
+            await run("DELETE FROM itens_os");
+            await run("DELETE FROM ordens_servico");
+            await run("INSERT INTO ordens_servico (numero_os, usuario_cpf_cnpj, fornecedor, cpf_cnpj, placa, marca_modelo_ano, data_abertura, data_prevista, data_finalizacao, responsavel, telefone, valor_total, status) VALUES (-999, 'SYSTEM', 'RESET_FLAG', '0', '-', '-', '2026-01-01', '2026-01-01', '2026-01-01', '-', '-', 0, 'Cadastrada')");
+            console.log('[RESET] Todas OS deletadas. Flag inserida.');
+        }
 
         app.listen(PORT, () => {
             console.log('\n' + '='.repeat(70));
