@@ -1516,5 +1516,35 @@
     "descricao": "Cabeçote L200 98/4D56 Valv. p/ dentro",
     "codigo": "107856",
     "preco": "R$ 0,00"
+  },
+  {
+    "classificacao": "Produto",
+    "descricao": "ALIMENTAÇÃO MOTORISTA",
+    "codigo": "10007"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "PEDÁGIO",
+    "codigo": "10008"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "XEROX",
+    "codigo": "10009"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "CARTÓRIO",
+    "codigo": "10010"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "PASSAGENS E UBER",
+    "codigo": "10011"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "ESTACIONAMENTO",
+    "codigo": "10012"
   }
 ]
