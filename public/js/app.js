@@ -212,10 +212,10 @@ function adicionarItem() {
             </select>
         </td>
         <td>
-            <input type="text" class="qtd" value="1" required oninput="formatarQtd(this)" onchange="calcularTotais()" style="text-align:center; font-size:16px; font-weight:bold; padding:10px; width:100%;">
+            <input type="text" class="qtd" value="1" required oninput="formatarQtd(this)" onchange="calcularTotais()" onfocus="this.select()" style="text-align:center; font-size:16px; font-weight:bold; padding:10px; width:100%;">
         </td>
         <td>
-            <input type="text" class="valor-unit" value="0,00" required oninput="formatarValor(this)" onchange="calcularTotais()" placeholder="0,00" style="text-align:right; font-size:14px; padding:10px; width:100%;">
+            <input type="text" class="valor-unit" value="" required oninput="formatarValor(this)" onchange="calcularTotais()" onfocus="this.select()" placeholder="0,00" style="text-align:right; font-size:14px; padding:10px; width:100%;">
         </td>
         <td>
             <input type="text" class="valor-total" readonly style="background: #f5f5f5; font-weight: bold; text-align:right; font-size:14px; padding:10px; color:#0099CC; width:100%;">
