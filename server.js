@@ -865,11 +865,6 @@ async function startServer() {
     try {
         await initDatabase();
         await fixDuplicateNumbers();
-        
-        // Reset todas OS (one-time)
-        await run("DELETE FROM itens_os");
-        await run("DELETE FROM ordens_servico");
-        console.log('[RESET] Todas OS deletadas. Contador zerado.');
 
         app.listen(PORT, () => {
             console.log('\n' + '='.repeat(70));
