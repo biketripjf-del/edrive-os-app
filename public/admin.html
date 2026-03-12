@@ -376,7 +376,7 @@
                                        os.status === 'Cadastrada' ? 'badge-cadastrada' : 'badge-enviada';
                     const osLabel = 'OS-' + String(os.numero_os).padStart(4, '0');
                     const data = os.data_abertura ? formatarData(os.data_abertura) : '-';
-                    const valor = 'R$ ' + parseFloat(os.valor_total || 0).toFixed(2);
+                    const valor = 'R$ ' + fmtBR(parseFloat(os.valor_total || 0));
 
                     let acoes = `<button class="btn-action btn-detalhes" onclick="verDetalhes(${os.id})">Detalhes</button>`;
                     if (os.status === 'Enviada') {
@@ -424,9 +424,9 @@
                         <thead><tr><th>Produto/Servico</th><th>Garantia</th><th>QTD</th><th>Valor Unit.</th><th>Valor Total</th></tr></thead>
                         <tbody>${itens.map(i => `<tr>
                             <td>${i.produto || ''}</td><td>${i.garantia || 'Nao'}</td>
-                            <td>${parseFloat(i.qtd||0).toFixed(2)}</td>
-                            <td>R$ ${parseFloat(i.valorUnit||0).toFixed(2)}</td>
-                            <td>R$ ${parseFloat(i.valorTotal||0).toFixed(2)}</td>
+                            <td>${parseFloat(i.qtd||0)}</td>
+                            <td>R$ ${fmtBR(parseFloat(i.valorUnit||0))}</td>
+                            <td>R$ ${fmtBR(parseFloat(i.valorTotal||0))}</td>
                         </tr>`).join('')}</tbody></table>`;
                 }
 
@@ -461,7 +461,7 @@
                         <div class="detail-item"><strong>Email</strong>${os.email || '-'}</div>
                         <div class="detail-item"><strong>Chave PIX</strong>${os.chave_pix || '-'}</div>
                         <div class="detail-item"><strong>Tipo PIX</strong>${os.tipo_pix || '-'}</div>
-                        <div class="detail-item"><strong>Valor Total</strong><span style="color:var(--primary);font-weight:700;">R$ ${parseFloat(os.valor_total||0).toFixed(2)}</span></div>
+                        <div class="detail-item"><strong>Valor Total</strong><span style="color:var(--primary);font-weight:700;">R$ ${fmtBR(parseFloat(os.valor_total||0))}</span></div>
                     </div>
                     ${itensHtml}
                     ${os.observacoes ? '<div style="margin-top:15px;"><strong style="color:var(--primary-dark);">Observacoes:</strong><p style="margin-top:5px;">' + os.observacoes + '</p></div>' : ''}
