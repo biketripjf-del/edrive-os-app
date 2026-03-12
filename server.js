@@ -442,6 +442,12 @@ app.get('/api/admin/solicitacoes', adminMiddleware, async (req, res) => {
     res.json(solicitacoes);
 });
 
+// Marcar solicitação como atendida
+app.post('/api/admin/solicitacoes/:id/atender', adminMiddleware, async (req, res) => {
+    await run("UPDATE solicitacoes_itens SET status = 'Atendida' WHERE id = ?", [Number(req.params.id)]);
+    res.json({ sucesso: true });
+});
+
 app.post('/api/admin/retentar/:id', adminMiddleware, async (req, res) => {
     const os = await get('SELECT * FROM ordens_servico WHERE id = ?', [Number(req.params.id)]);
     if (!os) {

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eDrive - Solicitações de Novos Itens</title>
+    <style>
+        :root {
+            --primary: #0099CC;
+            --primary-dark: #006B8F;
+            --success: #4caf50;
+            --danger: #f44336;
+            --warning: #ff9800;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; color: #333; }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: 0 25px; height: 56px; display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .navbar-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; }
+        .navbar-brand .logo { width: 36px; height: 36px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--primary); font-size: 14px; }
+        .navbar-brand span { font-size: 18px; font-weight: 700; }
+        .navbar-links { display: flex; align-items: center; gap: 5px; }
+        .navbar-links a { color: rgba(255,255,255,0.85); text-decoration: none; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; transition: all 0.3s; }
+        .navbar-links a:hover, .navbar-links a.active { background: rgba(255,255,255,0.15); color: white; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 25px; }
+        h2 { color: var(--primary-dark); margin-bottom: 20px; font-size: 24px; }
+
+        .stats { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
+        .stat-card { background: white; border-radius: 12px; padding: 20px; flex: 1; min-width: 150px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-top: 3px solid var(--primary); }
+        .stat-card .stat-number { font-size: 28px; font-weight: 700; }
+        .stat-card .stat-label { font-size: 13px; color: #666; margin-top: 4px; }
+        .stat-card.pendentes { border-top-color: var(--warning); }
+        .stat-card.pendentes .stat-number { color: var(--warning); }
+        .stat-card.atendidas { border-top-color: var(--success); }
+        .stat-card.atendidas .stat-number { color: var(--success); }
+
+        .table-container { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; }
+        th { padding: 14px 16px; text-align: left; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        td { padding: 14px 16px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+        tr:hover { background: #f8f9fa; }
+
+        .badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .badge-pendente { background: #fff3e0; color: #e65100; }
+        .badge-atendida { background: #e8f5e9; color: #2e7d32; }
+
+        .btn { padding: 6px 14px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-success:hover { background: #43a047; }
+
+        .no-data { text-align: center; color: #999; padding: 40px !important; font-size: 14px; }
+
+        .login-box { max-width: 400px; margin: 100px auto; background: white; padding: 40px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); text-align: center; }
+        .login-box h3 { color: var(--primary-dark); margin-bottom: 20px; }
+        .login-box input { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; margin-bottom: 15px; }
+        .login-box button { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            .navbar-links { display: none; }
+            .stats { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">
+            <div class="logo">eD</div>
+            <span>eDrive Admin</span>
+        </a>
+        <div class="navbar-links">
+            <a href="/">Nova OS</a>
+            <a href="/historico.html">Minhas OS</a>
+            <a href="/admin.html">Admin</a>
+            <a href="/solicitacoes.html" class="active">📦 Solicitações</a>
+            <a href="/manual.html" target="_blank">Manual</a>
+        </div>
+    </nav>
+
+    <!-- LOGIN -->
+    <div id="loginSection" class="login-box">
+        <h3>Acesso Administrativo</h3>
+        <input type="password" id="senha" placeholder="Senha do administrador" onkeypress="if(event.key==='Enter')loginAdmin()">
+        <button onclick="loginAdmin()">Entrar</button>
+    </div>
+
+    <!-- CONTEÚDO -->
+    <div id="conteudo" class="container" style="display:none;">
+        <h2>📦 Solicitações de Novos Itens</h2>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="statTotal">0</div>
+                <div class="stat-label">Total</div>
+            </div>
+            <div class="stat-card pendentes">
+                <div class="stat-number" id="statPendentes">0</div>
+                <div class="stat-label">Pendentes</div>
+            </div>
+            <div class="stat-card atendidas">
+                <div class="stat-number" id="statAtendidas">0</div>
+                <div class="stat-label">Atendidas</div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Descrição do Item</th>
+                        <th>Solicitante (CPF/CNPJ)</th>
+                        <th>Status</th>
+                        <th>Data</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    <tr><td colspan="6" class="no-data">Carregando...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function loginAdmin() {
+            const senha = document.getElementById('senha').value;
+            try {
+                const resp = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ senha })
+                });
+                if (resp.ok) {
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('conteudo').style.display = 'block';
+                    carregarSolicitacoes();
+                } else {
+                    alert('Senha incorreta');
+                }
+            } catch(e) { alert('Erro de conexão'); }
+        }
+
+        // Auto-login se já tem token
+        (async () => {
+            try {
+                const resp = await fetch('/api/admin/dashboard');
+                if (resp.ok) {
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('conteudo').style.display = 'block';
+                    carregarSolicitacoes();
+                }
+            } catch(e) {}
+        })();
+
+        async function carregarSolicitacoes() {
+            try {
+                const resp = await fetch('/api/admin/solicitacoes');
+                if (!resp.ok) return;
+                const dados = await resp.json();
+
+                const pendentes = dados.filter(s => s.status === 'Pendente').length;
+                const atendidas = dados.filter(s => s.status === 'Atendida').length;
+
+                document.getElementById('statTotal').textContent = dados.length;
+                document.getElementById('statPendentes').textContent = pendentes;
+                document.getElementById('statAtendidas').textContent = atendidas;
+
+                const tbody = document.getElementById('tbody');
+                if (dados.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="no-data">Nenhuma solicitação ainda</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = dados.map(s => {
+                    const badge = s.status === 'Pendente' ? 'badge-pendente' : 'badge-atendida';
+                    const data = s.created_at ? new Date(s.created_at).toLocaleDateString('pt-BR') : '-';
+                    const acoes = s.status === 'Pendente'
+                        ? `<button class="btn btn-success" onclick="marcarAtendida(${s.id})">✅ Atendida</button>`
+                        : '<span style="color:#999;">—</span>';
+                    return `<tr>
+                        <td>${s.id}</td>
+                        <td><strong>${s.descricao || ''}</strong></td>
+                        <td>${s.cpf_cnpj_solicitante || '—'}</td>
+                        <td><span class="badge ${badge}">${s.status}</span></td>
+                        <td>${data}</td>
+                        <td>${acoes}</td>
+                    </tr>`;
+                }).join('');
+            } catch(e) { console.error(e); }
+        }
+
+        async function marcarAtendida(id) {
+            try {
+                const resp = await fetch('/api/admin/solicitacoes/' + id + '/atender', { method: 'POST' });
+                if (resp.ok) {
+                    carregarSolicitacoes();
+                }
+            } catch(e) { console.error(e); }
+        }
+    </script>
+</body>
+</html>

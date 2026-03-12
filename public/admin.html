@@ -179,6 +179,7 @@
             <a href="/">Nova OS</a>
             <a href="/historico.html">Minhas OS</a>
             <a href="/admin.html" class="active">Admin</a>
+            <a href="/solicitacoes.html">📦 Solicitações</a>
             <a href="/manual.html" target="_blank">Manual</a>
             <a href="#" class="btn-sair" onclick="logoutAdmin()">Sair</a>
         </div>
@@ -256,29 +257,6 @@
         </div>
     </div>
 
-        <!-- SOLICITAÇÕES DE NOVOS ITENS -->
-        <div style="margin-top:40px;">
-            <h3 style="color:var(--primary-dark); margin-bottom:15px; display:flex; align-items:center; gap:10px;">
-                📦 Solicitações de Novos Itens
-                <span id="solicitacoesBadge" style="background:#ff9800; color:white; padding:2px 10px; border-radius:12px; font-size:13px;">0</span>
-            </h3>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Descrição</th>
-                            <th>Solicitante</th>
-                            <th>Status</th>
-                            <th>Data</th>
-                        </tr>
-                    </thead>
-                    <tbody id="solicitacoesBody">
-                        <tr><td colspan="5" class="no-data">Nenhuma solicitação</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 
     <!-- MODAL DETALHES -->
@@ -345,7 +323,6 @@
                 document.getElementById('adminLogin').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
                 carregarDashboard();
-                carregarSolicitacoes();
             } catch(e) {
                 alert('Erro de conexao');
             }
@@ -503,37 +480,6 @@
                 `;
 
                 document.getElementById('modalDetalhes').classList.add('active');
-            } catch(e) { console.error(e); }
-        }
-
-        async function carregarSolicitacoes() {
-            try {
-                const resp = await fetch('/api/admin/solicitacoes');
-                if (!resp.ok) return;
-                const solicitacoes = await resp.json();
-                
-                const badge = document.getElementById('solicitacoesBadge');
-                const pendentes = solicitacoes.filter(s => s.status === 'Pendente').length;
-                badge.textContent = pendentes;
-                badge.style.display = pendentes > 0 ? 'inline-block' : 'none';
-                
-                const tbody = document.getElementById('solicitacoesBody');
-                if (solicitacoes.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" class="no-data">Nenhuma solicitação</td></tr>';
-                    return;
-                }
-                
-                tbody.innerHTML = solicitacoes.map(s => {
-                    const statusBadge = s.status === 'Pendente' ? 'badge-enviada' : 'badge-aprovada';
-                    const data = s.created_at ? new Date(s.created_at).toLocaleDateString('pt-BR') : '-';
-                    return `<tr>
-                        <td>#${s.id}</td>
-                        <td><strong>${s.descricao || ''}</strong></td>
-                        <td>${s.cpf_cnpj_solicitante || '-'}</td>
-                        <td><span class="badge ${statusBadge}">${s.status}</span></td>
-                        <td>${data}</td>
-                    </tr>`;
-                }).join('');
             } catch(e) { console.error(e); }
         }
 
