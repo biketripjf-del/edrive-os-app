@@ -575,6 +575,22 @@ async function proximoNumeroOS() {
     return ultimo + 1;
 }
 
+// Auto-fix: renumerar OS duplicadas no startup
+async function fixDuplicateNumbers() {
+    const dupes = await all("SELECT numero_os, COUNT(*) as cnt FROM ordens_servico GROUP BY numero_os HAVING COUNT(*) > 1");
+    if (dupes.length === 0) return;
+    console.log(`[FIX] Encontradas ${dupes.length} numeracoes duplicadas, corrigindo...`);
+    for (const d of dupes) {
+        const rows = await all("SELECT id FROM ordens_servico WHERE numero_os = ? ORDER BY id ASC", [d.numero_os]);
+        // Manter a primeira, renumerar as demais
+        for (let i = 1; i < rows.length; i++) {
+            const novoNum = await proximoNumeroOS();
+            await run("UPDATE ordens_servico SET numero_os = ? WHERE id = ?", [novoNum, rows[i].id]);
+            console.log(`[FIX] OS id=${rows[i].id}: ${d.numero_os} -> ${novoNum}`);
+        }
+    }
+}
+
 // API: Gerar PDF (agora tambem salva no banco)
 app.post('/api/gerar-pdf', authOrAdminMiddleware, pdfLimiter, async (req, res) => {
     try {
@@ -848,6 +864,7 @@ app.use((err, req, res, next) => {
 async function startServer() {
     try {
         await initDatabase();
+        await fixDuplicateNumbers();
 
         app.listen(PORT, () => {
             console.log('\n' + '='.repeat(70));
