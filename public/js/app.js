@@ -24,10 +24,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     } catch(e) {}
 
-    // Definir data de hoje
-    const today = new Date().toISOString().split('T')[0];
+    // Definir data de hoje (fuso Brasil UTC-3)
+    const today = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' })).toISOString().split('T')[0];
     document.getElementById('dataAbertura').value = today;
     document.getElementById('dataPrevista').value = today;
+    document.getElementById('dataFinalizacao').value = today;
 
     // Carregar catalogo de produtos
     try {
@@ -573,6 +574,9 @@ async function gerarPDF() {
         window.URL.revokeObjectURL(url);
 
         mostrarSucesso(`${resultado.osLabel} gerada com sucesso!`);
+        
+        // Zerar formulário após gerar PDF (evita duplicata)
+        setTimeout(() => limparForm(), 1500);
     } catch (error) {
         console.error('Erro:', error);
         mostrarErro(error.message || 'Erro ao gerar PDF');
@@ -597,9 +601,10 @@ function limparForm() {
         badge.textContent = '';
         badge.classList.remove('visible');
 
-        const today = new Date().toISOString().split('T')[0];
+        const today = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' })).toISOString().split('T')[0];
         document.getElementById('dataAbertura').value = today;
         document.getElementById('dataPrevista').value = today;
+        document.getElementById('dataFinalizacao').value = today;
 
         // Clear upload previews
         ['previewVeiculo', 'previewServico', 'previewNota'].forEach(id => {
