@@ -287,7 +287,7 @@ app.get('/api/bot/pending-codes', botAuthMiddleware, async (req, res) => {
          WHERE codigo_status = 'pending' 
          AND telefone IS NOT NULL 
          AND telefone != ''
-         AND codigo_expira > NOW()`
+         AND codigo_expira::timestamp > NOW()`
     );
     res.json({ pendentes });
 });
