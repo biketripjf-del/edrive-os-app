@@ -890,13 +890,3 @@ process.on('unhandledRejection', (error) => {
     console.error('Erro nao tratado:', error);
 });
 
-// TEMP: Reset endpoint (remover depois)
-app.post('/api/admin/reset-all-os', adminMiddleware, async (req, res) => {
-    try {
-        await run("DELETE FROM uploads");
-        await run("DELETE FROM ordens_servico");
-        res.json({ sucesso: true, msg: "Todas OS deletadas" });
-    } catch(e) {
-        res.status(500).json({ erro: e.message });
-    }
-});
