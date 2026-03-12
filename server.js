@@ -174,7 +174,7 @@ app.get('/', (req, res) => {
 // AUTH ROUTES
 // ═══════════════════════════════════════════════════════════════════════════
 
-app.post('/api/auth/solicitar-codigo', loginLimiter, (req, res) => {
+app.post('/api/auth/solicitar-codigo', loginLimiter, async (req, res) => {
     const { cpf_cnpj, whatsapp } = req.body;
     if (!cpf_cnpj) {
         return res.status(400).json({ erro: 'CPF/CNPJ obrigatorio' });
@@ -185,12 +185,12 @@ app.post('/api/auth/solicitar-codigo', loginLimiter, (req, res) => {
     const whatsappClean = whatsapp ? whatsapp.replace(/\D/g, '') : '';
 
     // Upsert usuario
-    const existing = get('SELECT id FROM usuarios WHERE cpf_cnpj = ?', [cpf_cnpj]);
+    const existing = await get('SELECT id FROM usuarios WHERE cpf_cnpj = ?', [cpf_cnpj]);
     if (existing) {
-        run('UPDATE usuarios SET codigo_verificacao = ?, codigo_expira = ?, telefone = ?, codigo_status = ? WHERE cpf_cnpj = ?',
+        await run('UPDATE usuarios SET codigo_verificacao = ?, codigo_expira = ?, telefone = ?, codigo_status = ? WHERE cpf_cnpj = ?',
             [codigo, expira, whatsappClean, 'pending', cpf_cnpj]);
     } else {
-        run('INSERT INTO usuarios (cpf_cnpj, codigo_verificacao, codigo_expira, telefone, codigo_status) VALUES (?, ?, ?, ?, ?)',
+        await run('INSERT INTO usuarios (cpf_cnpj, codigo_verificacao, codigo_expira, telefone, codigo_status) VALUES (?, ?, ?, ?, ?)',
             [cpf_cnpj, codigo, expira, whatsappClean, 'pending']);
     }
 
@@ -210,13 +210,13 @@ app.post('/api/auth/solicitar-codigo', loginLimiter, (req, res) => {
     }
 });
 
-app.post('/api/auth/verificar-codigo', loginLimiter, (req, res) => {
+app.post('/api/auth/verificar-codigo', loginLimiter, async (req, res) => {
     const { cpf_cnpj, codigo } = req.body;
     if (!cpf_cnpj || !codigo) {
         return res.status(400).json({ erro: 'CPF/CNPJ e codigo obrigatorios' });
     }
 
-    const user = get('SELECT * FROM usuarios WHERE cpf_cnpj = ?', [cpf_cnpj]);
+    const user = await get('SELECT * FROM usuarios WHERE cpf_cnpj = ?', [cpf_cnpj]);
     if (!user) {
         return res.status(400).json({ erro: 'Usuario nao encontrado' });
     }
@@ -237,7 +237,7 @@ app.post('/api/auth/verificar-codigo', loginLimiter, (req, res) => {
     );
 
     // Limpar codigo
-    run('UPDATE usuarios SET codigo_verificacao = NULL, codigo_expira = NULL, token_sessao = ? WHERE id = ?',
+    await run('UPDATE usuarios SET codigo_verificacao = NULL, codigo_expira = NULL, token_sessao = ? WHERE id = ?',
         [token, user.id]);
 
     res.cookie('auth_token', token, {
@@ -249,11 +249,11 @@ app.post('/api/auth/verificar-codigo', loginLimiter, (req, res) => {
     res.json({ sucesso: true, cpf_cnpj: user.cpf_cnpj });
 });
 
-app.get('/api/auth/me', authOrAdminMiddleware, (req, res) => {
+app.get('/api/auth/me', authOrAdminMiddleware, async (req, res) => {
     if (req.admin) {
         return res.json({ id: 0, cpf_cnpj: 'ADMIN', nome: 'Administrador', telefone: '', email: '' });
     }
-    const user = get('SELECT id, cpf_cnpj, nome, telefone, email FROM usuarios WHERE id = ?', [req.user.id]);
+    const user = await get('SELECT id, cpf_cnpj, nome, telefone, email FROM usuarios WHERE id = ?', [req.user.id]);
     if (!user) {
         return res.status(404).json({ erro: 'Usuario nao encontrado' });
     }
@@ -280,8 +280,8 @@ function botAuthMiddleware(req, res, next) {
 }
 
 // Bot busca códigos pendentes
-app.get('/api/bot/pending-codes', botAuthMiddleware, (req, res) => {
-    const pendentes = all(
+app.get('/api/bot/pending-codes', botAuthMiddleware, async (req, res) => {
+    const pendentes = await all(
         `SELECT cpf_cnpj, telefone, codigo_verificacao, codigo_expira 
          FROM usuarios 
          WHERE codigo_status = 'pending' 
@@ -293,18 +293,18 @@ app.get('/api/bot/pending-codes', botAuthMiddleware, (req, res) => {
 });
 
 // Bot confirma que enviou o código
-app.post('/api/bot/code-sent', botAuthMiddleware, (req, res) => {
+app.post('/api/bot/code-sent', botAuthMiddleware, async (req, res) => {
     const { cpf_cnpj } = req.body;
     if (!cpf_cnpj) {
         return res.status(400).json({ erro: 'cpf_cnpj obrigatorio' });
     }
-    run('UPDATE usuarios SET codigo_status = ? WHERE cpf_cnpj = ?', ['sent', cpf_cnpj]);
+    await run('UPDATE usuarios SET codigo_status = ? WHERE cpf_cnpj = ?', ['sent', cpf_cnpj]);
     res.json({ sucesso: true });
 });
 
 // Bot busca OS aprovadas pendentes de cadastro no Autos 360
-app.get('/api/bot/approved-orders', botAuthMiddleware, (req, res) => {
-    const aprovadas = all(
+app.get('/api/bot/approved-orders', botAuthMiddleware, async (req, res) => {
+    const aprovadas = await all(
         `SELECT id, numero_os, fornecedor, cpf_cnpj, placa, marca_modelo_ano,
                 data_abertura, data_prevista, data_finalizacao, autorizado_por,
                 responsavel, telefone, email, chave_pix, tipo_pix,
@@ -316,12 +316,12 @@ app.get('/api/bot/approved-orders', botAuthMiddleware, (req, res) => {
 });
 
 // Bot confirma que OS foi cadastrada no Autos 360
-app.post('/api/bot/order-processed', botAuthMiddleware, (req, res) => {
+app.post('/api/bot/order-processed', botAuthMiddleware, async (req, res) => {
     const { id, os_altimus } = req.body;
     if (!id) {
         return res.status(400).json({ erro: 'id obrigatorio' });
     }
-    run(`UPDATE ordens_servico SET status = 'Cadastrada', 
+    await run(`UPDATE ordens_servico SET status = 'Cadastrada', 
          observacoes = COALESCE(observacoes, '') || ? ,
          updated_at = datetime('now') 
          WHERE id = ?`, 
@@ -330,12 +330,12 @@ app.post('/api/bot/order-processed', botAuthMiddleware, (req, res) => {
 });
 
 // Bot reporta erro no cadastro
-app.post('/api/bot/order-error', botAuthMiddleware, (req, res) => {
+app.post('/api/bot/order-error', botAuthMiddleware, async (req, res) => {
     const { id, erro } = req.body;
     if (!id) {
         return res.status(400).json({ erro: 'id obrigatorio' });
     }
-    run(`UPDATE ordens_servico SET status = 'Erro', 
+    await run(`UPDATE ordens_servico SET status = 'Erro', 
          motivo_rejeicao = ?,
          updated_at = datetime('now') 
          WHERE id = ?`, 
@@ -347,7 +347,7 @@ app.post('/api/bot/order-error', botAuthMiddleware, (req, res) => {
 // ADMIN ROUTES
 // ═══════════════════════════════════════════════════════════════════════════
 
-app.post('/api/admin/login', loginLimiter, (req, res) => {
+app.post('/api/admin/login', loginLimiter, async (req, res) => {
     const { senha } = req.body;
     if (senha !== ADMIN_PASSWORD) {
         return res.status(401).json({ erro: 'Senha incorreta' });
@@ -369,16 +369,16 @@ app.post('/api/admin/logout', (req, res) => {
     res.json({ sucesso: true });
 });
 
-app.get('/api/admin/dashboard', adminMiddleware, (req, res) => {
-    const total = get('SELECT COUNT(*) as c FROM ordens_servico')?.c || 0;
-    const pendentes = get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Enviada'")?.c || 0;
-    const aprovadas = get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Aprovada'")?.c || 0;
-    const rejeitadas = get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Rejeitada'")?.c || 0;
+app.get('/api/admin/dashboard', adminMiddleware, async (req, res) => {
+    const total = await get('SELECT COUNT(*) as c FROM ordens_servico')?.c || 0;
+    const pendentes = await get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Enviada'")?.c || 0;
+    const aprovadas = await get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Aprovada'")?.c || 0;
+    const rejeitadas = await get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Rejeitada'")?.c || 0;
 
     res.json({ total, pendentes, aprovadas, rejeitadas });
 });
 
-app.get('/api/admin/ordens', adminMiddleware, (req, res) => {
+app.get('/api/admin/ordens', adminMiddleware, async (req, res) => {
     const { status, busca } = req.query;
     let sql = 'SELECT * FROM ordens_servico WHERE 1=1';
     const params = [];
@@ -396,25 +396,25 @@ app.get('/api/admin/ordens', adminMiddleware, (req, res) => {
 
     sql += ' ORDER BY id DESC';
 
-    const ordens = all(sql, params);
+    const ordens = await all(sql, params);
     res.json(ordens);
 });
 
-app.get('/api/admin/os/:id', adminMiddleware, (req, res) => {
-    const os = get('SELECT * FROM ordens_servico WHERE id = ?', [Number(req.params.id)]);
+app.get('/api/admin/os/:id', adminMiddleware, async (req, res) => {
+    const os = await get('SELECT * FROM ordens_servico WHERE id = ?', [Number(req.params.id)]);
     if (!os) {
         return res.status(404).json({ erro: 'OS nao encontrada' });
     }
 
     // Buscar uploads
-    const uploads = all('SELECT * FROM uploads WHERE os_id = ?', [os.id]);
+    const uploads = await all('SELECT * FROM uploads WHERE os_id = ?', [os.id]);
     os.uploads = uploads;
 
     res.json(os);
 });
 
-app.post('/api/admin/aprovar/:id', adminMiddleware, (req, res) => {
-    const os = get('SELECT * FROM ordens_servico WHERE id = ?', [Number(req.params.id)]);
+app.post('/api/admin/aprovar/:id', adminMiddleware, async (req, res) => {
+    const os = await get('SELECT * FROM ordens_servico WHERE id = ?', [Number(req.params.id)]);
     if (!os) {
         return res.status(404).json({ erro: 'OS nao encontrada' });
     }
@@ -422,14 +422,14 @@ app.post('/api/admin/aprovar/:id', adminMiddleware, (req, res) => {
         return res.status(400).json({ erro: 'OS ja foi processada' });
     }
 
-    run("UPDATE ordens_servico SET status = 'Aprovada', aprovado_por = 'Admin', aprovado_em = datetime('now'), updated_at = datetime('now') WHERE id = ?",
+    await run("UPDATE ordens_servico SET status = 'Aprovada', aprovado_por = 'Admin', aprovado_em = datetime('now'), updated_at = datetime('now') WHERE id = ?",
         [os.id]);
 
     res.json({ sucesso: true });
 });
 
-app.post('/api/admin/rejeitar/:id', adminMiddleware, (req, res) => {
-    const os = get('SELECT * FROM ordens_servico WHERE id = ?', [Number(req.params.id)]);
+app.post('/api/admin/rejeitar/:id', adminMiddleware, async (req, res) => {
+    const os = await get('SELECT * FROM ordens_servico WHERE id = ?', [Number(req.params.id)]);
     if (!os) {
         return res.status(404).json({ erro: 'OS nao encontrada' });
     }
@@ -442,7 +442,7 @@ app.post('/api/admin/rejeitar/:id', adminMiddleware, (req, res) => {
         return res.status(400).json({ erro: 'Motivo da rejeicao obrigatorio' });
     }
 
-    run("UPDATE ordens_servico SET status = 'Rejeitada', motivo_rejeicao = ?, aprovado_por = 'Admin', aprovado_em = datetime('now'), updated_at = datetime('now') WHERE id = ?",
+    await run("UPDATE ordens_servico SET status = 'Rejeitada', motivo_rejeicao = ?, aprovado_por = 'Admin', aprovado_em = datetime('now'), updated_at = datetime('now') WHERE id = ?",
         [motivo, os.id]);
 
     res.json({ sucesso: true });
@@ -452,7 +452,7 @@ app.post('/api/admin/rejeitar/:id', adminMiddleware, (req, res) => {
 // UPLOAD ROUTES
 // ═══════════════════════════════════════════════════════════════════════════
 
-app.post('/api/upload', authOrAdminMiddleware, upload.array('files', 8), (req, res) => {
+app.post('/api/upload', authOrAdminMiddleware, upload.array('files', 8), async (req, res) => {
     if (!req.files || req.files.length === 0) {
         return res.status(400).json({ erro: 'Nenhum arquivo enviado' });
     }
@@ -473,7 +473,7 @@ app.post('/api/upload', authOrAdminMiddleware, upload.array('files', 8), (req, r
 // HISTORICO (Minhas OS)
 // ═══════════════════════════════════════════════════════════════════════════
 
-app.get('/api/minhas-os', authMiddleware, (req, res) => {
+app.get('/api/minhas-os', authMiddleware, async (req, res) => {
     const { status } = req.query;
     let sql = 'SELECT * FROM ordens_servico WHERE usuario_cpf_cnpj = ?';
     const params = [req.user.cpf_cnpj];
@@ -484,12 +484,12 @@ app.get('/api/minhas-os', authMiddleware, (req, res) => {
     }
 
     sql += ' ORDER BY id DESC';
-    const ordens = all(sql, params);
+    const ordens = await all(sql, params);
     res.json(ordens);
 });
 
-app.get('/api/minhas-os/:id', authMiddleware, (req, res) => {
-    const os = get('SELECT * FROM ordens_servico WHERE id = ? AND usuario_cpf_cnpj = ?',
+app.get('/api/minhas-os/:id', authMiddleware, async (req, res) => {
+    const os = await get('SELECT * FROM ordens_servico WHERE id = ? AND usuario_cpf_cnpj = ?',
         [Number(req.params.id), req.user.cpf_cnpj]);
     if (!os) {
         return res.status(404).json({ erro: 'OS nao encontrada' });
@@ -549,7 +549,7 @@ function proximoNumeroOS() {
 }
 
 // API: Gerar PDF (agora tambem salva no banco)
-app.post('/api/gerar-pdf', authOrAdminMiddleware, pdfLimiter, (req, res) => {
+app.post('/api/gerar-pdf', authOrAdminMiddleware, pdfLimiter, async (req, res) => {
     try {
         const dados = req.body;
 
@@ -563,7 +563,7 @@ app.post('/api/gerar-pdf', authOrAdminMiddleware, pdfLimiter, (req, res) => {
         const osLabel = `OS-${String(osNumero).padStart(4, '0')}`;
 
         // Salvar no banco
-        run(`INSERT INTO ordens_servico (
+        await run(`INSERT INTO ordens_servico (
             numero_os, usuario_cpf_cnpj, fornecedor, cpf_cnpj, placa, marca_modelo_ano,
             data_abertura, data_prevista, data_finalizacao, autorizado_por,
             responsavel, telefone, email, chave_pix, tipo_pix,
@@ -590,15 +590,15 @@ app.post('/api/gerar-pdf', authOrAdminMiddleware, pdfLimiter, (req, res) => {
         ]);
 
         // Pegar ID da OS inserida
-        const osRow = get('SELECT id FROM ordens_servico WHERE numero_os = ?', [osNumero]);
+        const osRow = await get('SELECT id FROM ordens_servico WHERE numero_os = ?', [osNumero]);
         const osId = osRow ? osRow.id : null;
 
         // Salvar uploads vinculados
         if (dados.uploadedFiles && dados.uploadedFiles.length > 0 && osId) {
-            dados.uploadedFiles.forEach(f => {
-                run('INSERT INTO uploads (os_id, tipo, filename, original_name, mimetype, size) VALUES (?, ?, ?, ?, ?, ?)',
+            for (const f of dados.uploadedFiles) {
+                await run('INSERT INTO uploads (os_id, tipo, filename, original_name, mimetype, size) VALUES (?, ?, ?, ?, ?, ?)',
                     [osId, f.tipo, f.filename, f.original_name, f.mimetype, f.size]);
-            });
+            }
         }
 
         // ═══════════════════════════════════════════════════════════

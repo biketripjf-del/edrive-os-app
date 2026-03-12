@@ -1,23 +1,113 @@
 /**
- * eDrive OS App - Database Module (sql.js)
- * SQLite em WebAssembly - sem dependências nativas
+ * eDrive OS App - Database Module
+ * PostgreSQL (Railway) com fallback SQLite (dev)
  */
 
-const initSqlJs = require('sql.js');
-const fs = require('fs');
-const path = require('path');
+const DATABASE_URL = process.env.DATABASE_URL;
+let mode = DATABASE_URL ? 'postgres' : 'sqlite';
 
-// Railway volume mount: /data (persistente entre deploys)
-// Fallback: diretório local (dev)
+// ═══════════════════════════════════════
+// PostgreSQL (produção)
+// ═══════════════════════════════════════
+
+let pool = null;
+
+async function initPostgres() {
+    const { Pool } = require('pg');
+    pool = new Pool({ 
+        connectionString: DATABASE_URL,
+        ssl: false // Railway internal = sem SSL
+    });
+
+    // Criar tabelas
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id SERIAL PRIMARY KEY,
+            cpf_cnpj TEXT UNIQUE NOT NULL,
+            nome TEXT,
+            telefone TEXT,
+            email TEXT,
+            codigo_verificacao TEXT,
+            codigo_expira TEXT,
+            codigo_status TEXT DEFAULT 'none',
+            token_sessao TEXT,
+            created_at TIMESTAMP DEFAULT NOW()
+        )
+    `);
+
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS ordens_servico (
+            id SERIAL PRIMARY KEY,
+            numero_os INTEGER NOT NULL,
+            usuario_cpf_cnpj TEXT,
+            fornecedor TEXT NOT NULL,
+            cpf_cnpj TEXT,
+            placa TEXT,
+            marca_modelo_ano TEXT,
+            data_abertura TEXT,
+            data_prevista TEXT,
+            data_finalizacao TEXT,
+            autorizado_por TEXT,
+            responsavel TEXT,
+            telefone TEXT,
+            email TEXT,
+            chave_pix TEXT,
+            tipo_pix TEXT,
+            observacoes TEXT,
+            itens_json TEXT,
+            valor_total REAL DEFAULT 0,
+            status TEXT DEFAULT 'Enviada',
+            motivo_rejeicao TEXT,
+            aprovado_por TEXT,
+            aprovado_em TIMESTAMP,
+            created_at TIMESTAMP DEFAULT NOW(),
+            updated_at TIMESTAMP DEFAULT NOW()
+        )
+    `);
+
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS uploads (
+            id SERIAL PRIMARY KEY,
+            os_id INTEGER,
+            tipo TEXT,
+            filename TEXT,
+            original_name TEXT,
+            mimetype TEXT,
+            size INTEGER,
+            created_at TIMESTAMP DEFAULT NOW(),
+            FOREIGN KEY (os_id) REFERENCES ordens_servico(id)
+        )
+    `);
+
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS solicitacoes_itens (
+            id SERIAL PRIMARY KEY,
+            cpf_cnpj_solicitante TEXT,
+            descricao TEXT,
+            status TEXT DEFAULT 'Pendente',
+            created_at TIMESTAMP DEFAULT NOW()
+        )
+    `);
+
+    console.log('[DB] PostgreSQL conectado e tabelas criadas');
+    return pool;
+}
+
+// ═══════════════════════════════════════
+// SQLite (dev/fallback)
+// ═══════════════════════════════════════
+
+const path = require('path');
+const fs = require('fs');
 const DB_DIR = process.env.RAILWAY_VOLUME_MOUNT_PATH || __dirname;
 const DB_PATH = path.join(DB_DIR, 'edrive.db');
 
 let db = null;
 
-async function initDatabase() {
+async function initSQLite() {
+    const initSqlJs = require('sql.js');
     const SQL = await initSqlJs();
 
-    // Carregar banco existente ou criar novo
     if (fs.existsSync(DB_PATH)) {
         const buffer = fs.readFileSync(DB_PATH);
         db = new SQL.Database(buffer);
@@ -25,7 +115,6 @@ async function initDatabase() {
         db = new SQL.Database();
     }
 
-    // Criar tabelas
     db.run(`
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,15 +124,11 @@ async function initDatabase() {
             email TEXT,
             codigo_verificacao TEXT,
             codigo_expira TEXT,
+            codigo_status TEXT DEFAULT 'none',
             token_sessao TEXT,
             created_at TEXT DEFAULT (datetime('now'))
         )
     `);
-
-    // Migração: adicionar coluna codigo_status se não existir
-    try {
-        db.run(`ALTER TABLE usuarios ADD COLUMN codigo_status TEXT DEFAULT 'none'`);
-    } catch(e) { /* coluna já existe */ }
 
     db.run(`
         CREATE TABLE IF NOT EXISTS ordens_servico (
@@ -99,12 +184,11 @@ async function initDatabase() {
         )
     `);
 
-    saveDatabase();
-    console.log('[DB] Banco de dados inicializado com sucesso');
+    console.log('[DB] SQLite inicializado (dev mode)');
     return db;
 }
 
-function saveDatabase() {
+function saveSQLite() {
     if (db) {
         const data = db.export();
         const buffer = Buffer.from(data);
@@ -112,36 +196,84 @@ function saveDatabase() {
     }
 }
 
+// ═══════════════════════════════════════
+// Interface unificada
+// ═══════════════════════════════════════
+
+async function initDatabase() {
+    if (mode === 'postgres') {
+        try {
+            await initPostgres();
+            console.log('[DB] Modo: PostgreSQL (produção)');
+        } catch (e) {
+            console.error('[DB] PostgreSQL falhou, usando SQLite fallback:', e.message);
+            mode = 'sqlite';
+            await initSQLite();
+        }
+    } else {
+        await initSQLite();
+        console.log('[DB] Modo: SQLite (desenvolvimento)');
+    }
+}
+
+async function run(sql, params = []) {
+    if (mode === 'postgres') {
+        // Converter ? para $1, $2, $3...
+        let i = 0;
+        const pgSql = sql.replace(/\?/g, () => `$${++i}`);
+        // Converter datetime('now') para NOW()
+        const pgSqlFixed = pgSql.replace(/datetime\('now'\)/gi, 'NOW()');
+        await pool.query(pgSqlFixed, params);
+    } else {
+        db.run(sql, params);
+        saveSQLite();
+    }
+}
+
+async function get(sql, params = []) {
+    if (mode === 'postgres') {
+        let i = 0;
+        const pgSql = sql.replace(/\?/g, () => `$${++i}`);
+        const pgSqlFixed = pgSql.replace(/datetime\('now'\)/gi, 'NOW()');
+        const result = await pool.query(pgSqlFixed, params);
+        return result.rows[0] || null;
+    } else {
+        const stmt = db.prepare(sql);
+        stmt.bind(params);
+        let result = null;
+        if (stmt.step()) {
+            result = stmt.getAsObject();
+        }
+        stmt.free();
+        return result;
+    }
+}
+
+async function all(sql, params = []) {
+    if (mode === 'postgres') {
+        let i = 0;
+        const pgSql = sql.replace(/\?/g, () => `$${++i}`);
+        const pgSqlFixed = pgSql.replace(/datetime\('now'\)/gi, 'NOW()');
+        const result = await pool.query(pgSqlFixed, params);
+        return result.rows;
+    } else {
+        const stmt = db.prepare(sql);
+        stmt.bind(params);
+        const results = [];
+        while (stmt.step()) {
+            results.push(stmt.getAsObject());
+        }
+        stmt.free();
+        return results;
+    }
+}
+
 function getDb() {
-    return db;
+    return mode === 'postgres' ? pool : db;
 }
 
-// Helpers para queries
-function run(sql, params = []) {
-    db.run(sql, params);
-    saveDatabase();
-}
-
-function get(sql, params = []) {
-    const stmt = db.prepare(sql);
-    stmt.bind(params);
-    let result = null;
-    if (stmt.step()) {
-        result = stmt.getAsObject();
-    }
-    stmt.free();
-    return result;
-}
-
-function all(sql, params = []) {
-    const stmt = db.prepare(sql);
-    stmt.bind(params);
-    const results = [];
-    while (stmt.step()) {
-        results.push(stmt.getAsObject());
-    }
-    stmt.free();
-    return results;
+function saveDatabase() {
+    if (mode === 'sqlite') saveSQLite();
 }
 
 module.exports = { initDatabase, getDb, saveDatabase, run, get, all };
