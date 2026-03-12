@@ -132,12 +132,17 @@ function criarSearchableSelect(container, onSelect) {
 
     let isOpen = false;
 
+    // Remove acentos para busca fuzzy
+    function norm(str) {
+        return (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    }
+
     function renderOptions(filter) {
         dropdown.innerHTML = '';
-        const filtro = (filter || '').toLowerCase();
+        const filtro = norm(filter);
         const filtered = produtos.filter(p => {
-            const desc = (p.descricao || '').toLowerCase();
-            const cod = (p.codigo || '').toLowerCase();
+            const desc = norm(p.descricao);
+            const cod = norm(p.codigo);
             return desc.includes(filtro) || cod.includes(filtro);
         });
 

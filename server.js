@@ -546,20 +546,13 @@ app.get('/api/produtos', (req, res) => {
 });
 
 // API: Solicitar cadastro de novo item
-app.post('/api/solicitar-item', (req, res) => {
+app.post('/api/solicitar-item', async (req, res) => {
     try {
-        const solicitacao = {
-            ...req.body,
-            dataSolicitacao: new Date().toISOString()
-        };
-
-        const filePath = path.join(__dirname, 'data', 'solicitacoes-itens.json');
-        let solicitacoes = [];
-        if (fs.existsSync(filePath)) {
-            solicitacoes = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-        }
-        solicitacoes.push(solicitacao);
-        fs.writeFileSync(filePath, JSON.stringify(solicitacoes, null, 2), 'utf-8');
+        const { descricao, cpf_cnpj } = req.body;
+        await run(
+            "INSERT INTO solicitacoes_itens (descricao, cpf_cnpj, status, data_solicitacao) VALUES (?, ?, 'Pendente', ?)",
+            [descricao || '', cpf_cnpj || '', new Date().toISOString()]
+        );
 
         res.json({ sucesso: true, mensagem: 'Solicitacao registrada com sucesso' });
     } catch (error) {
