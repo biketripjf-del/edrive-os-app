@@ -378,7 +378,7 @@ async function handleUpload(input, tipo) {
     try {
         const resp = await fetch('/api/upload', {
             method: 'POST',
-            credentials: 'same-origin',
+            credentials: 'include',
             body: formData
         });
 
@@ -553,6 +553,7 @@ async function gerarPDF() {
 
         const response = await fetch('/api/gerar-pdf', {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dados)
         });

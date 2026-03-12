@@ -88,7 +88,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ═══════════════════════════════════════════════════════════════════════════
 
 function authMiddleware(req, res, next) {
-    const token = req.cookies.auth_token;
+    const token = req.cookies.auth_token || req.headers['x-auth-token'] || req.query.token;
     if (!token) {
         return res.status(401).json({ erro: 'Nao autenticado' });
     }
