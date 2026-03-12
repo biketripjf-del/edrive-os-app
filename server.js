@@ -370,10 +370,15 @@ app.post('/api/admin/logout', (req, res) => {
 });
 
 app.get('/api/admin/dashboard', adminMiddleware, async (req, res) => {
-    const total = await get('SELECT COUNT(*) as c FROM ordens_servico')?.c || 0;
-    const pendentes = await get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Enviada'")?.c || 0;
-    const aprovadas = await get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Aprovada'")?.c || 0;
-    const rejeitadas = await get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Rejeitada'")?.c || 0;
+    const totalRow = await get('SELECT COUNT(*) as c FROM ordens_servico');
+    const pendentesRow = await get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Enviada'");
+    const aprovadasRow = await get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Aprovada'");
+    const rejeitadasRow = await get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Rejeitada'");
+    
+    const total = totalRow?.c || 0;
+    const pendentes = pendentesRow?.c || 0;
+    const aprovadas = aprovadasRow?.c || 0;
+    const rejeitadas = rejeitadasRow?.c || 0;
 
     res.json({ total, pendentes, aprovadas, rejeitadas });
 });
