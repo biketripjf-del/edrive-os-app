@@ -433,12 +433,24 @@ app.post('/api/admin/aprovar/:id', adminMiddleware, async (req, res) => {
     res.json({ sucesso: true });
 });
 
+app.post('/api/admin/retentar/:id', adminMiddleware, async (req, res) => {
+    const os = await get('SELECT * FROM ordens_servico WHERE id = ?', [Number(req.params.id)]);
+    if (!os) {
+        return res.status(404).json({ erro: 'OS nao encontrada' });
+    }
+    if (os.status !== 'Erro') {
+        return res.status(400).json({ erro: 'Apenas OS com erro podem ser retentadas' });
+    }
+    await run("UPDATE ordens_servico SET status = 'Aprovada', motivo_rejeicao = NULL, updated_at = datetime('now') WHERE id = ?", [os.id]);
+    res.json({ sucesso: true });
+});
+
 app.post('/api/admin/rejeitar/:id', adminMiddleware, async (req, res) => {
     const os = await get('SELECT * FROM ordens_servico WHERE id = ?', [Number(req.params.id)]);
     if (!os) {
         return res.status(404).json({ erro: 'OS nao encontrada' });
     }
-    if (os.status !== 'Enviada') {
+    if (os.status !== 'Enviada' && os.status !== 'Erro') {
         return res.status(400).json({ erro: 'OS ja foi processada' });
     }
 

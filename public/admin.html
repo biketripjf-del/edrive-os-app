@@ -369,6 +369,10 @@
                         acoes += ` <button class="btn-action btn-aprovar" onclick="aprovarOS(${os.id})">Aprovar</button>`;
                         acoes += ` <button class="btn-action btn-rejeitar" onclick="abrirRejeicao(${os.id})">Rejeitar</button>`;
                     }
+                    if (os.status === 'Erro') {
+                        acoes += ` <button class="btn-action btn-aprovar" onclick="retentarOS(${os.id})">🔄 Retentar</button>`;
+                        acoes += ` <button class="btn-action btn-rejeitar" onclick="abrirRejeicao(${os.id})">Rejeitar</button>`;
+                    }
 
                     return `<tr>
                         <td><strong>${osLabel}</strong></td>
@@ -454,10 +458,29 @@
                         <button onclick="fecharModal('modalDetalhes'); aprovarOS(${os.id})" style="padding:12px 40px; background:#4caf50; color:white; border:none; border-radius:8px; font-size:15px; font-weight:600; cursor:pointer;">✅ Aprovar OS</button>
                         <button onclick="fecharModal('modalDetalhes'); abrirRejeicao(${os.id})" style="padding:12px 40px; background:#f44336; color:white; border:none; border-radius:8px; font-size:15px; font-weight:600; cursor:pointer;">❌ Rejeitar OS</button>
                     </div>` : ''}
+                    ${os.status === 'Erro' ? `
+                    <div style="margin-top:25px; display:flex; gap:12px; justify-content:center; padding-top:20px; border-top:1px solid #e5e7eb;">
+                        <button onclick="fecharModal('modalDetalhes'); retentarOS(${os.id})" style="padding:12px 40px; background:#ff9800; color:white; border:none; border-radius:8px; font-size:15px; font-weight:600; cursor:pointer;">🔄 Retentar Cadastro</button>
+                        <button onclick="fecharModal('modalDetalhes'); abrirRejeicao(${os.id})" style="padding:12px 40px; background:#f44336; color:white; border:none; border-radius:8px; font-size:15px; font-weight:600; cursor:pointer;">❌ Rejeitar OS</button>
+                    </div>` : ''}
                 `;
 
                 document.getElementById('modalDetalhes').classList.add('active');
             } catch(e) { console.error(e); }
+        }
+
+        async function retentarOS(id) {
+            if (!confirm('Retentar cadastro desta OS no Autos 360?')) return;
+            try {
+                const resp = await fetch('/api/admin/retentar/' + id, { method: 'POST' });
+                if (resp.ok) {
+                    carregarDashboard();
+                    showToast('OS reenviada para cadastro!', 'success');
+                } else {
+                    const data = await resp.json();
+                    showToast(data.erro || 'Erro ao retentar', 'error');
+                }
+            } catch(e) { showToast('Erro de conexao', 'error'); }
         }
 
         async function aprovarOS(id) {
