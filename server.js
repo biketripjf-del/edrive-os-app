@@ -77,8 +77,7 @@ const upload = multer({
     }
 });
 
-// Servir uploads como estaticos
-app.use('/data/uploads', express.static(uploadsDir));
+// Uploads servidos via rota dinâmica (banco PostgreSQL) — ver /data/uploads/:filename
 
 // Servir arquivos estaticos
 app.use(express.static(path.join(__dirname, 'public')));
@@ -490,15 +489,43 @@ app.post('/api/upload', authOrAdminMiddleware, upload.array('files', 8), async (
     }
 
     const tipo = req.body.tipo || 'geral';
-    const uploadedFiles = req.files.map(f => ({
-        filename: f.filename,
-        original_name: f.originalname,
-        mimetype: f.mimetype,
-        size: f.size,
-        tipo: tipo
-    }));
+    const uploadedFiles = [];
+    
+    for (const f of req.files) {
+        // Ler arquivo e converter pra base64 pra salvar no banco
+        const filePath = path.join(uploadsDir, f.filename);
+        const fileData = fs.readFileSync(filePath).toString('base64');
+        
+        // Salvar no banco
+        await run(
+            "INSERT INTO file_storage (filename, original_name, mimetype, size, tipo, data_base64) VALUES (?, ?, ?, ?, ?, ?)",
+            [f.filename, f.originalname, f.mimetype, f.size, tipo, fileData]
+        );
+        
+        uploadedFiles.push({
+            filename: f.filename,
+            original_name: f.originalname,
+            mimetype: f.mimetype,
+            size: f.size,
+            tipo: tipo
+        });
+    }
 
     res.json({ sucesso: true, files: uploadedFiles });
+});
+
+// Servir uploads do banco (filesystem é efêmero no Railway)
+app.get('/data/uploads/:filename', async (req, res) => {
+    try {
+        const file = await get("SELECT * FROM file_storage WHERE filename = ?", [req.params.filename]);
+        if (!file) return res.status(404).send('Arquivo não encontrado');
+        const buffer = Buffer.from(file.data_base64, 'base64');
+        res.setHeader('Content-Type', file.mimetype);
+        res.setHeader('Content-Disposition', `inline; filename="${file.original_name}"`);
+        res.send(buffer);
+    } catch(e) {
+        res.status(500).send('Erro ao carregar arquivo');
+    }
 });
 
 // ═══════════════════════════════════════════════════════════════════════════

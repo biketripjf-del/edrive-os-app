@@ -89,6 +89,19 @@ async function initPostgres() {
         )
     `);
 
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS file_storage (
+            id SERIAL PRIMARY KEY,
+            filename TEXT UNIQUE NOT NULL,
+            original_name TEXT,
+            mimetype TEXT,
+            size INTEGER,
+            tipo TEXT,
+            data_base64 TEXT,
+            created_at TIMESTAMP DEFAULT NOW()
+        )
+    `);
+
     console.log('[DB] PostgreSQL conectado e tabelas criadas');
     return pool;
 }
