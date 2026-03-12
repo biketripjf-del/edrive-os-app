@@ -577,8 +577,8 @@ app.post('/api/solicitar-item', async (req, res) => {
     try {
         const { descricao, cpf_cnpj } = req.body;
         await run(
-            "INSERT INTO solicitacoes_itens (descricao, cpf_cnpj, status, data_solicitacao) VALUES (?, ?, 'Pendente', ?)",
-            [descricao || '', cpf_cnpj || '', new Date().toISOString()]
+            "INSERT INTO solicitacoes_itens (descricao, cpf_cnpj_solicitante, status) VALUES (?, ?, 'Pendente')",
+            [descricao || '', cpf_cnpj || '']
         );
 
         res.json({ sucesso: true, mensagem: 'Solicitacao registrada com sucesso' });
