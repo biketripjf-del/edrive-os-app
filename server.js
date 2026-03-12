@@ -375,12 +375,15 @@ app.get('/api/admin/dashboard', adminMiddleware, async (req, res) => {
     const aprovadasRow = await get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Aprovada'");
     const rejeitadasRow = await get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Rejeitada'");
     
+    const errosRow = await get("SELECT COUNT(*) as c FROM ordens_servico WHERE status = 'Erro'");
+    
     const total = totalRow?.c || 0;
     const pendentes = pendentesRow?.c || 0;
     const aprovadas = aprovadasRow?.c || 0;
     const rejeitadas = rejeitadasRow?.c || 0;
+    const erros = errosRow?.c || 0;
 
-    res.json({ total, pendentes, aprovadas, rejeitadas });
+    res.json({ total, pendentes, aprovadas, rejeitadas, erros });
 });
 
 app.get('/api/admin/ordens', adminMiddleware, async (req, res) => {
@@ -431,6 +434,12 @@ app.post('/api/admin/aprovar/:id', adminMiddleware, async (req, res) => {
         [os.id]);
 
     res.json({ sucesso: true });
+});
+
+// Listar solicitações de novos itens
+app.get('/api/admin/solicitacoes', adminMiddleware, async (req, res) => {
+    const solicitacoes = await all('SELECT * FROM solicitacoes_itens ORDER BY id DESC');
+    res.json(solicitacoes);
 });
 
 app.post('/api/admin/retentar/:id', adminMiddleware, async (req, res) => {

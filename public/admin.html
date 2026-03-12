@@ -108,6 +108,8 @@
         .badge-enviada { background: #e3f2fd; color: #1565c0; }
         .badge-aprovada { background: #e8f5e9; color: #2e7d32; }
         .badge-rejeitada { background: #ffebee; color: #c62828; }
+        .badge-erro { background: #fff3e0; color: #e65100; }
+        .badge-cadastrada { background: #e0f2f1; color: #00695c; }
         .btn-action {
             padding: 6px 12px; border: none; border-radius: 4px;
             cursor: pointer; font-size: 12px; font-weight: 600; margin: 2px;
@@ -213,6 +215,10 @@
             <div class="stat-card rejeitadas">
                 <div class="stat-number" id="statRejeitadas">0</div>
                 <div class="stat-label">Rejeitadas</div>
+            </div>
+            <div class="stat-card" style="border-top-color: #ff9800;">
+                <div class="stat-number" id="statErros" style="color: #ff9800;">0</div>
+                <div class="stat-label">Com Erro</div>
             </div>
         </div>
 
@@ -337,6 +343,7 @@
             document.getElementById('statPendentes').textContent = data.pendentes || 0;
             document.getElementById('statAprovadas').textContent = data.aprovadas || 0;
             document.getElementById('statRejeitadas').textContent = data.rejeitadas || 0;
+            document.getElementById('statErros').textContent = data.erros || 0;
         }
 
         async function carregarOrdens() {
@@ -359,7 +366,9 @@
 
                 tbody.innerHTML = ordens.map(os => {
                     const badgeClass = os.status === 'Aprovada' ? 'badge-aprovada' :
-                                       os.status === 'Rejeitada' ? 'badge-rejeitada' : 'badge-enviada';
+                                       os.status === 'Rejeitada' ? 'badge-rejeitada' :
+                                       os.status === 'Erro' ? 'badge-erro' :
+                                       os.status === 'Cadastrada' ? 'badge-cadastrada' : 'badge-enviada';
                     const osLabel = 'OS-' + String(os.numero_os).padStart(4, '0');
                     const data = os.data_abertura ? formatarData(os.data_abertura) : '-';
                     const valor = 'R$ ' + parseFloat(os.valor_total || 0).toFixed(2);
