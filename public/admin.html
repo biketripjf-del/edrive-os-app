@@ -483,6 +483,12 @@
             } catch(e) { console.error(e); }
         }
 
+        function fmtBR(num) {
+            const parts = num.toFixed(2).split('.');
+            const intPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return intPart + ',' + parts[1];
+        }
+
         async function retentarOS(id) {
             if (!confirm('Retentar cadastro desta OS no Autos 360?')) return;
             try {
