@@ -569,15 +569,10 @@ app.post('/api/solicitar-item', (req, res) => {
 });
 
 // Helper: proximo numero de OS
-function proximoNumeroOS() {
-    const filePath = path.join(__dirname, 'data', 'os-counter.json');
-    let counter = { ultimo: 0 };
-    if (fs.existsSync(filePath)) {
-        counter = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-    }
-    counter.ultimo += 1;
-    fs.writeFileSync(filePath, JSON.stringify(counter, null, 2), 'utf-8');
-    return counter.ultimo;
+async function proximoNumeroOS() {
+    const row = await get('SELECT MAX(numero_os) as max_os FROM ordens_servico');
+    const ultimo = row?.max_os || 0;
+    return ultimo + 1;
 }
 
 // API: Gerar PDF (agora tambem salva no banco)
@@ -591,7 +586,7 @@ app.post('/api/gerar-pdf', authOrAdminMiddleware, pdfLimiter, async (req, res) =
         }
 
         // Gerar numero de OS
-        const osNumero = proximoNumeroOS();
+        const osNumero = await proximoNumeroOS();
         const osLabel = `OS-${String(osNumero).padStart(4, '0')}`;
 
         // Salvar no banco
