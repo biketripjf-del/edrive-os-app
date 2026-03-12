@@ -378,8 +378,15 @@ async function handleUpload(input, tipo) {
     try {
         const resp = await fetch('/api/upload', {
             method: 'POST',
+            credentials: 'same-origin',
             body: formData
         });
+
+        if (resp.status === 401) {
+            mostrarErro('Sessão expirada. Faça login novamente.');
+            setTimeout(() => window.location.href = '/', 2000);
+            return;
+        }
 
         if (!resp.ok) {
             const data = await resp.json();
