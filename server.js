@@ -232,7 +232,7 @@ app.post('/api/auth/verificar-codigo', loginLimiter, async (req, res) => {
     const token = jwt.sign(
         { id: user.id, cpf_cnpj: user.cpf_cnpj },
         JWT_SECRET,
-        { expiresIn: '24h' }
+        { expiresIn: '72h' }
     );
 
     // Limpar codigo
@@ -241,7 +241,7 @@ app.post('/api/auth/verificar-codigo', loginLimiter, async (req, res) => {
 
     res.cookie('auth_token', token, {
         httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
+        maxAge: 72 * 60 * 60 * 1000,
         sameSite: 'lax'
     });
 
@@ -352,11 +352,11 @@ app.post('/api/admin/login', loginLimiter, async (req, res) => {
         return res.status(401).json({ erro: 'Senha incorreta' });
     }
 
-    const token = jwt.sign({ admin: true }, JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ admin: true }, JWT_SECRET, { expiresIn: '72h' });
 
     res.cookie('admin_token', token, {
         httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
+        maxAge: 72 * 60 * 60 * 1000,
         sameSite: 'lax'
     });
 
