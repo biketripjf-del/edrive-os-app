@@ -270,6 +270,7 @@
                     return;
                 }
 
+                if (data.token) localStorage.setItem('auth_token', data.token);
                 showMsg('Login realizado com sucesso!', 'sucesso');
                 setTimeout(() => { window.location.href = '/'; }, 500);
             } catch (e) {

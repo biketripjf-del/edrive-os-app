@@ -242,10 +242,10 @@ app.post('/api/auth/verificar-codigo', loginLimiter, async (req, res) => {
     res.cookie('auth_token', token, {
         httpOnly: true,
         maxAge: 72 * 60 * 60 * 1000,
-        sameSite: 'lax'
+        sameSite: 'none', secure: true
     });
 
-    res.json({ sucesso: true, cpf_cnpj: user.cpf_cnpj });
+    res.json({ sucesso: true, cpf_cnpj: user.cpf_cnpj, token });
 });
 
 app.get('/api/auth/me', authOrAdminMiddleware, async (req, res) => {
@@ -357,10 +357,10 @@ app.post('/api/admin/login', loginLimiter, async (req, res) => {
     res.cookie('admin_token', token, {
         httpOnly: true,
         maxAge: 72 * 60 * 60 * 1000,
-        sameSite: 'lax'
+        sameSite: 'none', secure: true
     });
 
-    res.json({ sucesso: true });
+    res.json({ sucesso: true, token });
 });
 
 app.post('/api/admin/logout', (req, res) => {

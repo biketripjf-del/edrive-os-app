@@ -1,5 +1,13 @@
 // eDrive OS App - Frontend Logic (Fase 2)
 
+// Auth helper - fallback pra quando cookie não funciona (mobile)
+function authHeaders(extra = {}) {
+    const token = localStorage.getItem('auth_token') || localStorage.getItem('admin_token');
+    const headers = { ...extra };
+    if (token) headers['x-auth-token'] = token;
+    return headers;
+}
+
 let itemCount = 0;
 let produtos = [];
 let osNumeroAtual = null;
@@ -9,7 +17,7 @@ let uploadedFiles = []; // Track uploaded files
 document.addEventListener('DOMContentLoaded', async () => {
     // Check auth
     try {
-        const resp = await fetch('/api/auth/me');
+        const resp = await fetch('/api/auth/me', { headers: authHeaders(), credentials: 'include' });
         if (resp.ok) {
             const user = await resp.json();
             const navUser = document.getElementById('navUser');
@@ -32,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Carregar catalogo de produtos
     try {
-        const resp = await fetch('/api/produtos');
+        const resp = await fetch('/api/produtos', { headers: authHeaders(), credentials: 'include' });
         if (resp.ok) {
             produtos = await resp.json();
         }
@@ -332,7 +340,7 @@ async function enviarSolicitacaoItem() {
     try {
         const resp = await fetch('/api/solicitar-item', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: authHeaders({ 'Content-Type': 'application/json' }),
             body: JSON.stringify({
                 descricao: descricao,
                 classificacao: document.getElementById('modalClassificacao').value,
@@ -376,7 +384,7 @@ async function handleUpload(input, tipo) {
     formData.append('tipo', tipo);
 
     try {
-        const resp = await fetch('/api/upload', {
+        const resp = await fetch('/api/upload', { headers: authHeaders(),
             method: 'POST',
             credentials: 'include',
             body: formData
@@ -554,7 +562,7 @@ async function gerarPDF() {
         const response = await fetch('/api/gerar-pdf', {
             method: 'POST',
             credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
+            headers: authHeaders({ 'Content-Type': 'application/json' }),
             body: JSON.stringify(dados)
         });
 
