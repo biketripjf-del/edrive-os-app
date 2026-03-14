@@ -1546,5 +1546,20 @@
     "classificacao": "Serviço",
     "descricao": "ESTACIONAMENTO",
     "codigo": "10012"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "FOTOGRAFIA",
+    "codigo": "10013"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "VIDEO MKT",
+    "codigo": "10014"
+  },
+  {
+    "classificacao": "Serviço",
+    "descricao": "DIARIA DE MOTORISTA",
+    "codigo": "10015"
   }
 ]
